@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\Group;
+use App\Entity\Board;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<Group>
+ * @extends ServiceEntityRepository<Board>
  */
-class GroupRepository extends ServiceEntityRepository
+class BoardRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Group::class);
+        parent::__construct($registry, Board::class);
     }
 
     //    /**
-    //     * @return Group[] Returns an array of Group objects
+    //     * @return Board[] Returns an array of Board objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class GroupRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?Group
+    //    public function findOneBySomeField($value): ?Board
     //    {
     //        return $this->createQueryBuilder('g')
     //            ->andWhere('g.exampleField = :val')

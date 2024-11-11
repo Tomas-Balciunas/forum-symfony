@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
-use App\Repository\GroupRepository;
+use App\Repository\BoardRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: GroupRepository::class)]
-class Group
+#[ORM\Entity(repositoryClass: BoardRepository::class)]
+#[ORM\HasLifecycleCallbacks]
+class Board
 {
     public function __construct()
     {
@@ -29,7 +30,7 @@ class Group
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToMany(targetEntity: Topic::class, mappedBy: 'group')]
+    #[ORM\OneToMany(targetEntity: Topic::class, mappedBy: 'board', cascade: ['persist', 'remove'])]
     private Collection $topics;
 
     public function getId(): ?int
@@ -69,7 +70,7 @@ class Group
     #[ORM\PrePersist]
     public function setCreatedAt(): static
     {
-        $this->createdAt = new \DateTimeImmutable('now');
+        $this->createdAt = new \DateTimeImmutable();
 
         return $this;
     }
@@ -84,6 +85,7 @@ class Group
 
     public function addTopic(Topic $topic): static
     {
+        $topic->setBoard($this);
         $this->topics->add($topic);
 
         return $this;

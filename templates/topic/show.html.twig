@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello TopicController!{% endblock %}
+
+{% block body %}
+    <a href="{{ path('board_show', {'id': board.id}) }}">{{ board.title }}</a> > {{ topic.title }}
+<div>
+    <p>topic author: {{ topic.author.username }} {{ topic.createdAt|date }}</p>
+    <h4>topic title: {{ topic.title }}</h4>
+    <p>topic descr: {{ topic.body }}</p>
+</div>
+    {% if posts %}
+    {% for post in posts %}
+        <li>author: {{ post.author.username }} post: {{ post.body }}, {{ post.createdAt|date }}</li>
+    {% endfor %}
+    {% endif %}
+
+    {{ form_start(form) }}
+    {{ form_end(form) }}
+
+{% endblock %}

@@ -7,6 +7,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Post
 {
     #[ORM\Id]
@@ -51,7 +52,7 @@ class Post
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(): static
     {
         $this->createdAt = new \DateTimeImmutable('now');
 
@@ -73,5 +74,13 @@ class Post
     public function getAuthor(): ?User
     {
         return $this->author;
+    }
+
+    /**
+     * @param User|null $author
+     */
+    public function setAuthor(?User $author): void
+    {
+        $this->author = $author;
     }
 }

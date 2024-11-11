@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ board.title }}{% endblock %}
+
+{% block body %}
+    <h4>{{ board.title }}</h4>
+    <p>{{ board.description }}</p>
+    {% for topic in topics %}
+        <li><a href="{{ path('topic_show', {'id': topic.id}) }}">{{ topic.title }}</a></li>
+    {% endfor %}
+
+<a href="{{ path('topic_create', {'board': board.id}) }}">new topic</a>
+{% endblock %}

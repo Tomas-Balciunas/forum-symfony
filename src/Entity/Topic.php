@@ -9,6 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TopicRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Topic
 {
     public function __construct()
@@ -30,16 +31,16 @@ class Topic
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'topic')]
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'topic', cascade: ['persist', 'remove'])]
     private Collection $posts;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'topics')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $author = null;
 
-    #[ORM\ManyToOne(targetEntity: Group::class, inversedBy: 'topics')]
+    #[ORM\ManyToOne(targetEntity: Board::class, inversedBy: 'topics')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
-    private ?Group $group = null;
+    private ?Board $board = null;
 
     public function getId(): ?int
     {
@@ -76,7 +77,7 @@ class Topic
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    public function setCreatedAt(): static
     {
         $this->createdAt = new \DateTimeImmutable('now');
 
@@ -93,6 +94,7 @@ class Topic
 
     public function addPost(Post $post): static
     {
+        $post->setTopic($this);
         $this->posts->add($post);
 
         return $this;
@@ -112,5 +114,18 @@ class Topic
     public function setAuthor(?User $author): void
     {
         $this->author = $author;
+    }
+
+    /**
+     * @return Board|null
+     */
+    public function getBoard(): ?Board
+    {
+        return $this->board;
+    }
+
+    public function setBoard(?Board $board): void
+    {
+        $this->board = $board;
     }
 }

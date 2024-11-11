@@ -1,0 +1,19 @@
+{% for label, messages in app.flashes %}
+    {% for message in messages %}
+        {% if label is same as 'error' %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+        {% if label is same as 'security' %}
+            <div class="alert alert-danger" role="alert">
+                {{ message }}
+            </div>
+        {% endif %}
+        {% if label is same as 'success' %}
+            <div class="alert alert-success" role="status">
+                {{ message }}
+            </div>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
