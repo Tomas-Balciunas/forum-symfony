@@ -19,6 +19,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->topics = new ArrayCollection();
         $this->posts = new ArrayCollection();
+        $this->permissions = new ArrayCollection();
+        $this->issuedSuspensions = new ArrayCollection();
     }
 
     #[ORM\Id]
@@ -33,22 +35,31 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $email = null;
 
     /**
-     * @var list<string> The user roles
-     */
-    #[ORM\Column]
-    private array $roles = [];
-
-    /**
      * @var ?string The hashed password
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\Column]
+    private int $postCount = 0;
 
     #[ORM\OneToMany(targetEntity: Topic::class, mappedBy: 'author')]
     private Collection $topics;
 
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'author')]
     private Collection $posts;
+
+    #[ORM\OneToOne(targetEntity: Role::class, inversedBy: 'user')]
+    private Role $role;
+
+    #[ORM\OneToOne(targetEntity: UserSuspension::class, mappedBy: 'issuedFor')]
+    private UserSuspension $suspension;
+
+    #[ORM\OneToMany(targetEntity: UserSuspension::class, mappedBy: 'issuedBy')]
+    private Collection $issuedSuspensions;
+
+    #[ORM\ManyToMany(targetEntity: Permission::class, inversedBy: 'users')]
+    private Collection $permissions;
 
     public function getId(): ?int
     {
@@ -83,38 +94,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     *
-     * @return list<string>
-     */
     public function getRoles(): array
     {
-        $roles = $this->roles;
-        // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_USER';
-
-        return array_unique($roles);
+        return ['ROLE_USER'];
     }
 
     /**
-     * @param list<string> $roles
+     * @return Collection
      */
-    public function setRoles(array $roles): static
+    public function getPermissions(): Collection
     {
-        $this->roles = $roles;
+        return $this->permissions;
+    }
 
-        return $this;
+    /**
+     * @return Collection
+     */
+    public function getIssuedSuspensions(): Collection
+    {
+        return $this->issuedSuspensions;
     }
 
     /**
@@ -130,6 +133,21 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
 
         return $this;
+    }
+
+    public function incrementPostCount(): static
+    {
+        $this->postCount++;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getPostCount(): int
+    {
+        return $this->postCount;
     }
 
     /**

@@ -17,7 +17,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 class TopicController extends AbstractController
 {
-    #[Route('/board/{board}/create-topic', name: 'topic_create', methods: ['GET', 'POST'])]
+    #[Route('/board/{id}/create-topic', name: 'topic_create', methods: ['GET', 'POST'])]
     #[IsGranted('ROLE_USER')]
     public function create(Request $request, Board $board, #[CurrentUser] User $user, EntityManagerInterface $manager): Response
     {
@@ -31,7 +31,7 @@ class TopicController extends AbstractController
             $manager->flush();
 
             $this->addFlash('success', 'Topic created.');
-            return $this->redirectToRoute('board_show', ['board' => $board->getId()]);
+            return $this->redirectToRoute('board_show', ['id' => $board->getId()]);
         }
 
         return $this->render('topic/create.html.twig', [
@@ -53,6 +53,21 @@ class TopicController extends AbstractController
             'posts' => $posts,
             'board' => $board,
             'form' => $form,
+        ]);
+    }
+
+    #[Route('/topic/{id}/edit', name: 'topic_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('IS_AUTHOR', subject: 'topic')]
+    public function edit(Topic $topic, EntityManagerInterface $manager, Request $request): Response
+    {
+        $form = $this->createForm(TopicType::class, $topic);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->flush();
+        }
+
+        return $this->render('topic/edit.html.twig', [
+           'form' => $form->createView(),
         ]);
     }
 }

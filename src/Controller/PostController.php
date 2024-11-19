@@ -32,4 +32,20 @@ class PostController extends AbstractController
 
         return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
     }
+
+    #[Route('/post/{id}/edit', name: 'post_edit', methods: ['GET', 'POST'])]
+    #[IsGranted('IS_AUTHOR', subject: 'post')]
+    public function edit(Post $post, Request $request, EntityManagerInterface $manager): Response
+    {
+        $form = $this->createForm(PostType::class, $post);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $manager->flush();
+        }
+
+        return $this->render('post/edit.html.twig', [
+            'form' => $form->createView()
+        ]);
+    }
 }

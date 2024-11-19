@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Interface\TopicInterface;
 use App\Repository\TopicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -10,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TopicRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Topic
+class Topic implements TopicInterface
 {
     public function __construct()
     {
@@ -109,9 +110,9 @@ class Topic
     }
 
     /**
-     * @param User|null $author
+     * @param User $author
      */
-    public function setAuthor(?User $author): void
+    public function setAuthor(User $author): void
     {
         $this->author = $author;
     }

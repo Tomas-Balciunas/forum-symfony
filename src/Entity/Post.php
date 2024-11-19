@@ -2,13 +2,14 @@
 
 namespace App\Entity;
 
+use App\Entity\Interface\PostInterface;
 use App\Repository\PostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Post
+class Post implements PostInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -77,9 +78,9 @@ class Post
     }
 
     /**
-     * @param User|null $author
+     * @param User $author
      */
-    public function setAuthor(?User $author): void
+    public function setAuthor(User $author): void
     {
         $this->author = $author;
     }
