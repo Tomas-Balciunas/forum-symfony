@@ -1083,7 +1083,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="292" parent="1" name="forum">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-11-19.20:11:53</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-11-22.20:36:47</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <user id="293" parent="1" name="root">
@@ -1144,7 +1144,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_unicode_ci</CollationName>
     </table>
-    <table id="307" parent="292" name="user_permission">
+    <table id="307" parent="292" name="user_restriction">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_unicode_ci</CollationName>
     </table>
@@ -1268,7 +1268,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="332" parent="301" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>140</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
@@ -1289,7 +1289,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="336" parent="302" name="id">
-      <AutoIncrement>40</AutoIncrement>
+      <AutoIncrement>44</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
@@ -1346,7 +1346,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="347" parent="303" name="id">
-      <AutoIncrement>1</AutoIncrement>
+      <AutoIncrement>26</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
@@ -1408,7 +1408,7 @@ permission_id</ColNames>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="359" parent="305" name="id">
-      <AutoIncrement>8</AutoIncrement>
+      <AutoIncrement>9</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
@@ -1439,202 +1439,218 @@ permission_id</ColNames>
       <Position>6</Position>
       <StoredType>datetime|0s</StoredType>
     </column>
-    <foreign-key id="365" parent="305" name="FK_9D40DE1BF675F31B">
+    <column id="365" parent="305" name="is_locked">
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+      <StoredType>tinyint(1)|0s</StoredType>
+    </column>
+    <column id="366" parent="305" name="is_visible">
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+      <StoredType>tinyint(1)|0s</StoredType>
+    </column>
+    <foreign-key id="367" parent="305" name="FK_9D40DE1BF675F31B">
       <ColNames>author_id</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>user</RefTableName>
     </foreign-key>
-    <foreign-key id="366" parent="305" name="FK_9D40DE1BE7EC5785">
+    <foreign-key id="368" parent="305" name="FK_9D40DE1BE7EC5785">
       <ColNames>board_id</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>board</RefTableName>
     </foreign-key>
-    <index id="367" parent="305" name="PRIMARY">
+    <index id="369" parent="305" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="368" parent="305" name="IDX_9D40DE1BF675F31B">
+    <index id="370" parent="305" name="IDX_9D40DE1BF675F31B">
       <ColNames>author_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="369" parent="305" name="IDX_9D40DE1BE7EC5785">
+    <index id="371" parent="305" name="IDX_9D40DE1BE7EC5785">
       <ColNames>board_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="370" parent="305" name="PRIMARY">
+    <key id="372" parent="305" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="371" parent="306" name="id">
-      <AutoIncrement>3</AutoIncrement>
+    <column id="373" parent="306" name="id">
+      <AutoIncrement>10</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="372" parent="306" name="username">
+    <column id="374" parent="306" name="username">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="373" parent="306" name="email">
+    <column id="375" parent="306" name="email">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="374" parent="306" name="password">
+    <column id="376" parent="306" name="password">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StoredType>varchar(255)|0s</StoredType>
     </column>
-    <column id="375" parent="306" name="post_count">
+    <column id="377" parent="306" name="post_count">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="376" parent="306" name="role_id">
+    <column id="378" parent="306" name="role_id">
       <Position>6</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="377" parent="306" name="FK_8D93D649D60322AC">
+    <column id="379" parent="306" name="is_private">
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+      <StoredType>tinyint(1)|0s</StoredType>
+    </column>
+    <column id="380" parent="306" name="status">
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+      <StoredType>varchar(255)|0s</StoredType>
+    </column>
+    <foreign-key id="381" parent="306" name="FK_8D93D649D60322AC">
       <ColNames>role_id</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>role</RefTableName>
     </foreign-key>
-    <index id="378" parent="306" name="PRIMARY">
+    <index id="382" parent="306" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="379" parent="306" name="UNIQ_IDENTIFIER_EMAIL">
+    <index id="383" parent="306" name="UNIQ_IDENTIFIER_EMAIL">
       <ColNames>email</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="380" parent="306" name="UNIQ_8D93D649D60322AC">
+    <index id="384" parent="306" name="IDX_8D93D649D60322AC">
       <ColNames>role_id</ColNames>
       <Type>btree</Type>
-      <Unique>1</Unique>
     </index>
-    <key id="381" parent="306" name="PRIMARY">
+    <key id="385" parent="306" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="382" parent="306" name="UNIQ_IDENTIFIER_EMAIL">
+    <key id="386" parent="306" name="UNIQ_IDENTIFIER_EMAIL">
       <UnderlyingIndexName>UNIQ_IDENTIFIER_EMAIL</UnderlyingIndexName>
     </key>
-    <key id="383" parent="306" name="UNIQ_8D93D649D60322AC">
-      <UnderlyingIndexName>UNIQ_8D93D649D60322AC</UnderlyingIndexName>
-    </key>
-    <column id="384" parent="307" name="user_id">
+    <column id="387" parent="307" name="user_id">
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="385" parent="307" name="permission_id">
+    <column id="388" parent="307" name="permission_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="386" parent="307" name="FK_472E5446A76ED395">
+    <foreign-key id="389" parent="307" name="FK_D382525BA76ED395">
       <ColNames>user_id</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>user</RefTableName>
     </foreign-key>
-    <foreign-key id="387" parent="307" name="FK_472E5446FED90CCA">
+    <foreign-key id="390" parent="307" name="FK_D382525BFED90CCA">
       <ColNames>permission_id</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>permission</RefTableName>
     </foreign-key>
-    <index id="388" parent="307" name="PRIMARY">
+    <index id="391" parent="307" name="PRIMARY">
       <ColNames>user_id
 permission_id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="389" parent="307" name="IDX_472E5446A76ED395">
+    <index id="392" parent="307" name="IDX_D382525BA76ED395">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="390" parent="307" name="IDX_472E5446FED90CCA">
+    <index id="393" parent="307" name="IDX_D382525BFED90CCA">
       <ColNames>permission_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="391" parent="307" name="PRIMARY">
+    <key id="394" parent="307" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="392" parent="308" name="id">
+    <column id="395" parent="308" name="id">
       <AutoIncrement>1</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="393" parent="308" name="reason">
+    <column id="396" parent="308" name="reason">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StoredType>longtext|0s</StoredType>
     </column>
-    <column id="394" parent="308" name="issued_at">
+    <column id="397" parent="308" name="issued_at">
       <Comment>(DC2Type:datetime_immutable)</Comment>
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StoredType>datetime|0s</StoredType>
     </column>
-    <column id="395" parent="308" name="expires_at">
+    <column id="398" parent="308" name="expires_at">
       <Position>4</Position>
       <StoredType>datetime|0s</StoredType>
     </column>
-    <column id="396" parent="308" name="is_permanent">
+    <column id="399" parent="308" name="is_permanent">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StoredType>tinyint(1)|0s</StoredType>
     </column>
-    <column id="397" parent="308" name="issued_for">
+    <column id="400" parent="308" name="issued_for">
       <Position>6</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <column id="398" parent="308" name="issued_by">
+    <column id="401" parent="308" name="issued_by">
       <Position>7</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="399" parent="308" name="FK_25C8C3EC2C085159">
+    <foreign-key id="402" parent="308" name="FK_25C8C3EC2C085159">
       <ColNames>issued_for</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>user</RefTableName>
     </foreign-key>
-    <foreign-key id="400" parent="308" name="FK_25C8C3EC4E1DD2BF">
+    <foreign-key id="403" parent="308" name="FK_25C8C3EC4E1DD2BF">
       <ColNames>issued_by</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>user</RefTableName>
     </foreign-key>
-    <index id="401" parent="308" name="PRIMARY">
+    <index id="404" parent="308" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="402" parent="308" name="UNIQ_25C8C3EC2C085159">
+    <index id="405" parent="308" name="UNIQ_25C8C3EC2C085159">
       <ColNames>issued_for</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="403" parent="308" name="IDX_25C8C3EC4E1DD2BF">
+    <index id="406" parent="308" name="IDX_25C8C3EC4E1DD2BF">
       <ColNames>issued_by</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="404" parent="308" name="PRIMARY">
+    <key id="407" parent="308" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <key id="405" parent="308" name="UNIQ_25C8C3EC2C085159">
+    <key id="408" parent="308" name="UNIQ_25C8C3EC2C085159">
       <UnderlyingIndexName>UNIQ_25C8C3EC2C085159</UnderlyingIndexName>
     </key>
   </database-model>

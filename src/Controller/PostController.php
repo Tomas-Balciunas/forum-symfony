@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Data\Permissions;
 use App\Entity\Post;
 use App\Entity\Topic;
 use App\Entity\User;
@@ -17,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PostController extends AbstractController
 {
     #[Route('/topic/{id}/post', name: 'post_create', methods: ['POST'])]
-    #[IsGranted("ROLE_USER")]
+    #[IsGranted(Permissions::POST_CREATE)]
     public function create(Topic $topic, #[CurrentUser] User $user, Request $request, EntityManagerInterface $manager): Response
     {
         $post = new Post();
@@ -34,7 +35,7 @@ class PostController extends AbstractController
     }
 
     #[Route('/post/{id}/edit', name: 'post_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('IS_AUTHOR', subject: 'post')]
+    #[IsGranted(Permissions::POST_EDIT, 'post')]
     public function edit(Post $post, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(PostType::class, $post);

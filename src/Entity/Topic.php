@@ -29,6 +29,12 @@ class Topic implements TopicInterface
     #[ORM\Column(type: Types::TEXT)]
     private ?string $body = null;
 
+    #[ORM\Column]
+    private bool $isLocked = true;
+
+    #[ORM\Column]
+    private bool $isVisible = true;
+
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -85,9 +91,30 @@ class Topic implements TopicInterface
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
+    public function isLocked(): bool
+    {
+        return $this->isLocked;
+    }
+
+    public function setIsLocked(bool $isLocked): static
+    {
+        $this->isLocked = $isLocked;
+
+        return $this;
+    }
+
+    public function isVisible(): bool
+    {
+        return $this->isVisible;
+    }
+
+    public function setIsVisible(bool $isVisible): static
+    {
+        $this->isVisible = $isVisible;
+
+        return $this;
+    }
+
     public function getPosts(): Collection
     {
         return $this->posts;

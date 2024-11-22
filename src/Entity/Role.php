@@ -13,6 +13,7 @@ class Role
     public function __construct()
     {
         $this->permissions = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     #[ORM\Id]
@@ -23,11 +24,11 @@ class Role
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'role')]
-    private User $user;
-
     #[ORM\ManyToMany(targetEntity: Permission::class, inversedBy: 'roles')]
     private Collection $permissions;
+
+    #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'role')]
+    private Collection $users;
 
     public function getId(): ?int
     {
@@ -46,11 +47,18 @@ class Role
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getPermissions(): Collection
     {
         return $this->permissions;
+    }
+
+    public function setPermission(Permission $permission): void
+    {
+        $this->permissions[] = $permission;
+    }
+
+    public function getUsers(): Collection
+    {
+        return $this->users;
     }
 }

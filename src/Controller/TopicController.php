@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Data\Permissions;
 use App\Entity\Board;
 use App\Entity\Topic;
 use App\Entity\User;
@@ -18,7 +19,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class TopicController extends AbstractController
 {
     #[Route('/board/{id}/create-topic', name: 'topic_create', methods: ['GET', 'POST'])]
-    #[IsGranted('ROLE_USER')]
+    #[IsGranted(Permissions::TOPIC_CREATE)]
     public function create(Request $request, Board $board, #[CurrentUser] User $user, EntityManagerInterface $manager): Response
     {
         $topic = new Topic();
@@ -57,7 +58,7 @@ class TopicController extends AbstractController
     }
 
     #[Route('/topic/{id}/edit', name: 'topic_edit', methods: ['GET', 'POST'])]
-    #[IsGranted('IS_AUTHOR', subject: 'topic')]
+    #[IsGranted(Permissions::TOPIC_EDIT, 'topic')]
     public function edit(Topic $topic, EntityManagerInterface $manager, Request $request): Response
     {
         $form = $this->createForm(TopicType::class, $topic);

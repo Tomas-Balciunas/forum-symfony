@@ -19,7 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->topics = new ArrayCollection();
         $this->posts = new ArrayCollection();
-        $this->permissions = new ArrayCollection();
+        $this->restrictions = new ArrayCollection();
         $this->issuedSuspensions = new ArrayCollection();
     }
 
@@ -34,14 +34,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $email = null;
 
-    /**
-     * @var ?string The hashed password
-     */
     #[ORM\Column]
     private ?string $password = null;
 
     #[ORM\Column]
     private int $postCount = 0;
+
+    #[ORM\Column]
+    private bool $isPrivate = false;
+
+    #[ORM\Column]
+    private string $status = 'active';
 
     #[ORM\OneToMany(targetEntity: Topic::class, mappedBy: 'author')]
     private Collection $topics;
@@ -49,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'author')]
     private Collection $posts;
 
-    #[ORM\OneToOne(targetEntity: Role::class, inversedBy: 'user')]
+    #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: 'users')]
     private Role $role;
 
     #[ORM\OneToOne(targetEntity: UserSuspension::class, mappedBy: 'issuedFor')]
@@ -59,24 +62,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $issuedSuspensions;
 
     #[ORM\ManyToMany(targetEntity: Permission::class, inversedBy: 'users')]
-    private Collection $permissions;
+    #[ORM\JoinTable('user_restriction')]
+    private Collection $restrictions;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    /**
-     * @return string|null
-     */
     public function getUsername(): ?string
     {
         return $this->username;
     }
 
-    /**
-     * @param string|null $username
-     */
     public function setUsername(?string $username): void
     {
         $this->username = $username;
@@ -99,30 +97,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return (string) $this->email;
     }
 
+    public function isPrivate(): bool
+    {
+        return $this->isPrivate;
+    }
+
+    public function setIsPrivate(bool $isPrivate): void
+    {
+        $this->isPrivate = $isPrivate;
+    }
+
+    public function setRole(Role $role): static
+    {
+        $this->role = $role;
+
+        return $this;
+    }
+
     public function getRoles(): array
     {
-        return ['ROLE_USER'];
+        return [$this->role->getName()];
     }
 
-    /**
-     * @return Collection
-     */
-    public function getPermissions(): Collection
+    public function getRestrictions(): Collection
     {
-        return $this->permissions;
+        return $this->restrictions;
     }
 
-    /**
-     * @return Collection
-     */
+    public function setRestrictions(Collection $permissions): void
+    {
+        $this->restrictions = $permissions;
+    }
+
     public function getIssuedSuspensions(): Collection
     {
         return $this->issuedSuspensions;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): ?string
     {
         return $this->password;
@@ -142,17 +153,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return int
-     */
     public function getPostCount(): int
     {
         return $this->postCount;
     }
 
-    /**
-     * @return Collection
-     */
     public function getPosts(): Collection
     {
         return $this->posts;
@@ -172,9 +177,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getTopics(): Collection
     {
         return $this->topics;
@@ -194,9 +196,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials(): void
     {
         // If you store any temporary, sensitive data on the user, clear it here

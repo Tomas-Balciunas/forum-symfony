@@ -14,6 +14,7 @@ class Permission
     public function __construct()
     {
         $this->roles = new ArrayCollection();
+        $this->users = new ArrayCollection();
     }
 
     #[ORM\Id]
@@ -27,7 +28,7 @@ class Permission
     #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'permissions')]
     private Collection $roles;
 
-    #[ManyToMany(targetEntity: User::class, mappedBy: 'permissions')]
+    #[ManyToMany(targetEntity: User::class, mappedBy: 'restrictions')]
     private Collection $users;
 
     public function getId(): ?int
@@ -47,11 +48,13 @@ class Permission
         return $this;
     }
 
-    /**
-     * @return Collection
-     */
     public function getRoles(): Collection
     {
         return $this->roles;
+    }
+
+    public function getUsers(): Collection
+    {
+        return $this->users;
     }
 }

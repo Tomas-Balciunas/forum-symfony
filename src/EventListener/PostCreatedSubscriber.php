@@ -3,7 +3,6 @@
 namespace App\EventListener;
 
 use App\Event\PostCreatedEvent;
-use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
