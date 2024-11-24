@@ -1083,7 +1083,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
     </schema>
     <schema id="292" parent="1" name="forum">
       <Current>1</Current>
-      <LastIntrospectionLocalTimestamp>2024-11-22.20:36:47</LastIntrospectionLocalTimestamp>
+      <LastIntrospectionLocalTimestamp>2024-11-24.21:45:45</LastIntrospectionLocalTimestamp>
       <CollationName>utf8mb4_0900_ai_ci</CollationName>
     </schema>
     <user id="293" parent="1" name="root">
@@ -1144,7 +1144,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_unicode_ci</CollationName>
     </table>
-    <table id="307" parent="292" name="user_restriction">
+    <table id="307" parent="292" name="user_permission">
       <Engine>InnoDB</Engine>
       <CollationName>utf8mb4_unicode_ci</CollationName>
     </table>
@@ -1289,7 +1289,7 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="336" parent="302" name="id">
-      <AutoIncrement>44</AutoIncrement>
+      <AutoIncrement>45</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
@@ -1408,7 +1408,7 @@ permission_id</ColNames>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
     <column id="359" parent="305" name="id">
-      <AutoIncrement>9</AutoIncrement>
+      <AutoIncrement>8</AutoIncrement>
       <NotNull>1</NotNull>
       <Position>1</Position>
       <StoredType>int|0s</StoredType>
@@ -1556,13 +1556,13 @@ permission_id</ColNames>
       <Position>2</Position>
       <StoredType>int|0s</StoredType>
     </column>
-    <foreign-key id="389" parent="307" name="FK_D382525BA76ED395">
+    <foreign-key id="389" parent="307" name="FK_472E5446A76ED395">
       <ColNames>user_id</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
       <RefTableName>user</RefTableName>
     </foreign-key>
-    <foreign-key id="390" parent="307" name="FK_D382525BFED90CCA">
+    <foreign-key id="390" parent="307" name="FK_472E5446FED90CCA">
       <ColNames>permission_id</ColNames>
       <OnDelete>cascade</OnDelete>
       <RefColNames>id</RefColNames>
@@ -1574,11 +1574,11 @@ permission_id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="392" parent="307" name="IDX_D382525BA76ED395">
+    <index id="392" parent="307" name="IDX_472E5446A76ED395">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <index id="393" parent="307" name="IDX_D382525BFED90CCA">
+    <index id="393" parent="307" name="IDX_472E5446FED90CCA">
       <ColNames>permission_id</ColNames>
       <Type>btree</Type>
     </index>

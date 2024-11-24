@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User manager{% endblock %}
+
+{% block body %}
+    <p>name: {{ user.username }}</p>
+    <p>email: {{ user.email }}</p>
+    <p>role: {{ user.role.name }}</p>
+    <p>status: {{ user.status }}</p>
+
+    <p>default roles:</p>
+    {% for permission in provider.defaultPermissions %}
+        <li>{{ provider.formattedName(permission.name) }}
+            {% if provider.userHasPermission(permission) %}
+                <span style="color: green">permitted</span>
+                <a href="{{ path('admin_revoke_permission', {
+                    'user': user.id,
+                    'permission': permission.id,
+                    '_token': csrf_token('revoke_permission_' ~ user.id ~ '_' ~ permission.id)
+                }) }}">Revoke</a>
+            {% else %}
+                <span style="color: red">restricted</span>
+                <a href="{{ path('admin_grant_permission', {
+                    'user': user.id,
+                    'permission': permission.id,
+                    '_token': csrf_token('permit_user_' ~ user.id ~ '_' ~ permission.id)
+                }) }}">Allow</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+
+    <p>other permissions:</p>
+    {% for permission in provider.specialPermissions %}
+        <li>{{ provider.formattedName(permission.name) }}
+            {% if provider.userHasPermission(permission) %}
+                <span style="color: green">permitted</span>
+                <a href="{{ path('admin_revoke_permission', {
+                    'user': user.id,
+                    'permission': permission.id,
+                    '_token': csrf_token('revoke_permission_' ~ user.id ~ '_' ~ permission.id)
+                }) }}">Revoke</a>
+            {% else %}
+                <span style="color: red">restricted</span>
+                <a href="{{ path('admin_grant_permission', {
+                    'user': user.id,
+                    'permission': permission.id,
+                    '_token': csrf_token('permit_user_' ~ user.id ~ '_' ~ permission.id)
+                }) }}">Grant</a>
+            {% endif %}
+        </li>
+    {% endfor %}
+
+{% endblock %}

@@ -3,6 +3,7 @@
 namespace App\Voter;
 
 use App\Data\Permissions;
+use App\Data\Roles;
 use App\Entity\Post;
 use App\Entity\User;
 use App\Service\Interface\PermissionManagerInterface;
@@ -56,12 +57,12 @@ class PostVoter extends Voter implements VoterInterface
 
     private function canCreatePost(User $user): bool
     {
-        return !$this->permissionManager->isRestricted($user, self::PERMISSIONS['create']);
+        return $this->permissionManager->hasPermission($user, self::PERMISSIONS['create']);
     }
 
     private function canDeletePost(User $user, Post $post): bool
     {
-        if ($user->getRoles() === ['ROLE_ADMIN']) {
+        if ($user->getRole()->getName() === Roles::ROLE_ADMIN) {
             return true;
         }
 
@@ -69,7 +70,7 @@ class PostVoter extends Voter implements VoterInterface
             return false;
         }
 
-        return !$this->permissionManager->isRestricted($user, self::PERMISSIONS['delete']);
+        return $this->permissionManager->hasPermission($user, self::PERMISSIONS['delete']);
     }
 
     private function canEditPost(User $user, Post $post): bool
@@ -78,7 +79,7 @@ class PostVoter extends Voter implements VoterInterface
             return false;
         }
 
-        return !$this->permissionManager->isRestricted($user, self::PERMISSIONS['edit']);
+        return $this->permissionManager->hasPermission($user, self::PERMISSIONS['edit']);
     }
 
     private function isAuthor(User $user, Post $post): bool

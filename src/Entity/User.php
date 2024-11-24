@@ -19,7 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->topics = new ArrayCollection();
         $this->posts = new ArrayCollection();
-        $this->restrictions = new ArrayCollection();
+        $this->permissions = new ArrayCollection();
         $this->issuedSuspensions = new ArrayCollection();
     }
 
@@ -62,8 +62,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $issuedSuspensions;
 
     #[ORM\ManyToMany(targetEntity: Permission::class, inversedBy: 'users')]
-    #[ORM\JoinTable('user_restriction')]
-    private Collection $restrictions;
+    #[ORM\JoinTable('user_permission')]
+    private Collection $permissions;
 
     public function getId(): ?int
     {
@@ -114,19 +114,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getRole(): Role
+    {
+        return $this->role;
+    }
+
     public function getRoles(): array
     {
         return [$this->role->getName()];
     }
 
-    public function getRestrictions(): Collection
+    public function getDefaultPermissions(): Collection
     {
-        return $this->restrictions;
+        return $this->role->getPermissions();
     }
 
-    public function setRestrictions(Collection $permissions): void
+    public function getPermissions(): Collection
     {
-        $this->restrictions = $permissions;
+        return $this->permissions;
+    }
+
+    public function setPermission(Permission $permission): static
+    {
+        $this->permissions->add($permission);
+
+        return $this;
+    }
+
+    public function setPermissions(Collection $permissions): static
+    {
+        $this->permissions = $permissions;
+
+        return $this;
     }
 
     public function getIssuedSuspensions(): Collection
@@ -144,6 +163,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->password = $password;
 
         return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
     }
 
     public function incrementPostCount(): static
@@ -201,4 +225,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
     }
+
 }

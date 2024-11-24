@@ -28,7 +28,7 @@ class Permission
     #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'permissions')]
     private Collection $roles;
 
-    #[ManyToMany(targetEntity: User::class, mappedBy: 'restrictions')]
+    #[ManyToMany(targetEntity: User::class, mappedBy: 'permissions')]
     private Collection $users;
 
     public function getId(): ?int

@@ -4,29 +4,18 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="suspension, role and permission entities and relations">
-      <change afterPath="$PROJECT_DIR$/src/Data/Permissions.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Data/Roles.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Event/UserCreatedEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/EventListener/UserCreatedDispatcher.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/EventListener/UserCreatedSubscriber.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/Interface/PermissionManagerInterface.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/PermissionManager.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Voter/TopicVoter.php" afterDir="false" />
+    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="permission and role revision">
+      <change afterPath="$PROJECT_DIR$/src/Service/AdminService.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/UserDataProvider.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/UserManager.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/templates/admin/manager.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/security.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/security.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BoardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BoardController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TopicController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TopicController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Permission.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Permission.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Role.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Topic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Topic.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AdminController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AdminController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/Permissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Permissions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventListener/PostCreatedSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventListener/PostCreatedSubscriber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/AuthorVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/PostVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nav.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nav.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventListener/UserCreatedSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventListener/UserCreatedSubscriber.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserRepository.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -297,7 +286,11 @@
       <workItem from="1732105609213" duration="22540000" />
       <workItem from="1732194333500" duration="1800000" />
       <workItem from="1732207838210" duration="13447000" />
-      <workItem from="1732268474204" duration="17944000" />
+      <workItem from="1732268474204" duration="18189000" />
+      <workItem from="1732309607985" duration="74000" />
+      <workItem from="1732363185035" duration="7375000" />
+      <workItem from="1732389654130" duration="3581000" />
+      <workItem from="1732444906612" duration="6367000" />
     </task>
     <task id="LOCAL-00001" summary="progressing">
       <option name="closed" value="true" />
@@ -323,7 +316,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732047637681</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="permission and role revision">
+      <option name="closed" value="true" />
+      <created>1732309487912</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732309487912</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -332,6 +333,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="progressing" />
     <MESSAGE value="suspension, role and permission entities and relations" />
-    <option name="LAST_COMMIT_MESSAGE" value="suspension, role and permission entities and relations" />
+    <MESSAGE value="permission and role revision" />
+    <option name="LAST_COMMIT_MESSAGE" value="permission and role revision" />
   </component>
 </project>

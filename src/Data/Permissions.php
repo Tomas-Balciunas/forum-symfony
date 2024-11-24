@@ -33,6 +33,9 @@ class Permissions
     public static function getPermissions(): array
     {
         return [
+            self::BOARD_CREATE,
+            self::BOARD_DELETE,
+            self::BOARD_EDIT,
             self::POST_CREATE,
             self::POST_DELETE,
             self::POST_EDIT,

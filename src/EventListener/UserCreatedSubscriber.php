@@ -32,8 +32,8 @@ final readonly class UserCreatedSubscriber implements EventSubscriberInterface
     {
         $user = $event->getUser();
         $role = $this->roleRepository->findOneBy(['name' => self::DEFAULT_ROLE]);
-        $permissions = $role->getPermissions();
         $user->setRole($role);
+        $permissions = $role->getPermissions();
         $user->setPermissions($permissions);
         $this->manager->flush();
     }

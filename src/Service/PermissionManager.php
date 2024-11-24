@@ -8,12 +8,12 @@ use App\Service\Interface\PermissionManagerInterface;
 class PermissionManager implements PermissionManagerInterface
 {
 
-    public function isRestricted(User $user, string $attribute): bool
+    public function hasPermission(User $user, string $attribute): bool
     {
-        $restrictions = $user->getRestrictions();
+        $permissions = $user->getPermissions();
         $map = [];
 
-        foreach ($restrictions as $permission) {
+        foreach ($permissions as $permission) {
             $map[] = $permission->getName();
         }
 

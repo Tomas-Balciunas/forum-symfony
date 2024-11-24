@@ -6,5 +6,5 @@ use App\Entity\User;
 
 interface PermissionManagerInterface
 {
-    public function isRestricted(User $user, string $attribute): bool;
+    public function hasPermission(User $user, string $attribute): bool;
 }
