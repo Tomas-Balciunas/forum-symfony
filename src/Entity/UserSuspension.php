@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\UserSuspensionRepository;
 use DateTime;
 use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -62,7 +63,7 @@ class UserSuspension
     #[ORM\PrePersist]
     public function setIssuedAt(): static
     {
-        $this->issuedAt = new DateTimeImmutable('now');
+        $this->issuedAt = new DateTimeImmutable('now', new DateTimeZone('UTC'));
 
         return $this;
     }
@@ -79,15 +80,42 @@ class UserSuspension
         return $this;
     }
 
+    public function getIssuedFor(): User
+    {
+        return $this->issuedFor;
+    }
+
+    public function setIssuedFor(User $issuedFor): static
+    {
+        $this->issuedFor = $issuedFor;
+
+        return $this;
+    }
+
+    public function getIssuedBy(): User
+    {
+        return $this->issuedBy;
+    }
+
+    public function setIssuedBy(User $issuedBy): static
+    {
+        $this->issuedBy = $issuedBy;
+
+        return $this;
+    }
+
     public function isPermanent(): ?bool
     {
         return $this->isPermanent;
     }
 
-    public function setPermanent(): static
+    public function setIsPermanent(?bool $isPermanent = false): static
     {
-        $this->isPermanent = true;
-        $this->setExpiresAt(null);
+        $this->isPermanent = $isPermanent;
+
+        if ($isPermanent) {
+            $this->expiresAt = null;
+        }
 
         return $this;
     }

@@ -4,13 +4,22 @@ namespace App\Service;
 
 use App\Entity\Permission;
 use App\Entity\User;
+use App\Helper\PermissionHelper;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Persistence\ManagerRegistry;
 
 readonly class UserDataProvider
 {
-    public function __construct(private User $user, private ManagerRegistry $registry)
+    private User $user;
+
+    public function __construct(private PermissionDataProvider $permissionProvider)
     {
+    }
+
+    public function setUser(User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
     }
 
     public function getPermissions(): Collection
@@ -20,16 +29,15 @@ readonly class UserDataProvider
 
     public function getDefaultPermissions(): Collection
     {
-        return $this->user->getDefaultPermissions();
+        return  $this->user->getDefaultPermissions();
     }
 
     public function getSpecialPermissions(): array
     {
-        $repo = $this->registry->getRepository(Permission::class);
-        return $repo->findNotOwnedPermissions($this->user->getRole()->getId());
+        return $this->permissionProvider->findPermissionsNotOwnedBy($this->user);
     }
 
-    public function userHasPermission(Permission $permission): bool
+    public function hasPermission(Permission $permission): bool
     {
         foreach ($this->getPermissions() as $userPermission) {
             if ($userPermission === $permission) {
@@ -40,8 +48,8 @@ readonly class UserDataProvider
         return false;
     }
 
-    public function formattedName(string $name): string
+    public function isSuspended(): bool
     {
-        return ucfirst(join(' ', explode('.', $name)));
+        return $this->user->getSuspension() !== null;
     }
 }

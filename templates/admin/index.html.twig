@@ -11,6 +11,9 @@
 <div class="example-wrapper">
     <h1>Hello {{ controller_name }}! ✅</h1>
 
+    {% for user in users %}
+        <li><a href="{{ path('admin_manage', {'user': user.id}) }}">{{ user.username }}</a></li>
+    {% endfor %}
     This friendly message is coming from:
     <ul>
         <li>Your controller at <code>/var/www/html/src/Controller/AdminController.php</code></li>

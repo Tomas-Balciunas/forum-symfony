@@ -56,7 +56,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private Role $role;
 
     #[ORM\OneToOne(targetEntity: UserSuspension::class, mappedBy: 'issuedFor')]
-    private UserSuspension $suspension;
+    private ?UserSuspension $suspension;
 
     #[ORM\OneToMany(targetEntity: UserSuspension::class, mappedBy: 'issuedBy')]
     private Collection $issuedSuspensions;
@@ -148,6 +148,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
+    public function getSuspension(): ?UserSuspension
+    {
+        return $this->suspension;
+    }
+
+    public function setSuspension(UserSuspension $suspension): void
+    {
+        $this->suspension = $suspension;
+    }
+
     public function getIssuedSuspensions(): Collection
     {
         return $this->issuedSuspensions;
@@ -168,6 +178,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function getStatus(): ?string
     {
         return $this->status;
+    }
+
+    public function setStatus(string $status): void
+    {
+        $this->status = $status;
     }
 
     public function incrementPostCount(): static

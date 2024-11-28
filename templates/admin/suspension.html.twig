@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User suspension{% endblock %}
+
+{% block body %}
+<p>user: {{ suspension.issuedFor.username }}</p>
+    <p>issued by: {{ suspension.issuedBy.username }}</p>
+    <p>issued at: {{ suspension.issuedAt|date }}</p>
+    {% if suspension.permanent %}
+        <p>expires at: indefinite</p>
+    {% else %}
+        <p>expires at: {{ suspension.expiresAt|date }}</p>
+    {% endif %}
+
+    <a href="{{ path('lift_suspension', {'id': suspension.id}) }}">lift</a>
+
+    {{ form_start(modifyForm) }}
+    {{ form_end(modifyForm) }}
+
+{% endblock %}

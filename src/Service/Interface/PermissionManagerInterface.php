@@ -2,9 +2,9 @@
 
 namespace App\Service\Interface;
 
-use App\Entity\User;
+use App\Entity\Permission;
 
 interface PermissionManagerInterface
 {
-    public function hasPermission(User $user, string $attribute): bool;
+    public function getPermissionByName(string $name): ?Permission;
 }

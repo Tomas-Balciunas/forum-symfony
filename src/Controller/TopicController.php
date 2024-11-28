@@ -7,7 +7,9 @@ use App\Entity\Board;
 use App\Entity\Topic;
 use App\Entity\User;
 use App\Form\PostType;
+use App\Form\TopicLockType;
 use App\Form\TopicType;
+use App\Form\TopicVisibilityType;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -43,9 +45,18 @@ class TopicController extends AbstractController
     #[Route('/topic/{id}', name: 'topic_show')]
     public function show(Topic $topic): Response
     {
+        $lockForm = $this->createForm(TopicLockType::class, null, [
+            'action' => $this->generateUrl('topic_lock', ['id' => $topic->getId()]),
+            'method' => 'POST',
+        ]);
+        $visibilityForm = $this->createForm(TopicVisibilityType::class, null, [
+            'action' => $this->generateUrl('topic_visibility', ['id' => $topic->getId()]),
+            'method' => 'POST',
+        ]);
         $form = $this->createForm(PostType::class, null, [
             'action' => $this->generateUrl('post_create', ['id' => $topic->getId()]),
         ]);
+
         $posts = $topic->getPosts();
         $board = $topic->getBoard();
 
@@ -53,7 +64,9 @@ class TopicController extends AbstractController
             'topic' => $topic,
             'posts' => $posts,
             'board' => $board,
-            'form' => $form,
+            'form' => $form->createView(),
+            'lockForm' => $lockForm->createView(),
+            'visibilityForm' => $visibilityForm->createView(),
         ]);
     }
 
@@ -70,5 +83,33 @@ class TopicController extends AbstractController
         return $this->render('topic/edit.html.twig', [
            'form' => $form->createView(),
         ]);
+    }
+
+    #[Route('/topic/{id}/lock', name: 'topic_lock', methods: ['POST'])]
+    public function lock(Topic $topic, Request $request, EntityManagerInterface $manager): Response
+    {
+        $lockForm = $this->createForm(TopicLockType::class);
+        $lockForm->handleRequest($request);
+
+        if ($lockForm->isSubmitted() && $lockForm->isValid()) {
+            $topic->setIsLocked(!$topic->isLocked());
+            $manager->flush();
+        }
+
+        return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
+    }
+
+    #[Route('/topic/{id}/visibility', name: 'topic_visibility', methods: ['POST'])]
+    public function visibility(Topic $topic, Request $request, EntityManagerInterface $manager): Response
+    {
+        $lockForm = $this->createForm(TopicVisibilityType::class);
+        $lockForm->handleRequest($request);
+
+        if ($lockForm->isSubmitted() && $lockForm->isValid()) {
+            $topic->setIsVisible(!$topic->isVisible());
+            $manager->flush();
+        }
+
+        return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
     }
 }

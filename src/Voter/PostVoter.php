@@ -4,33 +4,33 @@ namespace App\Voter;
 
 use App\Data\Permissions;
 use App\Data\Roles;
+use App\Entity\Permission;
 use App\Entity\Post;
 use App\Entity\User;
-use App\Service\Interface\PermissionManagerInterface;
+use App\Service\PermissionDataProvider;
+use App\Service\UserDataProvider;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
 class PostVoter extends Voter implements VoterInterface
 {
-    public function __construct(private readonly PermissionManagerInterface $permissionManager)
-    {
-    }
-
     private const PERMISSIONS = [
-        'create' => Permissions::POST_CREATE,
         'delete' => Permissions::POST_DELETE,
         'edit' => Permissions::POST_EDIT,
     ];
+
+    private Permission $permission;
+
+    public function __construct(private readonly UserDataProvider       $userProvider,
+                                private readonly PermissionDataProvider $permissionProvider)
+    {
+    }
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         if (!in_array($attribute, self::PERMISSIONS, true)) {
             return false;
-        }
-
-        if ($attribute === self::PERMISSIONS['create']) {
-            return true;
         }
 
         if (!$subject instanceof Post) {
@@ -48,16 +48,13 @@ class PostVoter extends Voter implements VoterInterface
             return false;
         }
 
+        $this->permission = $this->permissionProvider->getPermissionByName($attribute);
+        $this->userProvider->setUser($user);
+
         return match ($attribute) {
-            self::PERMISSIONS['create'] => $this->canCreatePost($user),
             self::PERMISSIONS['delete'] => $this->canDeletePost($user, $subject),
             self::PERMISSIONS['edit'] => $this->canEditPost($user, $subject),
         };
-    }
-
-    private function canCreatePost(User $user): bool
-    {
-        return $this->permissionManager->hasPermission($user, self::PERMISSIONS['create']);
     }
 
     private function canDeletePost(User $user, Post $post): bool
@@ -70,7 +67,12 @@ class PostVoter extends Voter implements VoterInterface
             return false;
         }
 
-        return $this->permissionManager->hasPermission($user, self::PERMISSIONS['delete']);
+        return $this->userProvider->hasPermission($this->permission);
+    }
+
+    private function isAuthor(User $user, Post $post): bool
+    {
+        return $user === $post->getAuthor();
     }
 
     private function canEditPost(User $user, Post $post): bool
@@ -79,11 +81,6 @@ class PostVoter extends Voter implements VoterInterface
             return false;
         }
 
-        return $this->permissionManager->hasPermission($user, self::PERMISSIONS['edit']);
-    }
-
-    private function isAuthor(User $user, Post $post): bool
-    {
-        return $user === $post->getAuthor();
+        return $this->userProvider->hasPermission($this->permission);
     }
 }

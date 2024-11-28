@@ -16,6 +16,20 @@ class PermissionRepository extends ServiceEntityRepository
         parent::__construct($registry, Permission::class);
     }
 
+    public function findPermissionByName(string $name): ?Permission
+    {
+        $qb = $this->createQueryBuilder('p');
+//        $subQuery = $this->createQueryBuilder('p2')->select('p2.id')
+//        ->where($qb->expr()->eq('p2.name', ':name'))
+//        ->getQuery();
+
+        return $qb->select('p')
+            ->where($qb->expr()->eq('p.name', ':name'))
+            ->setParameter('name', $name)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
     public function findNotOwnedPermissions($roleId): array
     {
         $qb = $this->createQueryBuilder('p');

@@ -18,7 +18,7 @@ use Symfony\Component\Security\Http\Attribute\IsGranted;
 class PostController extends AbstractController
 {
     #[Route('/topic/{id}/post', name: 'post_create', methods: ['POST'])]
-    #[IsGranted(Permissions::POST_CREATE)]
+    #[IsGranted(Permissions::POST_CREATE, subject: 'topic')]
     public function create(Topic $topic, #[CurrentUser] User $user, Request $request, EntityManagerInterface $manager): Response
     {
         $post = new Post();

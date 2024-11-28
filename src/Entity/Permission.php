@@ -25,6 +25,9 @@ class Permission
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $formattedName = null;
+
     #[ORM\ManyToMany(targetEntity: Role::class, mappedBy: 'permissions')]
     private Collection $roles;
 
@@ -46,6 +49,16 @@ class Permission
         $this->name = $name;
 
         return $this;
+    }
+
+    public function getFormattedName(): ?string
+    {
+        return $this->formattedName;
+    }
+
+    public function setFormattedName(?string $formattedName): void
+    {
+        $this->formattedName = $formattedName;
     }
 
     public function getRoles(): Collection

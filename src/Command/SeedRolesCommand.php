@@ -5,6 +5,7 @@ namespace App\Command;
 use App\Data\Roles;
 use App\Entity\Permission;
 use App\Entity\Role;
+use App\Helper\PermissionHelper;
 use App\Repository\PermissionRepository;
 use App\Repository\RoleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -93,6 +94,7 @@ class SeedRolesCommand extends Command
     {
         $permission = new Permission();
         $permission->setName($name);
+        $permission->setFormattedName(PermissionHelper::formatName($permission->getName()));
         $this->manager->persist($permission);
 
         return $permission;

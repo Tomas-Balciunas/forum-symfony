@@ -4,23 +4,44 @@
 
 {% block body %}
     <a href="{{ path('board_show', {'id': board.id}) }}">{{ board.title }}</a> > {{ topic.title }}
-<div>
-    <p>topic author: {{ topic.author.username }} {{ topic.createdAt|date }}</p>
-    <h4>topic title: {{ topic.title }}</h4>
-    <p>topic descr: {{ topic.body }}</p>
-    <a href="{{ path('topic_edit', {'id': topic.id}) }}">edit</a>
-    <a href="{{ path('admin_manage', {'user': topic.author.id}) }}">manage</a>
-</div>
+    <div>
+        {{ form_start(lockForm) }}
+        {% if topic.locked %}
+            {{ form_row(lockForm.lock, {label: 'Unlock topic'}) }}
+        {% else %}
+            {{ form_row(lockForm.lock, {label: 'Lock topic'}) }}
+        {% endif %}
+        {{ form_end(lockForm) }}
+
+        {% if topic.locked %} topic is locked {% endif %}
+
+        {{ form_start(visibilityForm) }}
+        {% if topic.visible %}
+            {{ form_row(visibilityForm.visibility, {label: 'Show topic'}) }}
+        {% else %}
+            {{ form_row(visibilityForm.visibility, {label: 'Hide topic'}) }}
+        {% endif %}
+        {{ form_end(visibilityForm) }}
+
+        {% if not topic.visible %} topic is hidden {% endif %}
+
+        <p>topic author: {{ topic.author.username }} {{ topic.createdAt|date }}</p>
+        <h4>topic title: {{ topic.title }}</h4>
+        <p>topic descr: {{ topic.body }}</p>
+        <a href="{{ path('topic_edit', {'id': topic.id}) }}">edit</a>
+        <a href="{{ path('admin_manage', {'user': topic.author.id}) }}">manage</a>
+    </div>
     {% if posts %}
-    {% for post in posts %}
-        <div style="border: 1px solid black; margin: 10px">
-            <span>{{ post.author.username }} posts: {{ post.author.postCount }}, {{ post.createdAt|date }}, <a href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
+        {% for post in posts %}
+            <div style="border: 1px solid black; margin: 10px">
+            <span>{{ post.author.username }} posts: {{ post.author.postCount }}, {{ post.createdAt|date }}, <a
+                        href="{{ path('post_edit', {'id': post.id}) }}">edit</a>
             <a href="{{ path('admin_manage', {'user': post.author.id}) }}">manage</a>
             </span>
-            <p>{{ post.body }}</p>
-        </div>
+                <p>{{ post.body }}</p>
+            </div>
 
-    {% endfor %}
+        {% endfor %}
     {% endif %}
 
     {{ form_start(form) }}

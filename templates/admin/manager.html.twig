@@ -7,20 +7,43 @@
     <p>email: {{ user.email }}</p>
     <p>role: {{ user.role.name }}</p>
     <p>status: {{ user.status }}</p>
+    {% if provider.suspended %}
+        <p>suspension:
+            <a href="{{ path('show_suspension', {'id': user.suspension.id}) }}">
+                {% if user.suspension.permanent %}
+                    indefinite
+                {% else %}
+                    {{ user.suspension.expiresAt|date }}
+                {% endif %}
+            </a>
+        </p>
+    {% endif %}
+
+    {% if not provider.suspended %}
+        {{ form_start(suspendForm) }}
+        <div style="display: flex; align-items: center">
+            {{ form_row(suspendForm.days) }}
+            {{ form_row(suspendForm.hours) }}
+        </div>
+        {{ form_end(suspendForm) }}
+
+        {{ form_start(permanentSuspendForm) }}
+        {{ form_end(permanentSuspendForm) }}
+    {% endif %}
 
     <p>default roles:</p>
     {% for permission in provider.defaultPermissions %}
-        <li>{{ provider.formattedName(permission.name) }}
-            {% if provider.userHasPermission(permission) %}
+        <li>{{ permission.formattedName }}
+            {% if provider.permission(permission) %}
                 <span style="color: green">permitted</span>
-                <a href="{{ path('admin_revoke_permission', {
+                <a href="{{ path('revoke_permission', {
                     'user': user.id,
                     'permission': permission.id,
                     '_token': csrf_token('revoke_permission_' ~ user.id ~ '_' ~ permission.id)
                 }) }}">Revoke</a>
             {% else %}
                 <span style="color: red">restricted</span>
-                <a href="{{ path('admin_grant_permission', {
+                <a href="{{ path('grant_permission', {
                     'user': user.id,
                     'permission': permission.id,
                     '_token': csrf_token('permit_user_' ~ user.id ~ '_' ~ permission.id)
@@ -31,17 +54,17 @@
 
     <p>other permissions:</p>
     {% for permission in provider.specialPermissions %}
-        <li>{{ provider.formattedName(permission.name) }}
-            {% if provider.userHasPermission(permission) %}
+        <li>{{ permission.formattedName }}
+            {% if provider.permission(permission) %}
                 <span style="color: green">permitted</span>
-                <a href="{{ path('admin_revoke_permission', {
+                <a href="{{ path('revoke_permission', {
                     'user': user.id,
                     'permission': permission.id,
                     '_token': csrf_token('revoke_permission_' ~ user.id ~ '_' ~ permission.id)
                 }) }}">Revoke</a>
             {% else %}
                 <span style="color: red">restricted</span>
-                <a href="{{ path('admin_grant_permission', {
+                <a href="{{ path('grant_permission', {
                     'user': user.id,
                     'permission': permission.id,
                     '_token': csrf_token('permit_user_' ~ user.id ~ '_' ~ permission.id)
