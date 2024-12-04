@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Server Error{% endblock %}
+
+{% block body %}
+    <h1>{{ exception.message }}</h1>
+
+    <p>
+        Something went wrong, contact us so we may solve the issue. <a href="{{ path('home') }}">Return to the homepage</a>.
+    </p>
+{% endblock %}

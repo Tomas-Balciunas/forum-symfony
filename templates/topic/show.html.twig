@@ -25,6 +25,8 @@
 
         {% if not topic.visible %} topic is hidden {% endif %}
 
+        <a href="{{ path('topic_move', {'id': topic.id}) }}">move</a>
+
         <p>topic author: {{ topic.author.username }} {{ topic.createdAt|date }}</p>
         <h4>topic title: {{ topic.title }}</h4>
         <p>topic descr: {{ topic.body }}</p>

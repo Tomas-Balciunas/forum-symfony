@@ -1,0 +1,14 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello ErrorController!{% endblock %}
+
+{% block body %}
+    <h1 class="text-danger">{{ 'http_error.name' }}</h1>
+
+    <p class="lead">
+        {{ 'http_error_404.description' }}
+    </p>
+    <p>
+        {{ 'http_error_404.suggestion' }}
+    </p>
+{% endblock %}

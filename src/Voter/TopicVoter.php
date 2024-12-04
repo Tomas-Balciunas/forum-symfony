@@ -16,7 +16,6 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 class TopicVoter extends Voter implements VoterInterface
 {
     private const PERMISSIONS = [
-        'create' => Permissions::TOPIC_CREATE,
         'delete' => Permissions::TOPIC_DELETE,
         'edit' => Permissions::TOPIC_EDIT,
         'lock' => Permissions::TOPIC_LOCK,
@@ -59,7 +58,6 @@ class TopicVoter extends Voter implements VoterInterface
         $this->userProvider->setUser($user);
 
         return match ($attribute) {
-            self::PERMISSIONS['create'] => $this->canCreateTopic(),
             self::PERMISSIONS['delete'] => $this->canDeleteTopic($user, $subject),
             self::PERMISSIONS['edit'] => $this->canEditTopic($user, $subject),
             self::PERMISSIONS['lock'] => $this->canLockTopic($user, $subject),
@@ -73,11 +71,6 @@ class TopicVoter extends Voter implements VoterInterface
             return false;
         }
 
-        return $this->userProvider->hasPermission($this->permission);
-    }
-
-    private function canCreateTopic(): bool
-    {
         return $this->userProvider->hasPermission($this->permission);
     }
 

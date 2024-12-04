@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Not Accessible{% endblock %}
+
+{% block body %}
+    <h1>{{ exception.message }}</h1>
+
+    <p>
+        The requested resource is not accessible. <a href="{{ path('home') }}">Return to the homepage</a>.
+    </p>
+{% endblock %}

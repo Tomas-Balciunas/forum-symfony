@@ -29,8 +29,6 @@ class Roles extends Permissions
         ...self::DEFAULT_USER_PERMISSIONS,
         self::USER_BAN,
         self::USER_UNBAN,
-        self::USER_ADD_RESTRICTION,
-        self::USER_REMOVE_RESTRICTION
     ];
 
     public const DEFAULT_ADMIN_PERMISSIONS = [

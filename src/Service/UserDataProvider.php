@@ -7,11 +7,11 @@ use App\Entity\User;
 use App\Helper\PermissionHelper;
 use Doctrine\Common\Collections\Collection;
 
-readonly class UserDataProvider
+class UserDataProvider
 {
-    private User $user;
+    protected User $user;
 
-    public function __construct(private PermissionDataProvider $permissionProvider)
+    public function __construct(protected PermissionDataProvider $permissionProvider)
     {
     }
 
@@ -22,20 +22,12 @@ readonly class UserDataProvider
         return $this;
     }
 
-    public function getPermissions(): Collection
-    {
-        return $this->user->getPermissions();
-    }
-
     public function getDefaultPermissions(): Collection
     {
-        return  $this->user->getDefaultPermissions();
+        return $this->user->getDefaultPermissions();
     }
 
-    public function getSpecialPermissions(): array
-    {
-        return $this->permissionProvider->findPermissionsNotOwnedBy($this->user);
-    }
+
 
     public function hasPermission(Permission $permission): bool
     {
@@ -46,6 +38,11 @@ readonly class UserDataProvider
         }
 
         return false;
+    }
+
+    public function getPermissions(): Collection
+    {
+        return $this->user->getPermissions();
     }
 
     public function isSuspended(): bool

@@ -30,6 +30,9 @@ class Board
     #[ORM\Column]
     private ?\DateTimeImmutable $createdAt = null;
 
+    #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: 'boards')]
+    private ?Role $access = null;
+
     #[ORM\OneToMany(targetEntity: Topic::class, mappedBy: 'board', cascade: ['persist', 'remove'])]
     private Collection $topics;
 
@@ -89,5 +92,18 @@ class Board
         $this->topics->add($topic);
 
         return $this;
+    }
+
+    public function getAccess(): ?Role
+    {
+        return $this->access;
+    }
+
+    /**
+     * @param Role|null $access
+     */
+    public function setAccess(?Role $access): void
+    {
+        $this->access = $access;
     }
 }

@@ -6,8 +6,7 @@ use App\Entity\User;
 use App\Form\PermanentSuspendType;
 use App\Form\SuspendType;
 use App\Repository\UserRepository;
-use App\Service\UserDataProvider;
-use Doctrine\Persistence\ManagerRegistry;
+use App\Service\UserFullDataProvider;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -27,7 +26,7 @@ class AuthorityController extends AbstractController
     }
 
     #[Route('/manage/{user}', name: 'admin_manage', methods: ['GET'])]
-    public function manager(User $user, UserDataProvider $provider): Response
+    public function manager(User $user, UserFullDataProvider $provider): Response
     {
         $suspendForm = $this->createForm(SuspendType::class, null, [
             'action' => $this->generateUrl('suspend_user', ['user' => $user->getId()]),

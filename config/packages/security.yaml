@@ -25,6 +25,7 @@ security:
                 enable_csrf: true
             logout:
                 path: logout
+#            access_denied_handler: App\Security\AccessDeniedHandler
                 # where to redirect after logout
                 # target: app_any_route
 

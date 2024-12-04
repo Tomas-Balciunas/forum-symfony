@@ -14,6 +14,7 @@ class Role
     {
         $this->permissions = new ArrayCollection();
         $this->users = new ArrayCollection();
+        $this->boards = new ArrayCollection();
     }
 
     #[ORM\Id]
@@ -29,6 +30,9 @@ class Role
 
     #[ORM\OneToMany(targetEntity: User::class, mappedBy: 'role')]
     private Collection $users;
+
+    #[ORM\OneToMany(targetEntity: Board::class, mappedBy: 'access')]
+    private Collection $boards;
 
     public function getId(): ?int
     {
@@ -60,5 +64,10 @@ class Role
     public function getUsers(): Collection
     {
         return $this->users;
+    }
+
+    public function getBoards(): Collection
+    {
+        return $this->boards;
     }
 }

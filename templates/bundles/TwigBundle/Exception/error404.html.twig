@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Not Found{% endblock %}
+
+{% block body %}
+    <h1>{{ exception.message }}</h1>
+
+    <p>
+        The requested resource was not found. <a href="{{ path('home') }}">Return to the homepage</a>.
+    </p>
+{% endblock %}

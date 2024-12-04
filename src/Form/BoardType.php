@@ -2,8 +2,11 @@
 
 namespace App\Form;
 
+use App\Data\Roles;
 use App\Entity\Board;
+use App\Entity\Role;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -15,6 +18,14 @@ class BoardType extends AbstractType
         $builder
             ->add('title')
             ->add('description')
+            ->add('access', ChoiceType::class, [
+                'choices' => [
+                    'Users' => Roles::ROLE_USER,
+                    'Moderators' => Roles::ROLE_MODERATOR,
+                    'Admins' => Roles::ROLE_ADMIN,
+                ],
+                'mapped' => false,
+            ])
             ->add('submit', SubmitType::class)
         ;
     }

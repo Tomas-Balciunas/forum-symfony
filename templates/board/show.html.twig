@@ -5,6 +5,7 @@
 {% block body %}
     <h4>{{ board.title }}</h4>
     <p>{{ board.description }}</p>
+    <a href="{{ path('board_edit', {'id': board.id}) }}">edit</a>
     <h4>topics:</h4>
     {% for topic in topics %}
         <li><a href="{{ path('topic_show', {'id': topic.id}) }}">{{ topic.title }}</a></li>

@@ -4,4 +4,7 @@
     <a href="{{ path('logout') }}">logout</a>
     <a href="{{ path('register') }}">register</a>
     <a href="{{ path('admin_panel') }}">panel</a>
+    {% if app.user %}
+        <a href="{{ path('user_profile', {'id': app.user.id}) }}">profile</a>
+    {% endif %}
 </div>
