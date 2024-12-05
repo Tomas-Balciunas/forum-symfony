@@ -11,6 +11,7 @@ use App\Form\TopicLockType;
 use App\Form\TopicMoveType;
 use App\Form\TopicType;
 use App\Form\TopicVisibilityType;
+use App\Repository\PostRepository;
 use App\Service\PermissionAuthorization;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -19,6 +20,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\Service\Attribute\Required;
 
 class TopicController extends AbstractController
 {
@@ -54,8 +56,9 @@ class TopicController extends AbstractController
         ]);
     }
 
-    #[Route('/topic/{id}', name: 'topic_show')]
-    public function show(Topic $topic): Response
+    #[Route('/topic/{id}', name: 'topic_show', defaults: ['page' => '1'], methods: ['GET'])]
+    #[Route('/topic/{id}/page/{page}', name: 'topic_show_paginated', requirements: ['id' => '\d+', 'page' => '\d+'], methods: ['GET'])]
+    public function show(Topic $topic, int $page, PostRepository $postRepository): Response
     {
         $lockForm = $this->createForm(TopicLockType::class, null, [
             'action' => $this->generateUrl('topic_lock', ['id' => $topic->getId()]),
@@ -69,16 +72,19 @@ class TopicController extends AbstractController
             'action' => $this->generateUrl('post_create', ['id' => $topic->getId()]),
         ]);
 
-        $posts = $topic->getPosts();
+        $posts = $postRepository->findPaginatedPosts($page, $topic->getId());
+        $posts->paginate();
         $board = $topic->getBoard();
+        $path = 'topic_show_paginated';
 
         return $this->render('topic/show.html.twig', [
             'topic' => $topic,
-            'posts' => $posts,
+            'paginator' => $posts,
             'board' => $board,
             'form' => $form->createView(),
             'lockForm' => $lockForm->createView(),
             'visibilityForm' => $visibilityForm->createView(),
+            'path' => $path,
         ]);
     }
 
@@ -147,10 +153,12 @@ class TopicController extends AbstractController
         $form->handleRequest($request);
 
         try {
-            $board = $form->get('target')->getData();
-            $topic->setBoard($board);
-            $manager->flush();
-            $this->addFlash('success', 'Topic moved.');
+            if ($form->isSubmitted() && $form->isValid()) {
+                $board = $form->get('target')->getData();
+                $topic->setBoard($board);
+                $manager->flush();
+                $this->addFlash('success', 'Topic moved.');
+            }
         } catch (AccessDeniedException $e) {
             $this->addFlash('error', $e->getMessage());
             return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);

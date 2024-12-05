@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Topic;
+use App\Service\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -11,33 +12,20 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TopicRepository extends ServiceEntityRepository
 {
+    private const ALIAS = 't';
+
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Topic::class);
     }
 
-    //    /**
-    //     * @return Topic[] Returns an array of Topic objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('t.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+        public function findPaginatedTopics(int $page, int $boardId): Paginator
+        {
+            $query = $this->createQueryBuilder(self::ALIAS)
+                ->andWhere(self::ALIAS . '.board = :boardId')
+                ->setParameter('boardId', $boardId)
+            ;
 
-    //    public function findOneBySomeField($value): ?Topic
-    //    {
-    //        return $this->createQueryBuilder('t')
-    //            ->andWhere('t.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+            return new Paginator($page, $query);
+        }
 }

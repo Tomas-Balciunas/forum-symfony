@@ -35,7 +35,7 @@ class TopicVoter extends Voter implements VoterInterface
             return false;
         }
 
-        if ($attribute === self::PERMISSIONS['create']) {
+        if ($attribute === self::PERMISSIONS['createPost']) {
             return true;
         }
 

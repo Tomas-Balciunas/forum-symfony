@@ -34,7 +34,6 @@ class SuspensionModifyType extends AbstractType
             ->add('isPermanent', CheckboxType::class, [
                 'required' => false,
             ])
-            ->add('modify', SubmitType::class)
         ;
     }
 

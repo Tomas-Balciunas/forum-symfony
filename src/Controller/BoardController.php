@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Data\Permissions;
 use App\Entity\Board;
 use App\Form\BoardType;
+use App\Repository\TopicRepository;
 use App\Service\BoardService;
 use App\Service\PermissionAuthorization;
 use Exception;
@@ -13,7 +14,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-// TODO: categories
+
 #[Route('/board')]
 class BoardController extends AbstractController
 {
@@ -50,15 +51,18 @@ class BoardController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'board_show', methods: ['GET'])]
-    public function show(Board $board): Response
+    #[Route('/{id}', name: 'board_show', defaults: ['page' => '1'], methods: ['GET'])]
+    #[Route('/{id}/page/{page}', name: 'board_show_paginated', requirements: ['id' => '\d+', 'page' => '\d+'], methods: ['GET'])]
+    public function show(Board $board, int $page, TopicRepository $topicRepository): Response
     {
-        $topics = $board->getTopics();
+        $topics = $topicRepository->findPaginatedTopics($page, $board->getId());
+        $topics->paginate();
+        $path = 'board_show_paginated';
 
         return $this->render('board/show.html.twig', [
-            'controller_name' => 'GroupController',
             'board' => $board,
-            'topics' => $topics,
+            'paginator' => $topics,
+            'path' => $path,
         ]);
     }
 
@@ -73,12 +77,13 @@ class BoardController extends AbstractController
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $this->service->handleUpdateBoard($board, $form->get('access')->getData());
+                $this->addFlash('success', 'Successfully updated board.');
 
                 return $this->redirectToRoute('board_show', ['id' => $board->getId()]);
             }
         } catch (AccessDeniedException $e) {
             $this->addFlash('error', $e->getMessage());
-//            return $this->redirectToRoute('board_show', ['id' => $board->getId()]);
+            return $this->redirectToRoute('board_show', ['id' => $board->getId()]);
         }
 
         return $this->render('board/edit.html.twig', [

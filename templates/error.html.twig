@@ -1,18 +1,15 @@
 {% for label, messages in app.flashes %}
     {% for message in messages %}
         {% if label is same as 'error' %}
-            <div class="alert alert-danger" role="alert">
-                {{ message }}
-            </div>
-        {% endif %}
-        {% if label is same as 'security' %}
-            <div class="alert alert-danger" role="alert">
-                {{ message }}
+            <div class="bg-red-500 text-white p-4 rounded-md shadow-md mb-4">
+                <p class="font-semibold">Error:</p>
+                <p>{{ message }}</p>
             </div>
         {% endif %}
         {% if label is same as 'success' %}
-            <div class="alert alert-success" role="status">
-                {{ message }}
+            <div class="bg-green-500 text-white p-4 rounded-md shadow-md mb-4">
+                <p class="font-semibold">Success:</p>
+                <p>{{ message }}</p>
             </div>
         {% endif %}
     {% endfor %}

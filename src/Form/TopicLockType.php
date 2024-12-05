@@ -12,8 +12,5 @@ class TopicLockType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('lock', SubmitType::class)
-        ;
     }
 }

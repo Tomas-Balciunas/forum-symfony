@@ -70,7 +70,8 @@ class BoardVoter extends Voter implements VoterInterface
 
     private function canCreateTopic(Board $board): bool
     {
-        if (!$this->authChecker->isGranted($board->getAccess()->getName())) {
+        $roleAccess = $board->getAccess();
+        if (!$this->authChecker->isGranted($roleAccess ? $roleAccess->getName() : Roles::ROLE_USER)) {
             return false;
         }
 
@@ -89,8 +90,8 @@ class BoardVoter extends Voter implements VoterInterface
 
     private function canEditBoard(Board $board): bool
     {
-        $access = $board->getAccess()->getName();
-        if (!$this->authChecker->isGranted($access)) {
+        $roleAccess = $board->getAccess();
+        if (!$this->authChecker->isGranted($roleAccess ? $roleAccess->getName() : Roles::ROLE_USER)) {
             return false;
         }
 

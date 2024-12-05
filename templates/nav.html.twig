@@ -1,10 +1,13 @@
-<div style="display: block">
-    <a href="{{ path('home') }}">home</a>
-    <a href="{{ path('login') }}">login</a>
-    <a href="{{ path('logout') }}">logout</a>
-    <a href="{{ path('register') }}">register</a>
-    <a href="{{ path('admin_panel') }}">panel</a>
-    {% if app.user %}
-        <a href="{{ path('user_profile', {'id': app.user.id}) }}">profile</a>
-    {% endif %}
+<div class="bg-gray-900 p-4 shadow-md">
+    <nav class="flex justify-center items-center space-x-6">
+        <a href="{{ path('home') }}" class="text-white hover:text-indigo-400 transition">Home</a>
+        <a href="{{ path('login') }}" class="text-white hover:text-indigo-400 transition">Login</a>
+        <a href="{{ path('logout') }}" class="text-white hover:text-indigo-400 transition">Logout</a>
+        <a href="{{ path('register') }}" class="text-white hover:text-indigo-400 transition">Register</a>
+        <a href="{{ path('admin_panel') }}" class="text-white hover:text-indigo-400 transition">Panel</a>
+
+        {% if app.user %}
+            <a href="{{ path('user_profile', {'id': app.user.id}) }}" class="text-white hover:text-indigo-400 transition">Profile</a>
+        {% endif %}
+    </nav>
 </div>

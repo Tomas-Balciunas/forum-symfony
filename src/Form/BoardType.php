@@ -26,7 +26,6 @@ class BoardType extends AbstractType
                 ],
                 'mapped' => false,
             ])
-            ->add('submit', SubmitType::class)
         ;
     }
 

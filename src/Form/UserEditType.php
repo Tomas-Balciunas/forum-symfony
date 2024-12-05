@@ -26,7 +26,6 @@ class UserEditType extends AbstractType
                 'mapped' => false,
                 'required' => false,
             ])
-            ->add('update', SubmitType::class)
         ;
     }
 

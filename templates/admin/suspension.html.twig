@@ -1,20 +1,76 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}User suspension{% endblock %}
+{% block title %}User Suspension{% endblock %}
 
 {% block body %}
-<p>user: {{ suspension.issuedFor.username }}</p>
-    <p>issued by: {{ suspension.issuedBy.username }}</p>
-    <p>issued at: {{ suspension.issuedAt|date }}</p>
-    {% if suspension.permanent %}
-        <p>expires at: indefinite</p>
-    {% else %}
-        <p>expires at: {{ suspension.expiresAt|date }}</p>
-    {% endif %}
+    <div class="container mx-auto p-6 font-serif bg-gray-800 text-white rounded-lg shadow-lg">
+        <h4 class="text-3xl font-extrabold text-gray-100 mb-6">Suspension Details</h4>
 
-    <a href="{{ path('lift_suspension', {'id': suspension.id}) }}">lift</a>
+        <!-- Suspension Details -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-md mb-6">
+            <p><strong>User:</strong> {{ suspension.issuedFor.username }}</p>
+            <p><strong>Issued by:</strong> {{ suspension.issuedBy.username }}</p>
+            <p><strong>Issued at:</strong> {{ suspension.issuedAt|date }}</p>
+            <p><strong>Expires at:</strong>
+                {% if suspension.permanent %}
+                    <span class="text-yellow-400">Indefinite</span>
+                {% else %}
+                    <span class="text-gray-300">{{ suspension.expiresAt|date }}</span>
+                {% endif %}
+            </p>
 
-    {{ form_start(modifyForm) }}
-    {{ form_end(modifyForm) }}
+            <a href="{{ path('lift_suspension', {'id': suspension.id}) }}"
+               class="inline-block bg-green-600 text-white py-2 px-6 rounded-md hover:bg-green-700 transition duration-200 ease-in-out mt-4">
+                Lift Suspension
+            </a>
+        </div>
 
+        <!-- Modify Suspension Form -->
+        <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+            <h5 class="text-2xl font-semibold text-gray-200 mb-6 bg-gray-600 p-3 rounded-md">Modify Suspension</h5>
+
+            {{ form_start(modifyForm) }}
+
+            <!-- Expiration Date -->
+            <div class="mb-4">
+                {{ form_row(modifyForm.expiresAt, {
+                    'label': 'Expiration Date',
+                    'attr': {
+                        'class': 'w-full bg-gray-600 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition'
+                    }
+                }) }}
+            </div>
+
+            <!-- Reason -->
+            <div class="mb-4">
+                {{ form_row(modifyForm.reason, {
+                    'label': 'Reason',
+                    'attr': {
+                        'class': 'w-full bg-gray-600 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
+                        'rows': 4
+                    }
+                }) }}
+            </div>
+
+            <!-- Permanent Checkbox -->
+            <div class="mb-4">
+                {{ form_row(modifyForm.isPermanent, {
+                    'label': 'Permanent Suspension',
+                    'attr': {
+                        'class': 'mx-2 bg-gray-600 text-white rounded-md border-gray-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition'
+                    }
+                }) }}
+            </div>
+
+            <!-- Submit Button -->
+            <div class="mt-6">
+                <button type="submit"
+                        class="inline-block bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition duration-200 ease-in-out">
+                    Save Changes
+                </button>
+            </div>
+
+            {{ form_end(modifyForm) }}
+        </div>
+    </div>
 {% endblock %}

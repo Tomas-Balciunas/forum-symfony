@@ -23,6 +23,6 @@ class PermanentSuspendType extends AbstractType
                     ])
                 ]
             ])
-            ->add('suspendPermanently', SubmitType::class, ['label' => 'Suspend Permanently']);
+            ;
     }
 }

@@ -1,19 +1,25 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello IndexController!{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block body %}
-<a href="{{ path('board_create') }}"></a>
-<div>
-    <h4>Boards:</h4>
-    {% if boards %}
-        {% for board in boards %}
-            <li><a href="{{ path('board_show', {'id': board.id}) }}">{{ board.title }}</a></li>
+    <div class="container mx-auto p-6 font-serif">
+        <h4 class="text-3xl font-extrabold text-gray-100 mb-6">Boards:</h4>
 
-        {% endfor %}
+        {% if boards %}
+            <ul class="space-y-4">
+                {% for board in boards %}
+                    <li class="bg-gray-900 text-white p-4 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-2xl transition duration-300">
+                        <a href="{{ path('board_show', {'id': board.id}) }}" class="block text-xl font-medium hover:text-yellow-400 transition duration-200 ease-in-out">
+                            {{ board.title }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
         {% else %}
-        no groups
-    {% endif %}
-</div>
-<a href="{{ path('board_create') }}">Add a new board</a>
+            <p class="text-gray-400">No boards available</p>
+        {% endif %}
+
+        <a href="{{ path('board_create') }}" class="mt-6 inline-block bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">Add a new board</a>
+    </div>
 {% endblock %}

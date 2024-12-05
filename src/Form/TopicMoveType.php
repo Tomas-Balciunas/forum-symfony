@@ -19,7 +19,6 @@ class TopicMoveType extends AbstractType
                 'choice_value' => 'id',
                 'label' => 'Target board: ',
             ])
-            ->add('submit', SubmitType::class)
         ;
     }
 }

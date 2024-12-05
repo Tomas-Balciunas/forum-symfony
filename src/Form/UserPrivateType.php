@@ -12,8 +12,5 @@ class UserPrivateType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $builder
-            ->add('private', SubmitType::class)
-        ;
     }
 }

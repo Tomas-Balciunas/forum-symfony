@@ -3,13 +3,37 @@
 {% block title %}{{ board.title }}{% endblock %}
 
 {% block body %}
-    <h4>{{ board.title }}</h4>
-    <p>{{ board.description }}</p>
-    <a href="{{ path('board_edit', {'id': board.id}) }}">edit</a>
-    <h4>topics:</h4>
-    {% for topic in topics %}
-        <li><a href="{{ path('topic_show', {'id': topic.id}) }}">{{ topic.title }}</a></li>
-    {% endfor %}
+    <div class="container mx-auto p-6 font-serif">
+        <!-- Board Information -->
+        <div class="bg-gray-900 border-4 border-gray-600 shadow-lg rounded-md p-6 mb-5">
+            <h4 class="text-5xl font-extrabold mb-4">{{ board.title }}</h4>
+            <p class="text-lg text-gray-200 mb-6">{{ board.description }}</p>
+            <a href="{{ path('board_edit', {'id': board.id}) }}" class="inline-block bg-orange-600 text-white py-2 px-6 rounded-md hover:bg-orange-500 transition duration-200 ease-in-out">Edit Board</a>
+        </div>
 
-<a href="{{ path('topic_create', {'id': board.id}) }}">new topic</a>
+        <!-- Create New Topic Button -->
+        <a href="{{ path('topic_create', {'id': board.id}) }}" class="mb-5 inline-block bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">Create New Topic</a>
+
+
+        <!-- Topics List -->
+        <div>
+            {% if paginator.results %}
+                <ul class="space-y-4">
+                    {% for topic in paginator.results %}
+                        <li class="bg-gray-900 text-white p-4 rounded-lg shadow-md hover:bg-gray-700 transition duration-200 ease-in-out">
+                            <a href="{{ path('topic_show', {'id': topic.id}) }}" class="block text-xl font-medium hover:text-yellow-400 transition duration-200 ease-in-out">
+                                {{ topic.title }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="text-gray-400">No topics available</p>
+            {% endif %}
+        </div>
+
+        <!-- Pagination -->
+        {{ include('_paginator.html.twig', { id: board.id, path: path }) }}
+
+       </div>
 {% endblock %}

@@ -47,6 +47,6 @@ class SuspendType extends AbstractType
                     ])
                 ]
             ])
-        ->add('suspend', SubmitType::class, ['label' => 'Suspend']);
+        ;
     }
 }

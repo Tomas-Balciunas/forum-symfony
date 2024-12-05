@@ -7,6 +7,7 @@ use App\Form\PermanentSuspendType;
 use App\Form\SuspendType;
 use App\Repository\UserRepository;
 use App\Service\UserFullDataProvider;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -15,7 +16,7 @@ use Symfony\Component\Routing\Attribute\Route;
 class AuthorityController extends AbstractController
 {
     #[Route('', name: 'admin_panel')]
-    public function index(UserRepository $repository): Response
+    public function index(UserRepository $repository, EntityManagerInterface $manager): Response
     {
         $users = $repository->findAll();
 
