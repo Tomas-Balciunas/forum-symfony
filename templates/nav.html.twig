@@ -7,7 +7,7 @@
         <a href="{{ path('admin_panel') }}" class="text-white hover:text-indigo-400 transition">Panel</a>
 
         {% if app.user %}
-            <a href="{{ path('user_profile', {'id': app.user.id}) }}" class="text-white hover:text-indigo-400 transition">Profile</a>
+            <a href="{{ path('user_profile') }}" class="text-white hover:text-indigo-400 transition">Profile</a>
         {% endif %}
     </nav>
 </div>

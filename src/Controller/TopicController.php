@@ -74,8 +74,8 @@ class TopicController extends AbstractController
 
         $posts = $postRepository->findPaginatedPosts($page, $topic->getId());
         $posts->paginate();
+
         $board = $topic->getBoard();
-        $path = 'topic_show_paginated';
 
         return $this->render('topic/show.html.twig', [
             'topic' => $topic,
@@ -84,7 +84,7 @@ class TopicController extends AbstractController
             'form' => $form->createView(),
             'lockForm' => $lockForm->createView(),
             'visibilityForm' => $visibilityForm->createView(),
-            'path' => $path,
+            'path' => 'topic_show_paginated',
         ]);
     }
 

@@ -9,17 +9,21 @@
         {% if boards %}
             <ul class="space-y-4">
                 {% for board in boards %}
-                    <li class="bg-gray-900 text-white p-4 rounded-lg shadow-lg hover:bg-gray-700 hover:shadow-2xl transition duration-300">
-                        <a href="{{ path('board_show', {'id': board.id}) }}" class="block text-xl font-medium hover:text-yellow-400 transition duration-200 ease-in-out">
+                    <a href="{{ path('board_show', {'id': board.id}) }}" class="block text-xl font-medium">
+                        <li class="bg-gray-900 text-white p-4 shadow-lg hover:bg-gray-700 hover:shadow-2xl hover:text-yellow-400 transition duration-300">
                             {{ board.title }}
-                        </a>
-                    </li>
+
+                            <p class="text-gray-500 text-sm">{{ board.description }}</p>
+                        </li>
+                    </a>
                 {% endfor %}
             </ul>
         {% else %}
             <p class="text-gray-400">No boards available</p>
         {% endif %}
 
-        <a href="{{ path('board_create') }}" class="mt-6 inline-block bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">Add a new board</a>
+        <a href="{{ path('board_create') }}"
+           class="mt-6 inline-block bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">Add
+            a new board</a>
     </div>
 {% endblock %}

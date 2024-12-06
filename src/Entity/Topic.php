@@ -30,7 +30,7 @@ class Topic implements TopicInterface
     private ?string $body = null;
 
     #[ORM\Column]
-    private bool $isLocked = true;
+    private bool $isLocked = false;
 
     #[ORM\Column]
     private bool $isVisible = true;

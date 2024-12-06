@@ -1,0 +1,6 @@
+{% macro pageLink(path, id, page, searchQuery, currentPage) %}
+<a href="{{ path(path, { 'id': id, 'page': page, 'search': searchQuery ? searchQuery|e : null }) }}"
+   class="inline-block py-2 px-4 rounded-md {{ currentPage is same as page ? 'bg-yellow-600 text-white' : 'bg-gray-600 text-gray-200' }} hover:bg-yellow-500 transition duration-200 ease-in-out mx-1">
+    {{ page }}
+</a>
+{% endmacro %}

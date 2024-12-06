@@ -85,6 +85,6 @@
             {{ form_end(form) }}
         </div>
 
-        {{ include('_paginator.html.twig', {id: topic.id, path: path}) }}
+        {{ include('_paginator.html.twig', { id: topic.id, path: path, searchQuery: null }) }}
     </div>
 {% endblock %}

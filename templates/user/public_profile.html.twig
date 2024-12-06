@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.username }}'s Profile{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto p-6 font-serif">
+        <h4 class="text-3xl font-extrabold text-gray-100 mb-6">User Profile</h4>
+
+        <!-- User Information -->
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg border-4 border-gray-600 mb-6">
+            <p class="text-lg text-gray-200 mb-2"><strong>Username:</strong> {{ user.username }}</p>
+            <p class="text-lg text-gray-200 mb-2"><strong>Email:</strong> {{ user.email }}</p>
+            <p class="text-lg text-gray-200"><strong>Joined:</strong> {{ user.createdAt|date('F j, Y') }}</p>
+        </div>
+
+        <!-- Latest Posts Section -->
+        <h4 class="text-xl font-extrabold text-gray-100 mb-6">Latest Posts by {{ user.username }}:</h4>
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg border-4 border-gray-600 mb-6">
+            {% if provider.latestPosts %}
+                <ul class="space-y-4">
+                    {% for post in provider.latestPosts %}
+                        <li class="bg-gray-900 text-white p-4 rounded-lg shadow-md hover:bg-gray-700 transition duration-200 ease-in-out">
+                            <p class="text-lg">
+                                <strong>Topic:</strong>
+                                <a href="{{ path('topic_show', { id: post.topic.id }) }}" class="text-yellow-400 hover:underline">
+                                    {{ post.topic.title }}
+                                </a>
+                            </p>
+                            <p class="text-sm text-gray-400">Posted on {{ post.createdAt|date('F j, Y, g:i a') }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a href="{{ path('user_posts', { id: user.id }) }}"
+                   class="inline-block mt-4 bg-yellow-600 text-white py-2 px-6 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">
+                    See All Posts
+                </a>
+            {% else %}
+                <p class="text-gray-400">User has not posted yet.</p>
+            {% endif %}
+        </div>
+
+        <!-- Latest Topics Section -->
+        <h4 class="text-xl font-extrabold text-gray-100 mb-6">Latest Topics by {{ user.username }}:</h4>
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg border-4 border-gray-600">
+            {% if provider.latestTopics %}
+                <ul class="space-y-4">
+                    {% for topic in provider.latestTopics %}
+                        <li class="bg-gray-900 text-white p-4 rounded-lg shadow-md hover:bg-gray-700 transition duration-200 ease-in-out">
+                            <p class="text-lg">
+                                <a href="{{ path('topic_show', { id: topic.id }) }}" class="text-yellow-400 hover:underline">
+                                    {{ topic.title }}
+                                </a>
+                            </p>
+                            <p class="text-sm text-gray-400">Created on {{ topic.createdAt|date('F j, Y, g:i a') }}</p>
+                        </li>
+                    {% endfor %}
+                </ul>
+                <a href="{{ path('user_topics', { id: user.id }) }}"
+                   class="inline-block mt-4 bg-yellow-600 text-white py-2 px-6 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">
+                    See All Topics
+                </a>
+            {% else %}
+                <p class="text-gray-400">User has not created any topics yet.</p>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}

@@ -6,12 +6,14 @@ use Doctrine\ORM\QueryBuilder;
 
 class Paginator
 {
+    private const RANGE = 3;
+    private const EDGE_PAGES = 2;
+
+    public int $count;
     private QueryBuilder $baseQuery;
     private int $page;
     private int $pages;
     private int $limit = 10;
-
-    public int $count;
     private array $results = [];
 
     public function __construct(int $page, QueryBuilder $query)
@@ -25,20 +27,11 @@ class Paginator
         $this->count = $this->countRows();
         $this->setPages();
 
-        if ($this->page > $this->pages) {
+        if ($this->page < 1 || $this->page > $this->pages) {
             $this->page = 1;
         }
 
         $this->results = $this->fetchResults();
-    }
-
-    public function fetchResults()
-    {
-        return $this->baseQuery
-            ->setMaxResults($this->limit)
-            ->setFirstResult(($this->page - 1) * $this->limit)
-            ->getQuery()
-            ->getResult();
     }
 
     private function countRows(): int
@@ -54,6 +47,65 @@ class Paginator
     private function setPages(): void
     {
         $this->pages = ceil(($this->count / $this->limit));
+    }
+
+    public function fetchResults()
+    {
+        return $this->baseQuery
+            ->setMaxResults($this->limit)
+            ->setFirstResult(($this->page - 1) * $this->limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function getRange(): array
+    {
+        if ($this->pages <= self::EDGE_PAGES * 2) {
+            return [];
+        }
+
+        if (self::EDGE_PAGES > self::RANGE) {
+            if ($this->page <= (self::EDGE_PAGES - self::RANGE) || $this->page > $this->pages - self::EDGE_PAGES + self::RANGE) {
+                return [];
+            }
+        }
+
+        return range(
+            ($this->hasPrecedingPages() ? $this->page - self::RANGE : self::EDGE_PAGES + 1),
+            ($this->hasFollowupPages() ? $this->page + self::RANGE : $this->pages - self::EDGE_PAGES)
+        );
+    }
+
+    public function hasPrecedingPages(): bool
+    {
+        return ($this->page - self::RANGE - self::EDGE_PAGES) > 1;
+    }
+
+    public function hasFollowupPages(): bool
+    {
+        return ($this->page + self::RANGE + self::EDGE_PAGES) < $this->pages;
+    }
+
+    public function getStartEdgeRange(): array
+    {
+        if ($this->pages < self::EDGE_PAGES) {
+            return range(1, $this->pages);
+        }
+
+        return range(1, self::EDGE_PAGES);
+    }
+
+    public function getEndEdgeRange(): array
+    {
+        if ($this->pages <= self::EDGE_PAGES) {
+            return [];
+        }
+
+        if ($this->pages < (self::EDGE_PAGES * 2)) {
+            return range(self::EDGE_PAGES + 1, $this->pages);
+        }
+
+        return range(($this->pages - (self::EDGE_PAGES - 1)), $this->pages);
     }
 
     public function getPages(): int

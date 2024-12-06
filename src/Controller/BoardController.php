@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Data\Permissions;
 use App\Entity\Board;
 use App\Form\BoardType;
+use App\Form\SearchFormType;
 use App\Repository\TopicRepository;
 use App\Service\BoardService;
 use App\Service\PermissionAuthorization;
@@ -51,18 +52,21 @@ class BoardController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'board_show', defaults: ['page' => '1'], methods: ['GET'])]
-    #[Route('/{id}/page/{page}', name: 'board_show_paginated', requirements: ['id' => '\d+', 'page' => '\d+'], methods: ['GET'])]
-    public function show(Board $board, int $page, TopicRepository $topicRepository): Response
+    #[Route('/{id}', name: 'board_show', defaults: ['page' => '1'], methods: ['GET', 'POST'])]
+    #[Route('/{id}/page/{page}', name: 'board_show_paginated', requirements: ['id' => '\d+', 'page' => '\d+'], methods: ['GET', 'POST'])]
+    public function show(Board $board, int $page, TopicRepository $topicRepository, Request $request): Response
     {
-        $topics = $topicRepository->findPaginatedTopics($page, $board->getId());
+        $searchQuery = htmlspecialchars(trim($request->query->get('search'))) ?? null;
+
+        $topics = $topicRepository->findPaginatedTopics($page, $board->getId(), $searchQuery);
         $topics->paginate();
-        $path = 'board_show_paginated';
 
         return $this->render('board/show.html.twig', [
             'board' => $board,
             'paginator' => $topics,
-            'path' => $path,
+            'searchQuery' => $searchQuery,
+            'path' => 'board_show',
+            'paginationPath' => 'board_show_paginated'
         ]);
     }
 

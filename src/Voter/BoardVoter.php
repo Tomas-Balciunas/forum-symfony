@@ -10,6 +10,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Service\PermissionDataProvider;
 use App\Service\UserDataProvider;
+use App\Service\UserFullDataProvider;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -26,7 +27,7 @@ class BoardVoter extends Voter implements VoterInterface
 
     private Permission $permission;
 
-    public function __construct(private readonly UserDataProvider       $userProvider,
+    public function __construct(private readonly UserFullDataProvider       $userProvider,
                                 private readonly PermissionDataProvider $permissionProvider,
     private readonly AuthorizationCheckerInterface $authChecker,)
     {

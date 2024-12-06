@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use DateTimeImmutable;
+use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,8 +15,41 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+    #[ORM\Column]
+    private ?string $username = null;
+    #[ORM\Column]
+    private ?string $email = null;
+    #[ORM\Column]
+    private ?string $password = null;
+    #[ORM\Column]
+    private int $postCount = 0;
+    #[ORM\Column]
+    private bool $isPrivate = false;
+    #[ORM\Column]
+    private string $status = 'active';
+    #[ORM\Column(nullable: true)]
+    private DateTimeImmutable $createdAt;
+    #[ORM\OneToMany(targetEntity: Topic::class, mappedBy: 'author')]
+    private Collection $topics;
+    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'author')]
+    private Collection $posts;
+    #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: 'users')]
+    private Role $role;
+    #[ORM\OneToOne(targetEntity: UserSuspension::class, mappedBy: 'issuedFor')]
+    private ?UserSuspension $suspension;
+    #[ORM\OneToMany(targetEntity: UserSuspension::class, mappedBy: 'issuedBy')]
+    private Collection $issuedSuspensions;
+    #[ORM\ManyToMany(targetEntity: Permission::class, inversedBy: 'users')]
+    #[ORM\JoinTable('user_permission')]
+    private Collection $permissions;
+
     public function __construct()
     {
         $this->topics = new ArrayCollection();
@@ -22,48 +57,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->permissions = new ArrayCollection();
         $this->issuedSuspensions = new ArrayCollection();
     }
-
-    #[ORM\Id]
-    #[ORM\GeneratedValue]
-    #[ORM\Column]
-    private ?int $id = null;
-
-    #[ORM\Column]
-    private ?string $username = null;
-
-    #[ORM\Column]
-    private ?string $email = null;
-
-    #[ORM\Column]
-    private ?string $password = null;
-
-    #[ORM\Column]
-    private int $postCount = 0;
-
-    #[ORM\Column]
-    private bool $isPrivate = false;
-
-    #[ORM\Column]
-    private string $status = 'active';
-
-    #[ORM\OneToMany(targetEntity: Topic::class, mappedBy: 'author')]
-    private Collection $topics;
-
-    #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'author')]
-    private Collection $posts;
-
-    #[ORM\ManyToOne(targetEntity: Role::class, inversedBy: 'users')]
-    private Role $role;
-
-    #[ORM\OneToOne(targetEntity: UserSuspension::class, mappedBy: 'issuedFor')]
-    private ?UserSuspension $suspension;
-
-    #[ORM\OneToMany(targetEntity: UserSuspension::class, mappedBy: 'issuedBy')]
-    private Collection $issuedSuspensions;
-
-    #[ORM\ManyToMany(targetEntity: Permission::class, inversedBy: 'users')]
-    #[ORM\JoinTable('user_permission')]
-    private Collection $permissions;
 
     public function getId(): ?int
     {
@@ -94,7 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string)$this->email;
     }
 
     public function isPrivate(): bool
@@ -107,16 +100,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isPrivate = $isPrivate;
     }
 
+    public function getRole(): Role
+    {
+        return $this->role;
+    }
+
     public function setRole(Role $role): static
     {
         $this->role = $role;
 
         return $this;
-    }
-
-    public function getRole(): Role
-    {
-        return $this->role;
     }
 
     public function getRoles(): array
@@ -134,16 +127,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->permissions;
     }
 
-    public function setPermission(Permission $permission): static
+    public function setPermissions(Collection $permissions): static
     {
-        $this->permissions->add($permission);
+        $this->permissions = $permissions;
 
         return $this;
     }
 
-    public function setPermissions(Collection $permissions): static
+    public function setPermission(Permission $permission): static
     {
-        $this->permissions = $permissions;
+        $this->permissions->add($permission);
 
         return $this;
     }
@@ -241,4 +234,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    public function getCreatedAt(): DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAt(): void
+    {
+        $this->createdAt = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+    }
 }

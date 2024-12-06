@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ user.username }} Topics{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto p-6 font-serif bg-gray-800 text-white rounded-lg">
+        <h4 class="text-xl font-extrabold text-gray-100 mb-6">Topics created by {{ user.username }}</h4>
+
+        <!-- Topics List -->
+        {% if paginator.results %}
+            <ul class="space-y-4">
+                {% for topic in paginator.results %}
+                    <li class="bg-gray-900 text-white p-4 rounded-lg shadow-md hover:bg-gray-700 transition duration-200 ease-in-out">
+                        <a href="{{ path('topic_show', { id: topic.id }) }}" class="block text-xl font-medium hover:text-yellow-400 transition duration-200 ease-in-out">
+                            {{ topic.title }}
+                        </a>
+                        <a href="{{ path('board_show', { id: topic.board.id }) }}" class="block mt-2 text-sm hover:text-yellow-400 transition duration-200 ease-in-out">
+                            Board: {{ topic.board.title }}
+                        </a>
+                        <p class="text-sm text-gray-400 mt-2">Created on {{ topic.createdAt|date('F j, Y, g:i a') }}</p>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <h4 class="text-xl font-semibold text-gray-400">No topics have been created by {{ user.username }} yet.</h4>
+        {% endif %}
+
+        <!-- Pagination -->
+        <div class="mt-6">
+            {{ include('_paginator.html.twig', { id: user.id, path: paginationPath, searchQuery: null }) }}
+        </div>
+    </div>
+{% endblock %}
+
+
+

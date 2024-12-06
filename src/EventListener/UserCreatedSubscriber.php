@@ -23,7 +23,7 @@ final readonly class UserCreatedSubscriber implements EventSubscriberInterface
     {
         return [
             UserCreatedEvent::NAME => [
-                'applyUserRoles'
+                'applyUserRoles',
             ]
         ];
     }

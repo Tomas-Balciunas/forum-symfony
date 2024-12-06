@@ -12,8 +12,16 @@
         </div>
 
         <!-- Create New Topic Button -->
-        <a href="{{ path('topic_create', {'id': board.id}) }}" class="mb-5 inline-block bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">Create New Topic</a>
+        <div class="flex items-center justify-between mb-6">
+            <!-- Create New Topic Button -->
+            <a href="{{ path('topic_create', {'id': board.id}) }}"
+               class="bg-yellow-600 text-white py-2 px-6 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">
+                Create New Topic
+            </a>
 
+            <!-- Search Form -->
+            {{ include('_search.html.twig', { id: board.id, path: path, searchQuery: searchQuery }) }}
+        </div>
 
         <!-- Topics List -->
         <div>
@@ -24,6 +32,7 @@
                             <a href="{{ path('topic_show', {'id': topic.id}) }}" class="block text-xl font-medium hover:text-yellow-400 transition duration-200 ease-in-out">
                                 {{ topic.title }}
                             </a>
+                            <span class="text-sm text-gray-500">{{ topic.createdAt|date }}</span>
                         </li>
                     {% endfor %}
                 </ul>
@@ -33,7 +42,7 @@
         </div>
 
         <!-- Pagination -->
-        {{ include('_paginator.html.twig', { id: board.id, path: path }) }}
+        {{ include('_paginator.html.twig', { id: board.id, path: paginationPath, searchQuery: searchQuery }) }}
 
        </div>
 {% endblock %}
