@@ -150,4 +150,9 @@ class Paginator
 
         return $this->pages;
     }
+
+    public function getPostIndex(int $key): int
+    {
+        return ($key + 1) + ($this->page - 1) * $this->limit;
+    }
 }

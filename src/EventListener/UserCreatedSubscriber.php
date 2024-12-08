@@ -3,6 +3,7 @@
 namespace App\EventListener;
 
 use App\Data\Roles;
+use App\Entity\UserSettings;
 use App\Event\UserCreatedEvent;
 use App\Repository\RoleRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -23,7 +24,8 @@ final readonly class UserCreatedSubscriber implements EventSubscriberInterface
     {
         return [
             UserCreatedEvent::NAME => [
-                'applyUserRoles',
+                ['applyUserRoles'],
+                ['applySettings']
             ]
         ];
     }
@@ -35,6 +37,15 @@ final readonly class UserCreatedSubscriber implements EventSubscriberInterface
         $user->setRole($role);
         $permissions = $role->getPermissions();
         $user->setPermissions($permissions);
+        $this->manager->flush();
+    }
+
+    public function applySettings(UserCreatedEvent $event): void
+    {
+        $user = $event->getUser();
+        $settings = new UserSettings();
+        $settings->setUser($user);
+        $this->manager->persist($settings);
         $this->manager->flush();
     }
 }

@@ -2,42 +2,68 @@
 
 namespace App\Controller;
 
+use App\Data\Messages;
+use App\Data\Permissions;
 use App\Entity\User;
+use App\Form\AccountSettingsType;
 use App\Form\UserEditType;
 use App\Form\UserPrivateType;
+use App\Helper\PostHelper;
 use App\Repository\PostRepository;
 use App\Repository\TopicRepository;
+use App\Service\PermissionAuthorization;
 use App\Service\UserDataProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class UserController extends AbstractController
 {
-    #[Route('/user/{id}', name: 'user_profile_public', methods: ['GET'])]
-    public function profile(User $user, Request $request, UserDataProvider $provider): Response
+    public function __construct(private PermissionAuthorization $authorization)
     {
-        dump($provider->setUser($user)->getLatestPosts());
+    }
+
+    #[Route('/user/{id}', name: 'user_profile_public', methods: ['GET'])]
+    public function profile(User $user, UserDataProvider $provider, PostHelper $helper): Response
+    {
+        try {
+            $this->authorization->authorize(Permissions::USER_VIEW_PROFILE, $user);
+        } catch (AccessDeniedException $e) {
+            $this->addFlash('error', Messages::PERMISSION_DENIED[Permissions::USER_VIEW_PROFILE]);
+            return $this->redirectToRoute('home');
+        }
+
         return $this->render('user/public_profile.html.twig', [
             'user' => $user,
             'provider' => $provider->setUser($user),
+            'helper' => $helper,
         ]);
     }
 
-    #[Route('/profile', name: 'user_profile', methods: ['GET'])]
-    public function index(#[CurrentUser] User $user, UserDataProvider $provider): Response
+    #[Route('/account', name: 'user_account', methods: ['GET', 'POST'])]
+    public function index(#[CurrentUser] User $user, UserDataProvider $provider, Request $request, EntityManagerInterface $manager): Response
     {
         $profilePrivateForm = $this->createForm(UserPrivateType::class, null, [
             'action' => $this->generateUrl('user_profile_set_visibility', ['id' => $user->getId()]),
         ]);
 
-        return $this->render('user/profile.html.twig', [
+        $settingsForm = $this->createForm(AccountSettingsType::class, $user->getSettings());
+        $settingsForm->handleRequest($request);
+
+        if ($settingsForm->isSubmitted() && $settingsForm->isValid()) {
+            $manager->flush();
+            $this->addFlash('success', 'Your settings have been saved.');
+        }
+
+        return $this->render('user/account.html.twig', [
             'user' => $user,
             'provider' => $provider->setUser($user),
             'profilePrivateForm' => $profilePrivateForm->createView(),
+            'settingsForm' => $settingsForm->createView(),
         ]);
     }
 
@@ -58,7 +84,7 @@ class UserController extends AbstractController
 
     #[Route('/user/{id}/posts', name: 'user_posts', defaults: ['page' => 1], methods: ['GET'])]
     #[Route('/user/{id}/posts/page/{page}', name: 'user_posts_paginated', requirements: ['id' => '\d+', 'page' => '\d+'], methods: ['GET'])]
-    public function userPosts(User $user, int $page, PostRepository $repository): Response
+    public function userPosts(User $user, int $page, PostRepository $repository, PostHelper $helper): Response
     {
         $topics = $repository->findPaginatedUserPosts($page, $user);
         $topics->paginate();
@@ -66,6 +92,7 @@ class UserController extends AbstractController
         return $this->render('user/posts.html.twig', [
             'user' => $user,
             'paginator' => $topics,
+            'helper' => $helper,
             'path' => 'user_posts',
             'paginationPath' => 'user_posts_paginated'
         ]);
@@ -82,7 +109,7 @@ class UserController extends AbstractController
             $manager->flush();
         }
 
-         return $this->redirectToRoute('user_profile', ['id' => $user->getId()]);
+         return $this->redirectToRoute('user_account');
     }
 
     #[Route('/profile/edit', name: 'user_profile_edit', methods: ['GET', 'POST'])]

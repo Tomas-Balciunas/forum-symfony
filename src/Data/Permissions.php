@@ -27,6 +27,7 @@ class Permissions
     public const USER_CHANGE_ROLE = 'user.change.role';
     public const USER_ADD_PERMISSION = 'user.add.permission';
     public const USER_REVOKE_PERMISSION = 'user.revoke.permission';
+    public const USER_VIEW_PROFILE = 'user.view.profile';
 
     public static function getPermissions(): array
     {
@@ -51,6 +52,7 @@ class Permissions
             self::USER_CHANGE_ROLE,
             self::USER_ADD_PERMISSION,
             self::USER_REVOKE_PERMISSION,
+            self::USER_VIEW_PROFILE,
         ];
     }
 

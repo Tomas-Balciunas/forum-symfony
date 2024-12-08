@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Data\Permissions;
 use App\Entity\Board;
 use App\Form\BoardType;
-use App\Form\SearchFormType;
 use App\Repository\TopicRepository;
 use App\Service\BoardService;
 use App\Service\PermissionAuthorization;

@@ -1,0 +1,87 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UserController!{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto p-6 font-serif">
+        <a href="{{ path('user_profile_public', { id: user.id }) }}">< profile</a>
+        <h4 class="text-2xl font-extrabold text-gray-100 my-5">Account Settings</h4>
+
+        <div class="bg-gray-800 p-6 shadow-lg border-4 border-gray-600 mb-6">
+            <p class="text-lg text-gray-200"><strong>Username:</strong> {{ user.username }}</p>
+            <p class="text-lg text-gray-200"><strong>Email:</strong> {{ user.email }}</p>
+
+            <a href="{{ path('user_profile_edit', {'id': user.id}) }}" class="mt-4 inline-block bg-yellow-600 text-white py-2 px-6 hover:bg-yellow-500 transition duration-200 ease-in-out">
+                Update Profile
+            </a>
+        </div>
+
+        <div class="bg-gray-800 p-6 shadow-lg border-4 border-gray-600">
+            {{ form_start(settingsForm, {'attr': {'class': 'space-y-6'}}) }}
+
+            <div class="flex items-center space-x-4">
+                {{ form_label(settingsForm.showEmail, 'Show Email:', {'label_attr': {'class': 'text-gray-200 text-lg'}}) }}
+                <div class="flex items-center">
+                    {{ form_widget(settingsForm.showEmail, {
+                        'attr': {
+                            'class': 'form-checkbox h-6 w-6 text-yellow-600 border-gray-600 rounded-md focus:ring-yellow-500 transition duration-200 ease-in-out'
+                        }
+                    }) }}
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                {{ form_label(settingsForm.showPosts, 'Show Posts:', {'label_attr': {'class': 'text-gray-200 text-lg'}}) }}
+                <div class="flex items-center">
+                    {{ form_widget(settingsForm.showPosts, {
+                        'attr': {
+                            'class': 'form-checkbox h-6 w-6 text-yellow-600 border-gray-600 rounded-md focus:ring-yellow-500 transition duration-200 ease-in-out'
+                        }
+                    }) }}
+                </div>
+            </div>
+
+            <div class="flex items-center space-x-4">
+                {{ form_label(settingsForm.showTopics, 'Show Topics:', {'label_attr': {'class': 'text-gray-200 text-lg'}}) }}
+                <div class="flex items-center">
+                    {{ form_widget(settingsForm.showTopics, {
+                        'attr': {
+                            'class': 'form-checkbox h-6 w-6 text-yellow-600 border-gray-600 rounded-md focus:ring-yellow-500 transition duration-200 ease-in-out'
+                        }
+                    }) }}
+                </div>
+            </div>
+
+            <button type="submit"
+                    class="bg-yellow-600 text-white py-2 px-6 hover:bg-yellow-500 transition duration-200 ease-in-out">
+                Save Settings
+            </button>
+
+            {{ form_end(settingsForm) }}
+
+
+            <p class="text-lg text-gray-200 mt-8">
+                <span>Your profile is </span>
+                {% if user.private %}
+                    <span class="text-red-500 font-bold">private</span>
+                {% else %}
+                    <span class="text-green-500 font-bold">public</span>
+                {% endif %}
+            </p>
+
+            {{ form_start(profilePrivateForm, {'attr': {'class': 'space-y-4'}}) }}
+            <div class="my-3">
+                {% if user.private %}
+                    <button type="submit" name="profilePrivateForm[private]" value="0" class="inline-block bg-green-600 text-white py-2 px-6 hover:bg-green-500 transition duration-200 ease-in-out">
+                        Make Public
+                    </button>
+                {% else %}
+                    <button type="submit" name="profilePrivateForm[private]" value="1" class="inline-block bg-red-600 text-white py-2 px-6 hover:bg-red-500 transition duration-200 ease-in-out">
+                        Make Private
+                    </button>
+                {% endif %}
+            </div>
+            {{ form_end(profilePrivateForm) }}
+        </div>
+    </div>
+{% endblock %}

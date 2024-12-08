@@ -8,6 +8,7 @@ use App\Entity\Role;
 use App\Helper\PermissionHelper;
 use App\Repository\PermissionRepository;
 use App\Repository\RoleRepository;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -16,8 +17,8 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
 #[AsCommand(
-    name: 'seed:roles',
-    description: 'Create a seed for all roles.',
+    name: 'seed:permissions',
+    description: 'Create and/or update roles and permissions.',
 )]
 class SeedRolesCommand extends Command
 {
@@ -40,41 +41,30 @@ class SeedRolesCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
 
-        $dbRoles = $this->roleRepository->findAll();
-        $dbPermissions = $this->permissionRepository->findAll();
-
-        $permissionsMap = [];
-        $rolesMap = [];
-
-        foreach ($dbRoles as $role) {
-            $rolesMap[$role->getName()] = $role;
-        }
-
-        foreach ($dbPermissions as $permission) {
-            $permissionsMap[$permission->getName()] = $permission;
-        }
-
         foreach ($this->roles->getRolesAndPermissions() as $r => $permissions) {
-            $role = $rolesMap[$r] ?? null;
+            $role = $this->roleRepository->findByName($r);
 
             if (!$role) {
                 $role = $this->newRole($r);
+                $this->manager->flush();
 
                 $io->writeln('Role ' . $r . ' created.');
             }
 
             foreach ($permissions as $p) {
-                $permission = $permissionsMap[$p] ?? null;
+                $permission = $this->permissionRepository->findPermissionByName($p);
 
                 if (!$permission) {
                     $permission = $this->newPermission($p);
-                    $permissionsMap[$permission->getName()] = $permission;
                 }
 
-                $role->setPermission($permission);
+                if (!$this->hasPermission($role->getPermissions(), $permission)) {
+                    $role->setPermission($permission);
+                }
+
             }
 
-            $io->writeln('Permissions for role ' . $r . ' created.');
+            $io->writeln('Permissions for role ' . $r . ' updated.');
             $this->manager->flush();
         }
 
@@ -98,5 +88,16 @@ class SeedRolesCommand extends Command
         $this->manager->persist($permission);
 
         return $permission;
+    }
+
+    private function hasPermission(Collection $rolePermissions, Permission $permission): bool
+    {
+        foreach ($rolePermissions as $rolePermission) {
+            if ($rolePermission === $permission) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

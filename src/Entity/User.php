@@ -50,6 +50,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\JoinTable('user_permission')]
     private Collection $permissions;
 
+    #[ORM\OneToOne(targetEntity: UserSettings::class, mappedBy: 'user', orphanRemoval: true)]
+    private ?UserSettings $settings = null;
+
     public function __construct()
     {
         $this->topics = new ArrayCollection();
@@ -243,5 +246,15 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCreatedAt(): void
     {
         $this->createdAt = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+    }
+
+    public function getSettings(): UserSettings
+    {
+        return $this->settings;
+    }
+
+    public function setSettings(?UserSettings $settings): void
+    {
+        $this->settings = $settings;
     }
 }

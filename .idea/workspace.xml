@@ -4,34 +4,31 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="styling, pagination">
-      <change afterPath="$PROJECT_DIR$/src/Form/SearchFormType.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/_page.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/_search.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/user/posts.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/user/public_profile.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/user/topics.html.twig" afterDir="false" />
+    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="pagination improvements, user profiles, some styling">
+      <change afterPath="$PROJECT_DIR$/src/Helper/PostHelper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Voter/UserVoter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/SeedRolesCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedRolesCommand.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/BoardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BoardController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TopicController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TopicController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Topic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Topic.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/Messages.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Messages.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/Permissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Permissions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/Roles.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Roles.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/EventListener/UserCreatedSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventListener/UserCreatedSubscriber.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Repository/PostRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/PostRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/TopicRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TopicRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/RoleRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/RoleRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/Paginator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Paginator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/UserDataProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/UserDataProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/UserFullDataProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/UserFullDataProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/BoardVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/BoardVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/PostVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/PostVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/TopicVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/TopicVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/_paginator.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_paginator.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/board/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/board/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Validate/Permission/PermissionValidateActions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Permission/PermissionValidateActions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/error.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/error.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/nav.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nav.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/topic/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/topic/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/posts.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/posts.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/profile.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/account.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/public_profile.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/public_profile.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/topics.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/topics.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -346,7 +343,9 @@
       <workItem from="1733316151569" duration="16423000" />
       <workItem from="1733393098043" duration="35520000" />
       <workItem from="1733439823614" duration="2256000" />
-      <workItem from="1733485569887" duration="25697000" />
+      <workItem from="1733485569887" duration="25947000" />
+      <workItem from="1733606215779" duration="1366000" />
+      <workItem from="1733652633138" duration="29998000" />
     </task>
     <task id="LOCAL-00001" summary="progressing">
       <option name="closed" value="true" />
@@ -412,7 +411,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733431651952</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="pagination improvements, user profiles, some styling">
+      <option name="closed" value="true" />
+      <created>1733517664309</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1733517664309</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -426,7 +433,8 @@
     <MESSAGE value="authorization panel, suspension managing, some validation, topic lock/visibility some improvements" />
     <MESSAGE value="dont even know, it's a mess" />
     <MESSAGE value="styling, pagination" />
-    <option name="LAST_COMMIT_MESSAGE" value="styling, pagination" />
+    <MESSAGE value="pagination improvements, user profiles, some styling" />
+    <option name="LAST_COMMIT_MESSAGE" value="pagination improvements, user profiles, some styling" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

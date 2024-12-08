@@ -4,17 +4,23 @@
 
 {% block body %}
     <div class="container mx-auto p-6 font-serif bg-gray-800 text-white rounded-lg">
-        <h4 class="text-xl font-extrabold text-gray-100 mb-6">Posts by {{ user.username }}</h4>
+        <h4 class="text-xl font-extrabold text-gray-100 mb-6">Posts by <a class="text-yellow-400 hover:underline" href="{{ path('user_profile_public', { id: user.id }) }}">{{ user.username }}</a></h4>
 
         <!-- Topics List -->
         {% if paginator.results %}
             <ul class="space-y-4">
                 {% for post in paginator.results %}
                     <li class="bg-gray-900 text-white p-4 rounded-lg shadow-md hover:bg-gray-700 transition duration-200 ease-in-out">
-                        <a href="{{ path('topic_show', { id: post.topic.id }) }}" class="block text-xl font-medium hover:text-yellow-400 transition duration-200 ease-in-out">
-                            {{ post.topic.title }}
-                        </a>
-                        <p class="text-sm text-gray-400 mt-2">Created on {{ post.createdAt|date('F j, Y, g:i a') }}</p>
+                        <div class="flex-column">
+                            <div class="truncate">
+                                <a href="{{ path('topic_show_paginated', { id: post.topic.id, page: helper.postPosition(post.id, post.topic.id) }) }}#{{ post.id }}"
+                                   class="text-yellow-400 hover:underline w-2/4">in: {{ post.topic.title }}</a>
+                            </div>
+                            <div class="truncate">
+                                <span>{{ post.body }}</span>
+                            </div>
+                        </div>
+                        <p class="text-sm text-gray-400">Posted on {{ post.createdAt|date('F j, Y, g:i a') }}</p>
                     </li>
                 {% endfor %}
             </ul>

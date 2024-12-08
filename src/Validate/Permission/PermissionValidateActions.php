@@ -6,10 +6,11 @@ use App\Entity\Permission;
 use App\Entity\User;
 use App\Exception\Permission\PermissionAlreadyGrantedException;
 use App\Service\UserDataProvider;
+use App\Service\UserFullDataProvider;
 
 class PermissionValidateActions
 {
-    public function __construct(private readonly UserDataProvider $userDataProvider)
+    public function __construct(private readonly UserFullDataProvider $userDataProvider)
     {
     }
 

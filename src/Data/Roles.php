@@ -22,7 +22,8 @@ class Roles extends Permissions
         self::TOPIC_SET_HIDDEN,
 
         self::USER_SET_PRIVATE,
-        self::USER_SET_PUBLIC
+        self::USER_SET_PUBLIC,
+        self::USER_VIEW_PROFILE,
     ];
 
     public const DEFAULT_MODERATOR_PERMISSIONS = [

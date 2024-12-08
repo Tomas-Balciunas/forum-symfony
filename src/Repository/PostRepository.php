@@ -57,4 +57,18 @@ class PostRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findPostPosInTopic(int $postId, int $topicId): int
+    {
+        return $this->createQueryBuilder(self::ALIAS)
+            ->join(self::ALIAS . '.topic', 't')
+            ->select('count(1) + 1')
+            ->andWhere(self::ALIAS . '.id <= :postId')
+            ->setParameter('postId', $postId)
+            ->andWhere(self::ALIAS . '.topic = :topicId')
+            ->setParameter('topicId', $topicId)
+            ->getQuery()
+            ->getSingleScalarResult();
+
+    }
 }

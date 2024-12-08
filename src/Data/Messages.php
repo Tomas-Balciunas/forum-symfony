@@ -26,6 +26,7 @@ class Messages
         Permissions::USER_CHANGE_ROLE => 'You are not allowed to change roles.',
         Permissions::USER_SET_PRIVATE => 'You are not allowed to set profiles private.',
         Permissions::USER_SET_PUBLIC => 'You are not allowed to set profiles public.',
+        Permissions::USER_VIEW_PROFILE => 'You are not allowed to view this profile.',
     ];
 
     public function getErrMsg(string $key): string
