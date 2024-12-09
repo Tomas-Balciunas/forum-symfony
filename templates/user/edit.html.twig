@@ -7,8 +7,8 @@
         <h4 class="text-3xl font-extrabold text-gray-100 mb-6">Edit User</h4>
 
         {{ form_start(editForm, {'attr': {'class': 'space-y-6'}}) }}
-        <div class="bg-gray-800 p-6 rounded-lg shadow-lg border-4 border-gray-600">
 
+        <div class="bg-gray-800 p-6 rounded-lg shadow-lg border-4 border-gray-600">
             <!-- Username Field -->
             <div class="mb-4">
                 {{ form_label(editForm.username, null, {'label_attr': {'class': 'text-lg font-medium text-gray-200'}}) }}
@@ -33,14 +33,42 @@
                 </div>
             </div>
 
-            <!-- Password Field -->
+            <!-- Password Fields -->
             <div class="mb-4">
-                {{ form_label(editForm.password, null, {'label_attr': {'class': 'text-lg font-medium text-gray-200'}}) }}
+                <!-- Password Field -->
+                {{ form_label(editForm.plainPassword.first, 'New Password', {'label_attr': {'class': 'text-lg font-medium text-gray-200'}}) }}
                 <div class="mt-2">
-                    {{ form_widget(editForm.password, {
+                    {{ form_widget(editForm.plainPassword.first, {
                         'attr': {
-                            'class': 'w-full bg-gray-700 text-white border border-gray-600 rounded-md py-3 px-4 focus:outline-none focus:ring-2 focus:ring-yellow-500 focus:border-yellow-500 transition duration-200 ease-in-out'
-                        }
+                            'class': 'w-full bg-gray-700 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
+                            'autocomplete': 'new-password'
+                        },
+                    }) }}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <!-- Repeat Password Field -->
+                {{ form_label(editForm.plainPassword.second, 'Repeat New Password', {'label_attr': {'class': 'text-lg font-medium text-gray-200'}}) }}
+                <div class="mt-2">
+                    {{ form_widget(editForm.plainPassword.second, {
+                        'attr': {
+                            'class': 'w-full bg-gray-700 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
+                            'autocomplete': 'new-password'
+                        },
+                    }) }}
+                </div>
+            </div>
+
+            <div class="mb-4">
+                <!-- Current Password Field -->
+                {{ form_label(editForm.currentPassword, 'Current Password', {'label_attr': {'class': 'text-lg font-medium text-gray-200'}}) }}
+                <div class="mt-2">
+                    {{ form_widget(editForm.currentPassword, {
+                        'attr': {
+                            'class': 'w-full bg-gray-700 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
+                            'autocomplete': 'current-password'
+                        },
                     }) }}
                 </div>
             </div>

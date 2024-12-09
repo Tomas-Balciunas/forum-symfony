@@ -29,14 +29,24 @@
                 }) }}
             </div>
 
-            <!-- Password Field -->
+            <!-- Password Fields -->
             <div class="mb-4">
-                {{ form_row(registrationForm.plainPassword, {
-                    'label': 'Password',
+                <!-- Password Field -->
+                {{ form_row(registrationForm.plainPassword.first, {
                     'attr': {
                         'class': 'w-full bg-gray-600 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
                         'autocomplete': 'new-password'
-                    }
+                    },
+                }) }}
+            </div>
+
+            <div class="mb-4">
+                <!-- Repeat Password Field -->
+                {{ form_row(registrationForm.plainPassword.second, {
+                    'attr': {
+                        'class': 'w-full bg-gray-600 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
+                        'autocomplete': 'new-password'
+                    },
                 }) }}
             </div>
 

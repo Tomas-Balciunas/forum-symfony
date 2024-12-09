@@ -11,7 +11,7 @@
             <p class="text-lg text-gray-200"><strong>Username:</strong> {{ user.username }}</p>
             <p class="text-lg text-gray-200"><strong>Email:</strong> {{ user.email }}</p>
 
-            <a href="{{ path('user_profile_edit', {'id': user.id}) }}" class="mt-4 inline-block bg-yellow-600 text-white py-2 px-6 hover:bg-yellow-500 transition duration-200 ease-in-out">
+            <a href="{{ path('user_profile_edit') }}" class="mt-4 inline-block bg-yellow-600 text-white py-2 px-6 hover:bg-yellow-500 transition duration-200 ease-in-out">
                 Update Profile
             </a>
         </div>

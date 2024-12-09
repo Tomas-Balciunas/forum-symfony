@@ -15,15 +15,17 @@ use App\Service\PermissionAuthorization;
 use App\Service\UserDataProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class UserController extends AbstractController
 {
-    public function __construct(private PermissionAuthorization $authorization)
+    public function __construct(private readonly PermissionAuthorization $authorization)
     {
     }
 
@@ -112,15 +114,29 @@ class UserController extends AbstractController
          return $this->redirectToRoute('user_account');
     }
 
-    #[Route('/profile/edit', name: 'user_profile_edit', methods: ['GET', 'POST'])]
-    public function edit(#[CurrentUser] User $user, Request $request, EntityManagerInterface $manager): Response
+    #[Route('/account/edit', name: 'user_profile_edit', methods: ['GET', 'POST'])]
+    public function edit(#[CurrentUser] User $user, Request $request, EntityManagerInterface $manager, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $editForm = $this->createForm(UserEditType::class, $user);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
+            $plainPassword = $editForm->get('plainPassword')->getData() ?: '';
+            $currentPassword = $editForm->get('currentPassword')->getData() ?: '';
+
+            if (!empty($plainPassword) && !$userPasswordHasher->isPasswordValid($user, $currentPassword)) {
+                $this->addFlash('error', 'Invalid current password.');
+
+                return $this->redirectToRoute('user_account');
+            } else {
+                $user->setPassword($userPasswordHasher->hashPassword($user, $plainPassword));
+                $this->addFlash('success', 'Your password has been updated.');
+            }
+
             $manager->flush();
-            return $this->redirectToRoute('user_profile', ['id' => $user->getId()]);
+            $this->addFlash('success', 'Your changes have been saved.');
+
+            return $this->redirectToRoute('user_account');
         }
 
         return $this->render('user/edit.html.twig', [

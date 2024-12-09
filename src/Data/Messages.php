@@ -2,6 +2,11 @@
 
 namespace App\Data;
 
+use App\Helper\PostHelper;
+use App\Repository\TopicRepository;
+use App\Repository\UserRepository;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+
 class Messages
 {
     public const DEFAULT_PERMISSION_DENIED = 'You do not have permission to perform this action.';
@@ -29,8 +34,43 @@ class Messages
         Permissions::USER_VIEW_PROFILE => 'You are not allowed to view this profile.',
     ];
 
+    public function __construct(
+        private UserRepository $userRepository,
+        private TopicRepository $topicRepository,
+        private UrlGeneratorInterface $urlGenerator,
+        private PostHelper $postHelper
+    )
+    {
+    }
+
     public function getErrMsg(string $key): string
     {
         return self::PERMISSION_DENIED[$key] ?? self::DEFAULT_PERMISSION_DENIED;
+    }
+
+    public function getFormattedNotification(string $template, array $data): string
+    {
+        return match ($template) {
+            'TOPIC_REPLY' => $this->topicReplyTemplate($data),
+        };
+    }
+
+    public function topicReplyTemplate(array $data): string
+    {
+        $user = $this->userRepository->findOneBy(['id' => $data['user']]);
+        $topic = $this->topicRepository->findOneBy(['id' => $data['topic']]);
+        $userPath = $this->urlGenerator->generate('user_profile_public', ['id' => $user->getId()]);
+        $topicPath = $this->urlGenerator->generate('topic_show_paginated', [
+            'id' => $topic->getId(),
+            'page' => $this->postHelper->getPostPosition($data['post'], $topic->getId())
+        ]) . '#' . $data['post'];
+
+        return sprintf(
+            '<a href="%s" class="text-yellow-400 hover:underline">%s</a> has replied to your topic <a href="%s" class="text-yellow-400 hover:underline">%s</a>',
+            $userPath,
+            $user->getUsername(),
+            $topicPath,
+            $topic->getTitle()
+        );
     }
 }

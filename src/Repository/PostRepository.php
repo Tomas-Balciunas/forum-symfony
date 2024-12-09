@@ -62,7 +62,7 @@ class PostRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder(self::ALIAS)
             ->join(self::ALIAS . '.topic', 't')
-            ->select('count(1) + 1')
+            ->select('count(1)')
             ->andWhere(self::ALIAS . '.id <= :postId')
             ->setParameter('postId', $postId)
             ->andWhere(self::ALIAS . '.topic = :topicId')

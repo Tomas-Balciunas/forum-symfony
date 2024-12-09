@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Notifications{% endblock %}
+
+{% block body %}
+    <div class="max-w-4xl mx-auto space-y-3 p-4">
+        {% if unread|length %}
+            {% for n in unread %}
+                <div class="bg-gray-800 p-3 border border-gray-600">
+                    <p class="text-sm text-gray-200 truncate">
+                        {{ helper.formattedNotification(n.template, n.data)|raw }}
+                    </p>
+                    <p class="text-xs text-gray-400 mt-1">{{ n.createdAt|date('F j, Y, g:i a') }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-sm text-center text-gray-400">You have no unread notifications.</p>
+        {% endif %}
+    </div>
+    <hr>
+    <div class="max-w-4xl mx-auto space-y-3 p-4">
+        {% if read|length %}
+            {% for n in read %}
+                <div class="bg-gray-800 p-3 border border-gray-600">
+                    <p class="text-sm text-gray-200 truncate">
+                        {{ helper.formattedNotification(n.template, n.data)|raw }}
+                    </p>
+                    <p class="text-xs text-gray-400 mt-1">{{ n.createdAt|date('F j, Y, g:i a') }}</p>
+                </div>
+            {% endfor %}
+        {% else %}
+            <p class="text-sm text-center text-gray-400">You have no past notifications.</p>
+        {% endif %}
+    </div>
+{% endblock %}

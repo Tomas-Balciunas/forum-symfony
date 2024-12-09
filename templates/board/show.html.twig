@@ -5,17 +5,17 @@
 {% block body %}
     <div class="container mx-auto p-6 font-serif">
         <!-- Board Information -->
-        <div class="bg-gray-900 border-4 border-gray-600 shadow-lg rounded-md p-6 mb-5">
+        <div class="bg-gray-900 border-4 border-gray-600 shadow-lg p-6 mb-5">
             <h4 class="text-5xl font-extrabold mb-4">{{ board.title }}</h4>
             <p class="text-lg text-gray-200 mb-6">{{ board.description }}</p>
-            <a href="{{ path('board_edit', {'id': board.id}) }}" class="inline-block bg-orange-600 text-white py-2 px-6 rounded-md hover:bg-orange-500 transition duration-200 ease-in-out">Edit Board</a>
+            <a href="{{ path('board_edit', {'id': board.id}) }}" class="inline-block bg-orange-600 text-white py-2 px-6 hover:bg-orange-500 transition duration-200 ease-in-out">Edit Board</a>
         </div>
 
         <!-- Create New Topic Button -->
         <div class="flex items-center justify-between mb-6">
             <!-- Create New Topic Button -->
             <a href="{{ path('topic_create', {'id': board.id}) }}"
-               class="bg-yellow-600 text-white py-2 px-6 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">
+               class="bg-yellow-600 text-white py-2 px-6 hover:bg-yellow-500 transition duration-200 ease-in-out">
                 Create New Topic
             </a>
 
@@ -26,16 +26,33 @@
         <!-- Topics List -->
         <div>
             {% if paginator.results %}
-                <ul class="space-y-4">
+                <table class="min-w-full bg-gray-800 text-gray-200 border border-gray-600">
+                    <thead class="bg-gray-700">
+                    <tr>
+                        <th class="px-3 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Topic</th>
+                        <th class="py-3 text-right text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Replies</th>
+                        <th class="px-3 py-3 text-right text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Created At</th>
+                    </tr>
+                    </thead>
+                    <tbody>
                     {% for topic in paginator.results %}
-                        <li class="bg-gray-900 text-white p-4 rounded-lg shadow-md hover:bg-gray-700 transition duration-200 ease-in-out">
-                            <a href="{{ path('topic_show', {'id': topic.id}) }}" class="block text-xl font-medium hover:text-yellow-400 transition duration-200 ease-in-out">
-                                {{ topic.title }}
-                            </a>
-                            <span class="text-sm text-gray-500">{{ topic.createdAt|date }}</span>
-                        </li>
+                        <tr class="hover:bg-gray-700 transition duration-200 ease-in-out">
+                            <td class="px-3 py-2 border-b border-gray-600">
+                                <a href="{{ path('topic_show', {'id': topic.id}) }}" class="block text-yellow-400 hover:underline transition duration-200 ease-in-out">
+                                    {{ topic.title }}
+                                </a>
+                                <small class="text-gray-400">{{ topic.author.username }} - {{ topic.createdAt|date }}</small>
+                            </td>
+                            <td class=" py-2 border-b border-gray-600 w-10 text-center">
+                                <span>{{ topic.posts|length }}</span>
+                            </td>
+                            <td class="px-3 py-2 text-right border-b border-gray-600 w-1/6">
+                                <span class="text-sm text-gray-400">{{ topic.createdAt|date }}</span>
+                            </td>
+                        </tr>
                     {% endfor %}
-                </ul>
+                    </tbody>
+                </table>
             {% else %}
                 <p class="text-gray-400">No topics available</p>
             {% endif %}

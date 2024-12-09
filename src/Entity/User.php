@@ -7,6 +7,7 @@ use DateTimeImmutable;
 use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -49,9 +50,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToMany(targetEntity: Permission::class, inversedBy: 'users')]
     #[ORM\JoinTable('user_permission')]
     private Collection $permissions;
-
     #[ORM\OneToOne(targetEntity: UserSettings::class, mappedBy: 'user', orphanRemoval: true)]
     private ?UserSettings $settings = null;
+    #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
+    #[ORM\OrderBy(['createdAt' => 'DESC'])]
+    private Collection $notifications;
 
     public function __construct()
     {
@@ -59,6 +62,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->posts = new ArrayCollection();
         $this->permissions = new ArrayCollection();
         $this->issuedSuspensions = new ArrayCollection();
+        $this->notifications = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -256,5 +260,43 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSettings(?UserSettings $settings): void
     {
         $this->settings = $settings;
+    }
+
+    public function getNotifications(): Collection
+    {
+        return $this->notifications;
+    }
+
+    public function getUnreadNotifications(DateTimeImmutable $lastSeen = null): Collection
+    {
+        if (!$lastSeen) {
+            return new ArrayCollection();
+        }
+
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->gte('createdAt', $lastSeen));
+
+        return $this->notifications->matching($criteria);
+    }
+
+    public function getReadNotifications(DateTimeImmutable $lastSeen = null): Collection
+    {
+        if (!$lastSeen) {
+            return new ArrayCollection();
+        }
+
+        $criteria = Criteria::create()
+            ->andWhere(Criteria::expr()->lt('createdAt', $lastSeen));
+
+        return $this->notifications->matching($criteria);
+    }
+
+    public function getLatestNotification(User $user): Notification|null
+    {
+        $criteria = Criteria::create()
+            ->orderBy(['createdAt' => 'DESC'])
+            ->setMaxResults(1);
+
+        return $this->notifications->matching($criteria)->first() ?: null;
     }
 }
