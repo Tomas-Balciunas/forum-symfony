@@ -29,8 +29,12 @@
         <div class="flex">
             <!-- Latest Posts Section -->
             <div class="bg-gray-800 p-5 shadow-lg border border-gray-600 border-t-4 border-l-4 border-b-4 w-2/4">
-                <h4 class="text-l text-gray-100 mb-4">Latest Posts by {{ user.username }}:</h4>
-                {% if user.settings.showPosts %}
+                {% if user.settings.showPosts or (not user.settings.showPosts and app.user is same as user) %}
+                    <h4 class="text-l text-gray-100 mb-4">Latest Posts by {{ user.username }}:
+                        {% if not user.settings.showPosts %}
+                            <span class="text-gray-400">hidden from public</span>
+                        {% endif %}
+                    </h4>
                     {% if provider.latestPosts %}
                         <div class="space-y-1 w-100">
                             {% for post in provider.latestPosts %}
@@ -63,17 +67,21 @@
                             See All Posts
                         </a>
                     {% else %}
-                        <p class="text-gray-400">User has not posted yet.</p>
+                        <p class="text-gray-400 text-center">User has not posted yet.</p>
                     {% endif %}
                 {% else %}
-                    <p class="text-gray-400">User posts are hidden.</p>
+                    <p class="text-gray-400 text-center">User posts are hidden.</p>
                 {% endif %}
             </div>
 
             <!-- Latest Topics Section -->
             <div class="bg-gray-800 p-5 shadow-lg border border-t-4 border-r-4 border-b-4 border-gray-600 w-2/4">
-                <h4 class="text-l text-gray-100 mb-4">Latest Topics by {{ user.username }}:</h4>
-                {% if user.settings.showTopics %}
+                {% if user.settings.showPosts or (not user.settings.showPosts and app.user is same as user) %}
+                    <h4 class="text-l text-gray-100 mb-4">Latest Topics by {{ user.username }}:
+                        {% if not user.settings.showPosts %}
+                            <span class="text-gray-400">hidden from public</span>
+                        {% endif %}
+                    </h4>
                     {% if provider.latestTopics %}
                         <div class="space-y-1 w-100">
                             {% for topic in provider.latestTopics %}
@@ -108,10 +116,10 @@
                             See All Topics
                         </a>
                     {% else %}
-                        <p class="text-gray-400">User has not created any topics yet.</p>
+                        <p class="text-gray-400 text-center">User has not created any topics yet.</p>
                     {% endif %}
                 {% else %}
-                    <p class="text-gray-400">User topics are hidden.</p>
+                    <p class="text-gray-400 text-center">User topics are hidden.</p>
                 {% endif %}
             </div>
         </div>

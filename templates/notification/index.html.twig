@@ -5,10 +5,10 @@
 {% block body %}
     <div class="max-w-4xl mx-auto space-y-3 p-4">
         {% if unread|length %}
-            {% for n in unread %}
+            {% for n in helper.formattedNotifications(unread) %}
                 <div class="bg-gray-800 p-3 border border-gray-600">
                     <p class="text-sm text-gray-200 truncate">
-                        {{ helper.formattedNotification(n.template, n.data)|raw }}
+                        {{ n.html|raw }}
                     </p>
                     <p class="text-xs text-gray-400 mt-1">{{ n.createdAt|date('F j, Y, g:i a') }}</p>
                 </div>
@@ -20,12 +20,12 @@
     <hr>
     <div class="max-w-4xl mx-auto space-y-3 p-4">
         {% if read|length %}
-            {% for n in read %}
+            {% for item in helper.formattedNotifications(read) %}
                 <div class="bg-gray-800 p-3 border border-gray-600">
                     <p class="text-sm text-gray-200 truncate">
-                        {{ helper.formattedNotification(n.template, n.data)|raw }}
+                        {{ item.html|raw }}
                     </p>
-                    <p class="text-xs text-gray-400 mt-1">{{ n.createdAt|date('F j, Y, g:i a') }}</p>
+                    <p class="text-xs text-gray-400 mt-1">{{ item.createdAt|date('F j, Y, g:i a') }}</p>
                 </div>
             {% endfor %}
         {% else %}

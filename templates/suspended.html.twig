@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Account Suspended{% endblock %}
+
+{% block body %}
+    <div class="max-w-2xl mx-auto p-6 bg-gray-800 text-white font-serif">
+        <h1 class="text-3xl font-bold text-red-500 mb-4">Account Suspended</h1>
+        <p class="text-lg mb-4">Your account has been suspended.</p>
+
+        <div class="bg-gray-700 p-4 border border-gray-600">
+            <p class="text-sm"><strong>Reason:</strong> {{ reason }}</p>
+            <p class="text-sm mt-2"><strong>Suspension Expires:</strong> {{ expiresAt ? expiresAt|date('F j, Y, g:i a') : 'Never' }}</p>
+        </div>
+
+        <p class="mt-6 text-gray-300">If you believe this is a mistake, please contact support.</p>
+        <a href="#" class="inline-block mt-4 bg-yellow-600 text-white py-2 px-6 hover:bg-yellow-500 transition duration-200 ease-in-out">
+            Contact Support
+        </a>
+    </div>
+{% endblock %}

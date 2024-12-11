@@ -9,7 +9,7 @@ use App\Entity\User;
 use App\Exception\Post\CreatePostException;
 use App\Form\PostType;
 use App\Service\Misc\AddFlashMessages;
-use App\Service\PermissionAuthorization;
+use App\Service\Misc\PermissionAuthorization;
 use App\Service\PostService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

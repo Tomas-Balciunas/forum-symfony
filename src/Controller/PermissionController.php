@@ -8,7 +8,7 @@ use App\Entity\User;
 use App\Exception\Permission\GrantPermissionException;
 use App\Exception\Permission\RevokePermissionException;
 use App\Service\Misc\AddFlashMessages;
-use App\Service\PermissionAuthorization;
+use App\Service\Misc\PermissionAuthorization;
 use App\Service\PermissionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;

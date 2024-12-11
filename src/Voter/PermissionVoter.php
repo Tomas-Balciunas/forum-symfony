@@ -5,13 +5,11 @@ namespace App\Voter;
 use App\Data\Permissions;
 use App\Entity\Permission;
 use App\Entity\User;
-use App\Service\Misc\OwnerChecker;
-use App\Service\PermissionDataProvider;
-use App\Service\UserFullDataProvider;
+use App\Service\Misc\PermissionDataProvider;
+use App\Service\Misc\UserFullDataProvider;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
-use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class PermissionVoter extends Voter implements VoterInterface
 {

@@ -3,7 +3,7 @@
 {% block title %}User Manager{% endblock %}
 
 {% block body %}
-    <div class="container mx-auto p-6 font-serif bg-gray-800 text-white rounded-lg shadow-lg">
+    <div class="container mx-auto p-6 font-serif bg-gray-800 text-white">
         <h4 class="text-3xl font-extrabold text-gray-100 mb-6">Manage User: {{ user.username }}</h4>
 
         <!-- User Details -->
@@ -12,11 +12,19 @@
                 <div>
                     <p><strong>Username:</strong> {{ user.username }}</p>
                     <p><strong>Email:</strong> {{ user.email }}</p>
+                    <p><strong>Joined:</strong> {{ user.createdAt|date }}</p>
                     <p><strong>Role:</strong> {{ user.role.name }}</p>
                     <p><strong>Status:</strong>
                         <span class="{% if user.status == 'active' %}text-green-400{% else %}text-red-500{% endif %}">
                             {{ user.status }}
                         </span>
+                    </p>
+                    <p><strong>Profile:</strong>
+                        {% if user.private %}
+                            <span> private</span>
+                        {% else %}
+                            <span> public</span>
+                        {% endif %}
                     </p>
                 </div>
             </div>
@@ -35,96 +43,97 @@
             {% endif %}
         </div>
 
-        <!-- Suspension Forms -->
-        {% if not provider.suspended %}
-            <div class="flex w-100 bg-gray-700 p-6 mb-6">
-                <div>
-                    <h5 class="text-xl font-semibold text-gray-200 mb-4">Suspend User</h5>
 
-                    {{ form_start(suspendForm) }}
-                    <div class="mb-6">
-                        <div class="w-1/4">
-                            {{ form_widget(suspendForm.days, {
-                                'attr': {
-                                    'class': 'w-25 bg-gray-600 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
-                                    'placeholder': 'Days'
-                                }
-                            }) }}
+        <div>
+
+
+            <div class="flex gap-6">
+                <!-- Suspension Forms Section -->
+                <div class="w-1/3 md:w-1/2 bg-gray-700 p-6 shadow-md">
+
+                    <!-- Temporary Suspension Form -->
+                    {% if not provider.suspended %}
+                        <div class="mb-6">
+                            <h6 class="text-lg font-semibold text-gray-300 mb-4">Suspend Temporarily</h6>
+                            {{ form_start(suspendForm) }}
+                            <div class="flex space-x-4 mb-4">
+                                <div class="w-1/2">
+                                    {{ form_widget(suspendForm.days, {
+                                        'attr': {
+                                            'class': 'w-full bg-gray-600 text-white border border-gray-500 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
+                                            'placeholder': 'Days'
+                                        }
+                                    }) }}
+                                </div>
+                                <div class="w-1/2">
+                                    {{ form_widget(suspendForm.hours, {
+                                        'attr': {
+                                            'class': 'w-full bg-gray-600 text-white border border-gray-500 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
+                                            'placeholder': 'Hours'
+                                        }
+                                    }) }}
+                                </div>
+                            </div>
+
+                            <div class="mb-4">
+                                {{ form_row(suspendForm.reason, {
+                                    'attr': {
+                                        'class': 'w-full bg-gray-600 text-white border border-gray-500 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition'
+                                    }
+                                }) }}
+                            </div>
+
+                            <button type="submit"
+                                    class="bg-yellow-600 text-white py-2 px-6 hover:bg-yellow-700 transition duration-200 ease-in-out">
+                                Suspend Temporarily
+                            </button>
+                            {{ form_end(suspendForm) }}
                         </div>
-                        <div class="w-1/4">
-                            {{ form_widget(suspendForm.hours, {
-                                'attr': {
-                                    'class': 'w-25 bg-gray-600 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
-                                    'placeholder': 'Hours'
-                                }
-                            }) }}
+
+                        <!-- Permanent Suspension Form -->
+                        <div>
+                            <h6 class="text-lg font-semibold text-gray-300 mb-4">Suspend Permanently</h6>
+                            {{ form_start(permanentSuspendForm) }}
+                            <div class="mb-4">
+                                {{ form_row(permanentSuspendForm.reason, {
+                                    'attr': {
+                                        'class': 'w-full bg-gray-600 text-white border border-gray-500 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition'
+                                    }
+                                }) }}
+                            </div>
+                            <button type="submit"
+                                    class="bg-red-800 text-white py-2 px-6 hover:bg-red-700 transition duration-200 ease-in-out">
+                                Suspend Permanently
+                            </button>
+                            {{ form_end(permanentSuspendForm) }}
                         </div>
-                    </div>
-
-                    <div class="mb-4">
-                        {{ form_row(suspendForm.reason, {
-                            'attr': {
-                                'class': 'w-full bg-gray-600 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition'
-                            }
-                        }) }}
-                    </div>
-
-                    <div class="mt-6">
-                        <button type="submit"
-                                class="inline-block bg-yellow-600 text-white py-2 px-6 rounded-md hover:bg-yellow-700 transition duration-200 ease-in-out">
-                            Suspend Temporarily
-                        </button>
-                    </div>
-                    {{ form_end(suspendForm) }}
+                    {% endif %}
                 </div>
 
-                <div>
-                    <h5 class="text-xl font-semibold text-gray-200 mb-4">Permanent Suspension</h5>
-                    {{ form_start(permanentSuspendForm) }}
-                    <div class="mb-4">
-                        {{ form_row(permanentSuspendForm.reason, {
-                            'attr': {
-                                'class': 'w-full bg-gray-600 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition'
-                            }
-                        }) }}
-                    </div>
-                    <button type="submit"
-                            class="inline-block bg-red-600 text-white py-2 px-6 rounded-md hover:bg-red-700 transition duration-200 ease-in-out">
-                        Suspend Permanently
-                    </button>
-                    {{ form_end(permanentSuspendForm) }}
-                </div>
-            </div>
-        {% endif %}
+                <!-- Permissions Section -->
+                <div class="w-1/3 md:w-1/2 bg-gray-700 p-6 shadow-md">
+                    <h5 class="text-2xl font-semibold text-gray-200 mb-6">Permissions</h5>
 
-        <!-- Permissions Management -->
-        <div class="bg-gray-700 p-6 shadow-md mb-6">
-            <h5 class="text-2xl font-semibold text-gray-200 mb-6 bg-gray-600 p-3 rounded-md">Permissions</h5>
-
-            <div class="grid grid-cols-2 gap-6 mb-6">
-                <!-- Default Roles Section -->
-                <div>
-                    <h6 class="text-lg font-semibold text-gray-200 mb-4">Default Roles</h6>
-                    <ul class="space-y-2">
+                    <div class="space-y-2">
                         {% for permission in provider.defaultPermissions %}
-                            <li class="flex justify-between items-center">
-                                <!-- Role Name and Status -->
-                                <div class="flex flex-col space-y-1">
+                            <div class="flex justify-between items-center border-b border-gray-600 pb-2">
+                                <!-- Permission Details -->
+                                <div class="flex flex-col">
                                     <span>{{ permission.formattedName }}:</span>
                                     <span class="text-sm {% if provider.permission(permission) %}text-green-400{% else %}text-red-500{% endif %}">
-                                        {% if provider.permission(permission) %}Permitted{% else %}Restricted{% endif %}
-                                    </span>
+                                    {% if provider.permission(permission) %}Permitted{% else %}Restricted{% endif %}
+                                </span>
                                 </div>
 
                                 <!-- Action Buttons -->
-                                <div class="flex space-x-4">
+                                <div>
                                     {% if provider.permission(permission) %}
                                         <a href="{{ path('revoke_permission', {
                                             'user': user.id,
                                             'permission': permission.id,
                                             '_token': csrf_token('revoke_permission_' ~ user.id ~ '_' ~ permission.id)
                                         }) }}"
-                                           class="inline-block bg-red-600 text-white py-2 px-4 rounded-md w-28 hover:bg-red-700 transition duration-200 ease-in-out text-center">
+                                           class="bg-red-800 text-white py-2 px-4 hover:bg-red-700 transition duration-200 ease-in-out">
                                             Revoke
                                         </a>
                                     {% else %}
@@ -133,56 +142,15 @@
                                             'permission': permission.id,
                                             '_token': csrf_token('permit_user_' ~ user.id ~ '_' ~ permission.id)
                                         }) }}"
-                                           class="inline-block bg-green-600 text-white py-2 px-4 rounded-md w-28 hover:bg-green-700 transition duration-200 ease-in-out text-center">
+                                           class="bg-green-800 text-white py-2 px-4 hover:bg-green-700 transition duration-200 ease-in-out">
                                             Allow
                                         </a>
                                     {% endif %}
                                 </div>
-                            </li>
-                            <hr/>
+                            </div>
                         {% endfor %}
-                    </ul>
+                    </div>
                 </div>
-
-                <!-- Other Permissions Section -->
-                                <div>
-                                    <h6 class="text-lg font-semibold text-gray-200 mb-4">Other Permissions</h6>
-                                    <ul class="space-y-2">
-                                        {% for permission in provider.specialPermissions %}
-                                            <li class="flex justify-between items-center">
-                                                <!-- Role Name and Status -->
-                                                <div class="flex flex-col space-y-1">
-                                                    <span>{{ permission.formattedName }}</span>
-                                                    <span class="text-sm {% if provider.permission(permission) %}text-green-400{% else %}text-red-500{% endif %}">
-                                                        {% if provider.permission(permission) %}Permitted{% else %}Restricted{% endif %}
-                                                    </span>
-                                                </div>
-
-                                                <!-- Action Buttons -->
-                                                <div class="flex space-x-4">
-                                                    {% if provider.permission(permission) %}
-                                                        <a href="{{ path('revoke_permission', {
-                                                            'user': user.id,
-                                                            'permission': permission.id,
-                                                            '_token': csrf_token('revoke_permission_' ~ user.id ~ '_' ~ permission.id)
-                                                        }) }}" class="inline-block bg-red-600 text-white py-2 px-4 rounded-md w-28 hover:bg-red-700 transition duration-200 ease-in-out text-center">
-                                                            Revoke
-                                                        </a>
-                                                    {% else %}
-                                                        <a href="{{ path('grant_permission', {
-                                                            'user': user.id,
-                                                            'permission': permission.id,
-                                                            '_token': csrf_token('permit_user_' ~ user.id ~ '_' ~ permission.id)
-                                                        }) }}" class="inline-block bg-green-600 text-white py-2 px-4 rounded-md w-28 hover:bg-green-700 transition duration-200 ease-in-out text-center">
-                                                            Grant
-                                                        </a>
-                                                    {% endif %}
-                                                </div>
-                                            </li>
-                                            <hr/>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
             </div>
         </div>
     </div>

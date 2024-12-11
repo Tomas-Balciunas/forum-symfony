@@ -1,10 +1,6 @@
 <div class="bg-gray-900 p-4 shadow-md">
     <nav class="flex justify-center items-center space-x-6">
         <a href="{{ path('home') }}" class="text-white hover:text-indigo-400 transition">Home</a>
-        <a href="{{ path('login') }}" class="text-white hover:text-indigo-400 transition">Login</a>
-        <a href="{{ path('logout') }}" class="text-white hover:text-indigo-400 transition">Logout</a>
-        <a href="{{ path('register') }}" class="text-white hover:text-indigo-400 transition">Register</a>
-        <a href="{{ path('admin_panel') }}" class="text-white hover:text-indigo-400 transition">Panel</a>
 
         {% if app.user %}
             <a href="{{ path('user_profile_public', { id: app.user.id }) }}" class="text-white hover:text-indigo-400 transition">{{ app.user.username }}</a>
@@ -14,6 +10,15 @@
                 <span class="mx-1 inline-block w-2.5 h-2.5 bg-red-600 rounded-full"></span>
                 {% endif %}
             </a>
+        {% endif %}
+        {% if is_granted('ROLE_ADMIN') %}
+            <a href="{{ path('admin_panel') }}" class="text-white hover:text-indigo-400 transition">Panel</a>
+        {% endif %}
+        {% if is_granted('IS_AUTHENTICATED') %}
+            <a href="{{ path('logout') }}" class="text-white hover:text-indigo-400 transition">Logout</a>
+        {% else %}
+            <a href="{{ path('login') }}" class="text-white hover:text-indigo-400 transition">Login</a>
+            <a href="{{ path('register') }}" class="text-white hover:text-indigo-400 transition">Register</a>
         {% endif %}
     </nav>
 </div>

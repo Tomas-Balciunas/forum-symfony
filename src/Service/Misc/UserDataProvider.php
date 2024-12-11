@@ -1,14 +1,10 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Misc;
 
-use App\Entity\Permission;
 use App\Entity\User;
-use App\Helper\PermissionHelper;
 use App\Repository\PostRepository;
 use App\Repository\TopicRepository;
-use App\Repository\UserRepository;
-use Doctrine\Common\Collections\Collection;
 
 class UserDataProvider
 {

@@ -13,7 +13,7 @@ use App\Form\TopicType;
 use App\Form\TopicVisibilityType;
 use App\Repository\PostRepository;
 use App\Service\Misc\AddFlashMessages;
-use App\Service\PermissionAuthorization;
+use App\Service\Misc\PermissionAuthorization;
 use App\Service\TopicService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

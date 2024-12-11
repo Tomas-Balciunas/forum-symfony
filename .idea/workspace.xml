@@ -4,69 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="experimental notifications, password repeat">
-      <change afterPath="$PROJECT_DIR$/src/Data/Config.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Data/ValidationMessages.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Exception/Permission/GrantPermissionException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Exception/Permission/RevokePermissionException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Exception/Post/CreatePostException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Exception/Suspension/ModifySuspensionException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Exception/Suspension/SuspendUserException.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/Misc/OwnerChecker.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/PostService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Service/TopicService.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Validate/Permission/Revoke/RevokePermissionActions.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Validate/Permission/Revoke/RevokePermissionValidator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Validate/Post/Create/CreatePostActions.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Validate/Post/Create/CreatePostValidator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Validate/Suspension/Finite/FiniteSuspensionActions.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Validate/Suspension/Modify/ModifySuspensionActions.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Validate/Suspension/Modify/ModifySuspensionValidator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Validate/Suspension/Permanent/PermanentSuspensionActions.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Validate/Suspension/Permanent/PermanentSuspensionValidator.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Validate/ValidatorInterface.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Voter/PermissionVoter.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Voter/SuspensionVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BoardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BoardController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PermissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PermissionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/SuspensionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SuspensionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TopicController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TopicController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data/Messages.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Messages.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data/Permissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Permissions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data/Roles.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Roles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Interface/PostInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Interface/AuthorInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Interface/TopicInterface.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Post.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Topic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Topic.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Permission/PermissionAlreadyGrantedException.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Suspension/SuspensionAlreadyExistsException.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Suspension/SuspensionNullTimeException.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Suspension/SuspensionPastDateException.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/ValidationExceptionInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/ValidationExceptionInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Helper/PermissionHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/PermissionHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Helper/SuspensionHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/SuspensionHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/BoardService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/BoardService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Paginator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Paginator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/PermissionAuthorization.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PermissionAuthorization.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/PermissionService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PermissionService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/SuspensionService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SuspensionService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/UserFullDataProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/UserFullDataProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Permission/PermissionValidateActions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Permission/Grant/GrantPermissionActions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Permission/PermissionValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Permission/Grant/GrantPermissionValidator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Suspension/SuspensionValidateActions.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Suspension/SuspensionValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Suspension/Finite/FiniteSuspensionValidator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/BoardVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/BoardVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/PostVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/PostVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/TopicVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/TopicVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/UserVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/UserVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/manager.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/manager.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/error.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/error.html.twig" afterDir="false" />
-    </list>
+    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="applied more validation and authorization, slight restructuring (in progress)" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -390,7 +328,7 @@
       <workItem from="1733745044556" duration="30331000" />
       <workItem from="1733780457590" duration="1543000" />
       <workItem from="1733827708004" duration="40448000" />
-      <workItem from="1733874176379" duration="1604000" />
+      <workItem from="1733874176379" duration="2014000" />
     </task>
     <task id="LOCAL-00001" summary="progressing">
       <option name="closed" value="true" />
@@ -480,7 +418,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733777987162</updated>
     </task>
-    <option name="localTasksCounter" value="12" />
+    <task id="LOCAL-00012" summary="applied more validation and authorization, slight restructuring (in progress)">
+      <option name="closed" value="true" />
+      <created>1733876200016</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1733876200017</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -497,7 +443,8 @@
     <MESSAGE value="pagination improvements, user profiles, some styling" />
     <MESSAGE value="user profile update, account settings and other improvements" />
     <MESSAGE value="experimental notifications, password repeat" />
-    <option name="LAST_COMMIT_MESSAGE" value="experimental notifications, password repeat" />
+    <MESSAGE value="applied more validation and authorization, slight restructuring (in progress)" />
+    <option name="LAST_COMMIT_MESSAGE" value="applied more validation and authorization, slight restructuring (in progress)" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>

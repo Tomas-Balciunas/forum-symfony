@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Misc;
 
 use App\Entity\Permission;
 use App\Entity\User;

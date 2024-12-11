@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Misc;
 
 use App\Data\Config;
 use Doctrine\ORM\QueryBuilder;

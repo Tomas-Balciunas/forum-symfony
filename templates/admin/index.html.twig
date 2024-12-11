@@ -3,9 +3,50 @@
 {% block title %}Admin panel{% endblock %}
 
 {% block body %}
+    <div class="container mx-auto p-6 font-serif flex space-x-6">
+        <!-- Main Content -->
+        <div class="flex-1 bg-gray-900 p-6 shadow-lg border border-gray-800 text-gray-200">
+            <h2 class="text-2xl font-bold text-yellow-500 mb-4">Main Content Area</h2>
+            <p class="text-gray-300">TODO: add more functionality</p>
+        </div>
 
+        <!-- Sidebar -->
+        <div class="w-80 bg-gray-800 p-4 shadow-lg border border-gray-700 text-white">
+            <!-- Search Bar -->
+            <div class="mb-6">
+                <h2 class="text-xl font-bold mb-4 text-yellow-400">List of Users</h2>
+                {{ include('_search.html.twig', { id: null, path: path, searchQuery: searchQuery }) }}
+            </div>
 
-    {% for user in users %}
-        <li><a href="{{ path('admin_manage', {'user': user.id}) }}">{{ user.username }}</a></li>
-    {% endfor %}
+            <!-- User List -->
+            <div class="space-y-2">
+                {% if paginator.results %}
+                    {% for user in paginator.results %}
+                        <div class="shadow border border-gray-600 flex justify-between align-items-center">
+                            <div class="flex align-items-center p-2">
+                                <a href="{{ path('user_profile_public', { id: user.id }) }}"
+                                   class="h-auto text-sm text-yellow-400 hover:underline hover:text-yellow-300 transition">
+                                    {{ user.username }}
+                                </a>
+                            </div>
+
+                            <a href="{{ path('admin_manage', { user: user.id }) }}"
+                               class="inline-block text-sm text-white bg-yellow-600 hover:bg-yellow-500 px-3 py-2 transition duration-200 ease-in-out">
+                                Manage
+                            </a>
+
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p class="text-gray-300">No users found.</p>
+                {% endif %}
+            </div>
+
+            <!-- Pagination -->
+            <div class="mt-6">
+                {{ include('_paginator.html.twig', { id: null, path: paginationPath, searchQuery: searchQuery }) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}
+

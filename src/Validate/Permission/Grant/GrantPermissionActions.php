@@ -5,7 +5,7 @@ namespace App\Validate\Permission\Grant;
 use App\Entity\Permission;
 use App\Entity\User;
 use App\Service\Misc\OwnerChecker;
-use App\Service\UserFullDataProvider;
+use App\Service\Misc\UserFullDataProvider;
 
 class GrantPermissionActions
 {

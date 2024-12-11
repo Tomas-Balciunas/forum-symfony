@@ -8,7 +8,7 @@ use App\Form\BoardType;
 use App\Repository\TopicRepository;
 use App\Service\BoardService;
 use App\Service\Misc\AddFlashMessages;
-use App\Service\PermissionAuthorization;
+use App\Service\Misc\PermissionAuthorization;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

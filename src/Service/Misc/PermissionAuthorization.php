@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Service;
+namespace App\Service\Misc;
 
 use App\Data\Messages;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;

@@ -15,19 +15,4 @@ class BoardRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Board::class);
     }
-
-        /**
-         * @return Board[] Returns an array of Board objects
-         */
-        public function findByExampleField($value): array
-        {
-            return $this->createQueryBuilder('g')
-                ->andWhere('g.exampleField = :val')
-                ->setParameter('val', $value)
-                ->orderBy('g.id', 'ASC')
-                ->setMaxResults(10)
-                ->getQuery()
-                ->getResult()
-            ;
-        }
 }

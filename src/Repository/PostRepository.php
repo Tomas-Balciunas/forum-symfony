@@ -4,7 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Post;
 use App\Entity\User;
-use App\Service\Paginator;
+use App\Service\Misc\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 

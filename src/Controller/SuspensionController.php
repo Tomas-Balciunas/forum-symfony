@@ -12,7 +12,7 @@ use App\Form\SuspendType;
 use App\Form\SuspensionModifyType;
 use App\Helper\SuspensionHelper;
 use App\Service\Misc\AddFlashMessages;
-use App\Service\PermissionAuthorization;
+use App\Service\Misc\PermissionAuthorization;
 use App\Service\SuspensionService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,8 +92,7 @@ class SuspensionController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $data = $form->getData();
-                $service->handleSuspendUser($issuedBy, $user, $data);
+                $service->handleSuspendUser($issuedBy, $user, $form->getData());
                 $this->addFlashMessages->addSuccessMessage('User has been suspended.');
             }
         } catch (AccessDeniedException $e) {

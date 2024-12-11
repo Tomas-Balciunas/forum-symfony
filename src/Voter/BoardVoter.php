@@ -3,16 +3,11 @@
 namespace App\Voter;
 
 use App\Data\Permissions;
-use App\Data\Roles;
 use App\Entity\Board;
-use App\Entity\Permission;
-use App\Entity\Post;
 use App\Entity\User;
-use App\Service\PermissionDataProvider;
-use App\Service\UserDataProvider;
-use App\Service\UserFullDataProvider;
+use App\Service\Misc\PermissionDataProvider;
+use App\Service\Misc\UserFullDataProvider;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
-use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 
