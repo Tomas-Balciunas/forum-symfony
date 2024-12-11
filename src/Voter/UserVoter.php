@@ -7,6 +7,7 @@ use App\Data\Roles;
 use App\Entity\Permission;
 use App\Entity\Topic;
 use App\Entity\User;
+use App\Service\Misc\OwnerChecker;
 use App\Service\PermissionDataProvider;
 use App\Service\UserDataProvider;
 use App\Service\UserFullDataProvider;
@@ -21,12 +22,17 @@ class UserVoter extends Voter implements VoterInterface
         'viewProfile' => Permissions::USER_VIEW_PROFILE,
         'setPrivate' => Permissions::USER_SET_PRIVATE,
         'setPublic' => Permissions::USER_SET_PUBLIC,
+        'viewPosts' => Permissions::MISC_VIEW_USER_POSTS,
+        'viewTopics' => Permissions::MISC_VIEW_USER_TOPICS,
     ];
 
-    private Permission $permission;
+    private Permission|null $permission;
 
-    public function __construct(private readonly UserFullDataProvider       $userProvider,
-                                private readonly PermissionDataProvider $permissionProvider)
+    public function __construct(
+        private readonly UserFullDataProvider   $userProvider,
+        private readonly PermissionDataProvider $permissionProvider,
+        private readonly OwnerChecker           $ownerChecker
+    )
     {
     }
 
@@ -57,7 +63,9 @@ class UserVoter extends Voter implements VoterInterface
         return match ($attribute) {
             self::PERMISSIONS['viewProfile'] => $this->canViewProfile($user, $subject),
             self::PERMISSIONS['setPrivate'] => $this->canSetPrivate($user, $subject),
-            self::PERMISSIONS['setPublic'] => $this->canSetPublic($user, $subject)
+            self::PERMISSIONS['setPublic'] => $this->canSetPublic($user, $subject),
+            self::PERMISSIONS['viewPosts'] => $this->canViewTopics($user, $subject),
+            self::PERMISSIONS['viewTopics'] => $this->canViewPosts($user, $subject)
         };
     }
 
@@ -67,7 +75,7 @@ class UserVoter extends Voter implements VoterInterface
             return true;
         }
 
-        if ($this->isOwner($authUser, $user)) {
+        if ($this->ownerChecker->isOwner($authUser, $user)) {
             return true;
         }
 
@@ -78,18 +86,13 @@ class UserVoter extends Voter implements VoterInterface
         return $this->userProvider->hasPermission($this->permission);
     }
 
-    private function isOwner(#[CurrentUser] User $authUser, User $user): bool
-    {
-        return $authUser === $user;
-    }
-
     private function canSetPrivate(#[CurrentUser] User $authUser, User $user): bool
     {
         if ($authUser->getRole()->getName() === Roles::ROLE_ADMIN) {
             return true;
         }
 
-        if ($this->isOwner($authUser, $user)) {
+        if ($this->ownerChecker->isOwner($authUser, $user)) {
             return true;
         }
 
@@ -98,10 +101,28 @@ class UserVoter extends Voter implements VoterInterface
 
     private function canSetPublic(#[CurrentUser] User $authUser, User $user): bool
     {
-        if ($this->isOwner($authUser, $user)) {
+        if ($this->ownerChecker->isOwner($authUser, $user)) {
             return true;
         }
 
         return $this->userProvider->hasPermission($this->permission);
+    }
+
+    public function canViewPosts(#[CurrentUser] User $authUser, User $user): bool
+    {
+        if ($this->ownerChecker->isOwner($authUser, $user)) {
+            return true;
+        }
+
+        return $user->getSettings()->isShowPosts();
+    }
+
+    public function canViewTopics(#[CurrentUser] User $authUser, User $user): bool
+    {
+        if ($this->ownerChecker->isOwner($authUser, $user)) {
+            return true;
+        }
+
+        return $user->getSettings()->isShowTopics();
     }
 }

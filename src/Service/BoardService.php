@@ -12,18 +12,18 @@ class BoardService
     {
     }
 
-    public function handleCreateBoard(Board $board, string $access): void
+    public function handleCreateBoard(Board $board, string $role): void
     {
-        $role = $this->roleRepository->findOneBy(['name' => $access]);
+        $role = $this->roleRepository->findOneBy(['name' => $role]);
         $board->setAccess($role);
 
         $this->manager->persist($board);
         $this->manager->flush();
     }
 
-    public function handleUpdateBoard(Board $board, string $access): void
+    public function handleUpdateBoard(Board $board, string $role): void
     {
-        $role = $this->roleRepository->findOneBy(['name' => $access]);
+        $role = $this->roleRepository->findOneBy(['name' => $role]);
         $board->setAccess($role);
         $this->manager->flush();
     }

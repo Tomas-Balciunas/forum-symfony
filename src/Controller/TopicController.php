@@ -12,7 +12,9 @@ use App\Form\TopicMoveType;
 use App\Form\TopicType;
 use App\Form\TopicVisibilityType;
 use App\Repository\PostRepository;
+use App\Service\Misc\AddFlashMessages;
 use App\Service\PermissionAuthorization;
+use App\Service\TopicService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,13 +22,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
-use Symfony\Contracts\Service\Attribute\Required;
 
 class TopicController extends AbstractController
 {
-    public function __construct(private readonly PermissionAuthorization $authorization)
-    {
-    }
+    public function __construct(
+        private readonly PermissionAuthorization $authorize,
+        private readonly TopicService            $service,
+        private readonly AddFlashMessages        $flashMessages
+    ) {}
 
     #[Route('/board/{id}/create-topic', name: 'topic_create', methods: ['GET', 'POST'])]
     public function create(Request $request, Board $board, #[CurrentUser] User $user, EntityManagerInterface $manager): Response
@@ -35,19 +38,19 @@ class TopicController extends AbstractController
         $form = $this->createForm(TopicType::class, $topic);
 
         try {
-            $this->authorization->authorize(Permissions::TOPIC_CREATE, $board);
+            $this->authorize->permission(Permissions::TOPIC_CREATE, $board);
+            $this->authorize->role($board->getAccess()->getName());
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $topic->setAuthor($user);
-                $board->addTopic($topic);
-                $manager->flush();
+                $this->service->handleCreateTopic($topic, $board, $user);
+                $this->flashMessages->addSuccessMessage('Topic created.');
 
-                $this->addFlash('success', 'Topic created.');
                 return $this->redirectToRoute('board_show', ['id' => $board->getId()]);
             }
         } catch (AccessDeniedException $e) {
-            $this->addFlash('error', $e->getMessage());
+            $this->flashMessages->addErrorMessage($e->getMessage());
+
             return $this->redirectToRoute('board_show', ['id' => $board->getId()]);
         }
 
@@ -94,15 +97,18 @@ class TopicController extends AbstractController
         $form = $this->createForm(TopicType::class, $topic);
 
         try {
-            $this->authorization->authorize(Permissions::TOPIC_EDIT, $topic);
+            $this->authorize->permission(Permissions::TOPIC_EDIT, $topic);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $manager->flush();
+                $this->flashMessages->addSuccessMessage('Topic updated.');
+
                 return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
             }
         } catch (AccessDeniedException $e) {
-            $this->addFlash('error', $e->getMessage());
+            $this->flashMessages->addErrorMessage($e->getMessage());
+
             return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
         }
 
@@ -115,8 +121,9 @@ class TopicController extends AbstractController
     public function lock(Topic $topic, Request $request, EntityManagerInterface $manager): Response
     {
         $lockForm = $this->createForm(TopicLockType::class);
+
         try {
-            $this->authorization->authorize(Permissions::TOPIC_LOCK, $topic);
+            $this->authorize->permission(Permissions::TOPIC_LOCK, $topic);
             $lockForm->handleRequest($request);
 
             if ($lockForm->isSubmitted() && $lockForm->isValid()) {
@@ -124,43 +131,53 @@ class TopicController extends AbstractController
                 $manager->flush();
             }
         } catch (AccessDeniedException $e) {
-            $this->addFlash('error', $e->getMessage());
-            return $this->redirectToRoute('board_show', ['id' => $topic->getId()]);
+            $this->flashMessages->addErrorMessage($e->getMessage());
+        } finally {
+            return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
         }
-
-        return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
     }
 
     #[Route('/topic/{id}/visibility', name: 'topic_visibility', methods: ['POST'])]
     public function visibility(Topic $topic, Request $request, EntityManagerInterface $manager): Response
     {
-        $lockForm = $this->createForm(TopicVisibilityType::class);
-        $lockForm->handleRequest($request);
+        try {
+            if ($topic->isVisible()) {
+                $this->authorize->permission(Permissions::TOPIC_SET_HIDDEN, $topic);
+            } else {
+                $this->authorize->permission(Permissions::TOPIC_SET_VISIBLE, $topic);
+            }
 
-        if ($lockForm->isSubmitted() && $lockForm->isValid()) {
-            $topic->setIsVisible(!$topic->isVisible());
-            $manager->flush();
+            $lockForm = $this->createForm(TopicVisibilityType::class);
+            $lockForm->handleRequest($request);
+
+            if ($lockForm->isSubmitted() && $lockForm->isValid()) {
+                $topic->setIsVisible(!$topic->isVisible());
+                $manager->flush();
+            }
+        } catch (AccessDeniedException $e) {
+            $this->flashMessages->addErrorMessage($e->getMessage());
+        } finally {
+            return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
         }
-
-        return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
     }
 
     #[Route('/topic/{id}/move', name: 'topic_move', methods: ['GET', 'POST'])]
-    public function move(Topic $topic, Request $request, EntityManagerInterface $manager): Response
+    public function move(Topic $topic, Request $request): Response
     {
-        // TODO: permission. validation?
         $form = $this->createForm(TopicMoveType::class);
-        $form->handleRequest($request);
 
         try {
+            $this->authorize->permission(Permissions::TOPIC_MOVE, $topic);
+            $form->handleRequest($request);
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $board = $form->get('target')->getData();
-                $topic->setBoard($board);
-                $manager->flush();
-                $this->addFlash('success', 'Topic moved.');
+                $this->service->handleMoveTopic($topic, $board);
+                $this->flashMessages->addSuccessMessage('Topic moved.');
             }
         } catch (AccessDeniedException $e) {
-            $this->addFlash('error', $e->getMessage());
+            $this->flashMessages->addErrorMessage($e->getMessage());
+
             return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
         }
 

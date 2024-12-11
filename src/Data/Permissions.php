@@ -19,15 +19,20 @@ class Permissions
     public const TOPIC_UNLOCK = 'topic.unlock';
     public const TOPIC_SET_VISIBLE = 'topic.set.visible';
     public const TOPIC_SET_HIDDEN = 'topic.set.hidden';
+    public const TOPIC_MOVE = 'topic.move';
 
     public const USER_BAN = 'user.ban';
     public const USER_UNBAN = 'user.unban';
+    public const USER_BAN_MODIFY = 'user.ban.modify';
     public const USER_SET_PRIVATE = 'user.set.private';
     public const USER_SET_PUBLIC = 'user.set.public';
     public const USER_CHANGE_ROLE = 'user.change.role';
     public const USER_ADD_PERMISSION = 'user.add.permission';
     public const USER_REVOKE_PERMISSION = 'user.revoke.permission';
     public const USER_VIEW_PROFILE = 'user.view.profile';
+
+    public const MISC_VIEW_USER_POSTS = 'misc.view.user.posts';
+    public const MISC_VIEW_USER_TOPICS = 'misc.view.user.topics';
 
     public static function getPermissions(): array
     {
@@ -45,8 +50,10 @@ class Permissions
             self::TOPIC_UNLOCK,
             self::TOPIC_SET_VISIBLE,
             self::TOPIC_SET_HIDDEN,
+            self::TOPIC_MOVE,
             self::USER_BAN,
             self::USER_UNBAN,
+            self::USER_BAN_MODIFY,
             self::USER_SET_PRIVATE,
             self::USER_SET_PUBLIC,
             self::USER_CHANGE_ROLE,

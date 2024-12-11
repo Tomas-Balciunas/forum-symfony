@@ -7,8 +7,8 @@ use App\Data\Roles;
 use App\Entity\Permission;
 use App\Entity\Post;
 use App\Entity\User;
+use App\Service\Misc\OwnerChecker;
 use App\Service\PermissionDataProvider;
-use App\Service\UserDataProvider;
 use App\Service\UserFullDataProvider;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -17,21 +17,27 @@ use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 class PostVoter extends Voter implements VoterInterface
 {
     private const PERMISSIONS = [
+        'create' => Permissions::POST_CREATE,
         'delete' => Permissions::POST_DELETE,
         'edit' => Permissions::POST_EDIT,
     ];
 
     private Permission $permission;
 
-    public function __construct(private readonly UserFullDataProvider       $userProvider,
-                                private readonly PermissionDataProvider $permissionProvider)
-    {
-    }
+    public function __construct(
+        private readonly UserFullDataProvider   $userProvider,
+        private readonly PermissionDataProvider $permissionProvider,
+        private readonly OwnerChecker           $ownerChecker
+    ) {}
 
     protected function supports(string $attribute, mixed $subject): bool
     {
         if (!in_array($attribute, self::PERMISSIONS, true)) {
             return false;
+        }
+
+        if ($attribute === self::PERMISSIONS['create']) {
+            return true;
         }
 
         if (!$subject instanceof Post) {
@@ -55,6 +61,7 @@ class PostVoter extends Voter implements VoterInterface
         return match ($attribute) {
             self::PERMISSIONS['delete'] => $this->canDeletePost($user, $subject),
             self::PERMISSIONS['edit'] => $this->canEditPost($user, $subject),
+            default => $this->userProvider->hasPermission($this->permission),
         };
     }
 
@@ -64,21 +71,16 @@ class PostVoter extends Voter implements VoterInterface
             return true;
         }
 
-        if (!$this->isAuthor($user, $post)) {
+        if (!$this->ownerChecker->isOwner($user, $post)) {
             return false;
         }
 
         return $this->userProvider->hasPermission($this->permission);
     }
 
-    private function isAuthor(User $user, Post $post): bool
-    {
-        return $user === $post->getAuthor();
-    }
-
     private function canEditPost(User $user, Post $post): bool
     {
-        if (!$this->isAuthor($user, $post)) {
+        if (!$this->ownerChecker->isOwner($user, $post)) {
             return false;
         }
 

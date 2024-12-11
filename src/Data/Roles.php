@@ -35,11 +35,13 @@ class Roles extends Permissions
     public const DEFAULT_ADMIN_PERMISSIONS = [
         ...self::DEFAULT_MODERATOR_PERMISSIONS,
         self::USER_CHANGE_ROLE,
+        self::USER_BAN_MODIFY,
         self::USER_ADD_PERMISSION,
         self::USER_REVOKE_PERMISSION,
         self::BOARD_CREATE,
         self::BOARD_DELETE,
         self::BOARD_EDIT,
+        self::TOPIC_MOVE
     ];
 
     public function getRoles(): array

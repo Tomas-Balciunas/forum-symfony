@@ -6,8 +6,11 @@ use App\Data\Permissions;
 use App\Entity\Post;
 use App\Entity\Topic;
 use App\Entity\User;
+use App\Exception\Post\CreatePostException;
 use App\Form\PostType;
+use App\Service\Misc\AddFlashMessages;
 use App\Service\PermissionAuthorization;
+use App\Service\PostService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,32 +21,35 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class PostController extends AbstractController
 {
-    public function __construct(private readonly PermissionAuthorization $authorization)
-    {
-    }
+    // TODO: add delete post
 
-    #[Route('/topic/{id}/post', name: 'post_create', methods: ['POST'])]
-    public function create(Topic $topic, #[CurrentUser] User $user, Request $request, EntityManagerInterface $manager): Response
+    public function __construct(
+        private readonly PermissionAuthorization $authorize,
+        private readonly PostService             $service,
+        private readonly AddFlashMessages        $flashMessages
+    ) {}
+
+    #[Route('/topic/{id}/new-post', name: 'post_create', methods: ['POST'])]
+    public function create(Topic $topic, #[CurrentUser] User $user, Request $request): Response
     {
         $post = new Post();
         $form = $this->createForm(PostType::class, $post);
 
         try {
-            $this->authorization->authorize(Permissions::POST_CREATE, $topic);
+            $this->authorize->permission(Permissions::POST_CREATE);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $post->setAuthor($user);
-                $topic->addPost($post);
-                $manager->flush();
+                $this->service->handleCreatePost($post, $topic, $user);
             }
+
+        } catch (CreatePostException $e) {
+            $this->flashMessages->addErrorMessages($e->getExceptionErrors());
         } catch (AccessDeniedException $e) {
-            $this->addFlash('error', $e->getMessage());
+            $this->flashMessages->addErrorMessage($e->getMessage());
+        } finally {
             return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
         }
-
-
-        return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
     }
 
     #[Route('/post/{id}/edit', name: 'post_edit', methods: ['GET', 'POST'])]
@@ -52,14 +58,14 @@ class PostController extends AbstractController
         $form = $this->createForm(PostType::class, $post);
 
         try {
-            $this->authorization->authorize(Permissions::POST_EDIT, $post);
+            $this->authorize->permission(Permissions::POST_EDIT, $post);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
                 $manager->flush();
             }
         } catch (AccessDeniedException $e) {
-            $this->addFlash('error', $e->getMessage());
+            $this->flashMessages->addErrorMessage($e->getMessage());
             return $this->redirectToRoute('topic_show', ['id' => $post->getTopic()->getId()]);
         }
 

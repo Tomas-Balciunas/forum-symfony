@@ -145,44 +145,44 @@
                 </div>
 
                 <!-- Other Permissions Section -->
-                {#                <div> #}
-                {#                    <h6 class="text-lg font-semibold text-gray-200 mb-4">Other Permissions</h6> #}
-                {#                    <ul class="space-y-2"> #}
-                {#                        {% for permission in provider.specialPermissions %} #}
-                {#                            <li class="flex justify-between items-center"> #}
-                {#                                <!-- Role Name and Status --> #}
-                {#                                <div class="flex flex-col space-y-1"> #}
-                {#                                    <span>{{ permission.formattedName }}</span> #}
-                {#                                    <span class="text-sm {% if provider.permission(permission) %}text-green-400{% else %}text-red-500{% endif %}"> #}
-                {#                                        {% if provider.permission(permission) %}Permitted{% else %}Restricted{% endif %} #}
-                {#                                    </span> #}
-                {#                                </div> #}
+                                <div>
+                                    <h6 class="text-lg font-semibold text-gray-200 mb-4">Other Permissions</h6>
+                                    <ul class="space-y-2">
+                                        {% for permission in provider.specialPermissions %}
+                                            <li class="flex justify-between items-center">
+                                                <!-- Role Name and Status -->
+                                                <div class="flex flex-col space-y-1">
+                                                    <span>{{ permission.formattedName }}</span>
+                                                    <span class="text-sm {% if provider.permission(permission) %}text-green-400{% else %}text-red-500{% endif %}">
+                                                        {% if provider.permission(permission) %}Permitted{% else %}Restricted{% endif %}
+                                                    </span>
+                                                </div>
 
-                {#                                <!-- Action Buttons --> #}
-                {#                                <div class="flex space-x-4"> #}
-                {#                                    {% if provider.permission(permission) %} #}
-                {#                                        <a href="{{ path('revoke_permission', { #}
-                {#                                            'user': user.id, #}
-                {#                                            'permission': permission.id, #}
-                {#                                            '_token': csrf_token('revoke_permission_' ~ user.id ~ '_' ~ permission.id) #}
-                {#                                        }) }}" class="inline-block bg-red-600 text-white py-2 px-4 rounded-md w-28 hover:bg-red-700 transition duration-200 ease-in-out text-center"> #}
-                {#                                            Revoke #}
-                {#                                        </a> #}
-                {#                                    {% else %} #}
-                {#                                        <a href="{{ path('grant_permission', { #}
-                {#                                            'user': user.id, #}
-                {#                                            'permission': permission.id, #}
-                {#                                            '_token': csrf_token('permit_user_' ~ user.id ~ '_' ~ permission.id) #}
-                {#                                        }) }}" class="inline-block bg-green-600 text-white py-2 px-4 rounded-md w-28 hover:bg-green-700 transition duration-200 ease-in-out text-center"> #}
-                {#                                            Grant #}
-                {#                                        </a> #}
-                {#                                    {% endif %} #}
-                {#                                </div> #}
-                {#                            </li> #}
-                {#                            <hr/> #}
-                {#                        {% endfor %} #}
-                {#                    </ul> #}
-                {#                </div> #}
+                                                <!-- Action Buttons -->
+                                                <div class="flex space-x-4">
+                                                    {% if provider.permission(permission) %}
+                                                        <a href="{{ path('revoke_permission', {
+                                                            'user': user.id,
+                                                            'permission': permission.id,
+                                                            '_token': csrf_token('revoke_permission_' ~ user.id ~ '_' ~ permission.id)
+                                                        }) }}" class="inline-block bg-red-600 text-white py-2 px-4 rounded-md w-28 hover:bg-red-700 transition duration-200 ease-in-out text-center">
+                                                            Revoke
+                                                        </a>
+                                                    {% else %}
+                                                        <a href="{{ path('grant_permission', {
+                                                            'user': user.id,
+                                                            'permission': permission.id,
+                                                            '_token': csrf_token('permit_user_' ~ user.id ~ '_' ~ permission.id)
+                                                        }) }}" class="inline-block bg-green-600 text-white py-2 px-4 rounded-md w-28 hover:bg-green-700 transition duration-200 ease-in-out text-center">
+                                                            Grant
+                                                        </a>
+                                                    {% endif %}
+                                                </div>
+                                            </li>
+                                            <hr/>
+                                        {% endfor %}
+                                    </ul>
+                                </div>
             </div>
         </div>
     </div>

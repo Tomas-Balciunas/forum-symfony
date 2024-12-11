@@ -1,14 +1,12 @@
 {% for label, messages in app.flashes %}
     {% for message in messages %}
         {% if label is same as 'error' %}
-            <div class="bg-red-600 text-white px-3 py-2 shadow-md mb-4">
-                <p class="font-semibold">Error:</p>
-                <p>{{ message }}</p>
+            <div class="bg-red-600 text-white px-3 py-2 shadow-md mb-2">
+                <p>Error: {{ message }}</p>
             </div>
         {% endif %}
         {% if label is same as 'success' %}
-            <div class="bg-green-600 text-white px-3 py-2 shadow-md mb-4">
-                <p class="font-semibold">Success:</p>
+            <div class="bg-green-600 text-white px-3 py-2 shadow-md mb-2">
                 <p>{{ message }}</p>
             </div>
         {% endif %}

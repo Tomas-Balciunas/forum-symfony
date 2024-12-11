@@ -13,6 +13,7 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class NotificationController extends AbstractController
 {
+    // TODO: clean this up
     #[Route('/notifications', name: 'notifications')]
     public function index(#[CurrentUser] User $user, Messages $helper, Request $request): Response
     {

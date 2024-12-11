@@ -2,14 +2,14 @@
 
 namespace App\Entity;
 
-use App\Entity\Interface\PostInterface;
+use App\Entity\Interface\AuthorInterface;
 use App\Repository\PostRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PostRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Post implements PostInterface
+class Post implements AuthorInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

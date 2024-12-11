@@ -2,7 +2,7 @@
 
 namespace App\Entity;
 
-use App\Entity\Interface\TopicInterface;
+use App\Entity\Interface\AuthorInterface;
 use App\Repository\TopicRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TopicRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Topic implements TopicInterface
+class Topic implements AuthorInterface
 {
     public function __construct()
     {

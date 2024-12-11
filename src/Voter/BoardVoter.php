@@ -25,11 +25,9 @@ class BoardVoter extends Voter implements VoterInterface
         'edit' => Permissions::BOARD_EDIT,
     ];
 
-    private Permission $permission;
-
     public function __construct(private readonly UserFullDataProvider       $userProvider,
                                 private readonly PermissionDataProvider $permissionProvider,
-    private readonly AuthorizationCheckerInterface $authChecker,)
+    )
     {
     }
 
@@ -58,44 +56,9 @@ class BoardVoter extends Voter implements VoterInterface
             return false;
         }
 
-        $this->permission = $this->permissionProvider->getPermissionByName($attribute);
+        $permission = $this->permissionProvider->getPermissionByName($attribute);
         $this->userProvider->setUser($user);
 
-        return match ($attribute) {
-            self::PERMISSIONS['createTopic'] => $this->canCreateTopic($subject),
-            self::PERMISSIONS['createBoard'] => $this->canCreateBoard(),
-            self::PERMISSIONS['delete'] => $this->canDeleteBoard(),
-            self::PERMISSIONS['edit'] => $this->canEditBoard($subject),
-        };
-    }
-
-    private function canCreateTopic(Board $board): bool
-    {
-        $roleAccess = $board->getAccess();
-        if (!$this->authChecker->isGranted($roleAccess ? $roleAccess->getName() : Roles::ROLE_USER)) {
-            return false;
-        }
-
-        return $this->userProvider->hasPermission($this->permission);
-    }
-
-    private function canCreateBoard(): bool
-    {
-        return $this->userProvider->hasPermission($this->permission);
-    }
-
-    private function canDeleteBoard(): bool
-    {
-        return $this->userProvider->hasPermission($this->permission);
-    }
-
-    private function canEditBoard(Board $board): bool
-    {
-        $roleAccess = $board->getAccess();
-        if (!$this->authChecker->isGranted($roleAccess ? $roleAccess->getName() : Roles::ROLE_USER)) {
-            return false;
-        }
-
-        return $this->userProvider->hasPermission($this->permission);
+        return $this->userProvider->hasPermission($permission);
     }
 }

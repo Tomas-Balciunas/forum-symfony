@@ -7,8 +7,8 @@ use App\Entity\Board;
 use App\Form\BoardType;
 use App\Repository\TopicRepository;
 use App\Service\BoardService;
+use App\Service\Misc\AddFlashMessages;
 use App\Service\PermissionAuthorization;
-use Exception;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,10 +18,11 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 #[Route('/board')]
 class BoardController extends AbstractController
 {
-    public function __construct(private readonly PermissionAuthorization $authorization,
-                                private readonly BoardService            $service)
-    {
-    }
+    public function __construct(
+        private readonly PermissionAuthorization $authorize,
+        private readonly BoardService            $service,
+        private readonly AddFlashMessages        $flashMessages,
+    ) {}
 
     #[Route('/create', name: 'board_create', methods: ['GET', 'POST'])]
     public function create(Request $request): Response
@@ -30,19 +31,17 @@ class BoardController extends AbstractController
         $form = $this->createForm(BoardType::class, $board);
 
         try {
-            $this->authorization->authorize(Permissions::BOARD_CREATE);
+            $this->authorize->permission(Permissions::BOARD_CREATE);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                try {
-                    $this->service->handleCreateBoard($board, $form->get('access')->getData());
-                    $this->addFlash('success', 'Successfully created board.');
-                } catch (Exception $e) {
-                    $this->addFlash('error', $e->getMessage());
-                }
+                $role = $form->get('access')->getData();
+                $this->service->handleCreateBoard($board, $role);
+                $this->flashMessages->addSuccessMessage('Board created.');
             }
         } catch (AccessDeniedException $e) {
-            $this->addFlash('error', $e->getMessage());
+            $this->flashMessages->addErrorMessage($e->getMessage());
+
             return $this->redirectToRoute('home');
         }
 
@@ -75,12 +74,13 @@ class BoardController extends AbstractController
         $form = $this->createForm(BoardType::class, $board);
 
         try {
-            $this->authorization->authorize(Permissions::BOARD_EDIT, $board);
+            $this->authorize->permission(Permissions::BOARD_EDIT, $board);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->service->handleUpdateBoard($board, $form->get('access')->getData());
-                $this->addFlash('success', 'Successfully updated board.');
+                $role = $form->get('access')->getData();
+                $this->service->handleUpdateBoard($board, $role);
+                $this->flashMessages->addSuccessMessage('Board updated.');
 
                 return $this->redirectToRoute('board_show', ['id' => $board->getId()]);
             }

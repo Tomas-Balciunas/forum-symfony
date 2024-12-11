@@ -11,7 +11,7 @@ use DateTimeZone;
 
 class SuspensionHelper
 {
-    public static function makeSuspensionFoundation(User $issuedBy, User $issuedFor, string $reason): UserSuspension
+    public function makeSuspensionFoundation(User $issuedBy, User $issuedFor, string $reason): UserSuspension
     {
         $suspension = new UserSuspension();
         $suspension->setIssuedBy($issuedBy);
@@ -21,7 +21,7 @@ class SuspensionHelper
         return $suspension;
     }
 
-    public static function createSuspensionModifyDto(UserSuspension $suspension): SuspensionModifyDto
+    public function createSuspensionModifyDto(UserSuspension $suspension): SuspensionModifyDto
     {
         $dto = new SuspensionModifyDTO();
         $dto->setReason($suspension->getReason());
@@ -31,7 +31,7 @@ class SuspensionHelper
         return $dto;
     }
 
-    public static function getSuspensionDate(
+    public function makeSuspensionDate(
         $days,
         $hours,
     ): DateTime

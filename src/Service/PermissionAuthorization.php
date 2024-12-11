@@ -8,11 +8,12 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 final readonly class PermissionAuthorization
 {
-    public function __construct(private Messages $messages, private AuthorizationCheckerInterface $authorizationChecker)
-    {
-    }
+    public function __construct(
+        private Messages $messages,
+        private AuthorizationCheckerInterface $authorizationChecker
+    ) {}
 
-    public function authorize(string $permission, mixed $subject = null): void
+    public function permission(string $permission, mixed $subject = null): void
     {
         if (!$this->authorizationChecker->isGranted($permission, $subject)) {
             $errorMsg = $this->messages->getErrMsg($permission);
@@ -20,6 +21,18 @@ final readonly class PermissionAuthorization
             $exception = new AccessDeniedException($errorMsg);
             $exception->setAttributes($permission);
             $exception->setSubject($subject);
+
+            throw $exception;
+        }
+    }
+
+    public function role(string $role): void
+    {
+        if (!$this->authorizationChecker->isGranted($role)) {
+            $errorMsg = 'Topic creation in this board is restricted.';
+
+            $exception = new AccessDeniedException($errorMsg);
+            $exception->setAttributes($role);
 
             throw $exception;
         }

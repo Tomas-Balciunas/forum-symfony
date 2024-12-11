@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Data\Messages;
 use App\Data\Permissions;
 use App\Entity\User;
 use App\Form\AccountSettingsType;
@@ -11,11 +10,11 @@ use App\Form\UserPrivateType;
 use App\Helper\PostHelper;
 use App\Repository\PostRepository;
 use App\Repository\TopicRepository;
+use App\Service\Misc\AddFlashMessages;
 use App\Service\PermissionAuthorization;
 use App\Service\UserDataProvider;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\Form\FormError;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -25,17 +24,19 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
 
 class UserController extends AbstractController
 {
-    public function __construct(private readonly PermissionAuthorization $authorization)
-    {
-    }
+    public function __construct(
+        private readonly PermissionAuthorization $authorize,
+        private readonly AddFlashMessages        $flashMessages
+    ) {}
 
     #[Route('/user/{id}', name: 'user_profile_public', methods: ['GET'])]
     public function profile(User $user, UserDataProvider $provider, PostHelper $helper): Response
     {
         try {
-            $this->authorization->authorize(Permissions::USER_VIEW_PROFILE, $user);
+            $this->authorize->permission(Permissions::USER_VIEW_PROFILE, $user);
         } catch (AccessDeniedException $e) {
-            $this->addFlash('error', Messages::PERMISSION_DENIED[Permissions::USER_VIEW_PROFILE]);
+            $this->flashMessages->addErrorMessage($e->getMessage());
+
             return $this->redirectToRoute('home');
         }
 
@@ -58,7 +59,7 @@ class UserController extends AbstractController
 
         if ($settingsForm->isSubmitted() && $settingsForm->isValid()) {
             $manager->flush();
-            $this->addFlash('success', 'Your settings have been saved.');
+            $this->flashMessages->addSuccessMessage('Your settings have been saved.');
         }
 
         return $this->render('user/account.html.twig', [
@@ -73,8 +74,15 @@ class UserController extends AbstractController
     #[Route('/user/{id}/topics/page/{page}', name: 'user_topics_paginated', requirements: ['id' => '\d+', 'page' => '\d+'], methods: ['GET'])]
     public function userTopics(User $user, int $page, TopicRepository $repository): Response
     {
-        $topics = $repository->findPaginatedUserTopics($page, $user);
-        $topics->paginate();
+        try {
+            $this->authorize->permission(Permissions::MISC_VIEW_USER_TOPICS, $user);
+            $topics = $repository->findPaginatedUserTopics($page, $user);
+            $topics->paginate();
+        } catch (AccessDeniedException $e) {
+            $this->flashMessages->addErrorMessage($e->getMessage());
+
+            return $this->redirectToRoute('user_profile_public', ['id' => $user->getId()]);
+        }
 
         return $this->render('user/topics.html.twig', [
             'user' => $user,
@@ -88,8 +96,15 @@ class UserController extends AbstractController
     #[Route('/user/{id}/posts/page/{page}', name: 'user_posts_paginated', requirements: ['id' => '\d+', 'page' => '\d+'], methods: ['GET'])]
     public function userPosts(User $user, int $page, PostRepository $repository, PostHelper $helper): Response
     {
-        $topics = $repository->findPaginatedUserPosts($page, $user);
-        $topics->paginate();
+        try {
+            $this->authorize->permission(Permissions::MISC_VIEW_USER_POSTS, $user);
+            $topics = $repository->findPaginatedUserPosts($page, $user);
+            $topics->paginate();
+        } catch (AccessDeniedException $e) {
+            $this->flashMessages->addErrorMessage($e->getMessage());
+
+            return $this->redirectToRoute('user_profile_public', ['id' => $user->getId()]);
+        }
 
         return $this->render('user/posts.html.twig', [
             'user' => $user,
@@ -104,14 +119,25 @@ class UserController extends AbstractController
     public function private(#[CurrentUser] User $user, Request $request, EntityManagerInterface $manager): Response
     {
         $form = $this->createForm(UserPrivateType::class);
-        $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $user->setIsPrivate(!$user->isPrivate());
-            $manager->flush();
+        try {
+            if ($user->isPrivate()) {
+                $this->authorize->permission(Permissions::USER_SET_PUBLIC);
+            } else {
+                $this->authorize->permission(Permissions::USER_SET_PRIVATE);
+            }
+
+            $form->handleRequest($request);
+
+            if ($form->isSubmitted() && $form->isValid()) {
+                $user->setIsPrivate(!$user->isPrivate());
+                $manager->flush();
+            }
+        } catch (AccessDeniedException $e) {
+            $this->flashMessages->addErrorMessage($e->getMessage());
+        } finally {
+            return $this->redirectToRoute('user_account');
         }
-
-         return $this->redirectToRoute('user_account');
     }
 
     #[Route('/account/edit', name: 'user_profile_edit', methods: ['GET', 'POST'])]

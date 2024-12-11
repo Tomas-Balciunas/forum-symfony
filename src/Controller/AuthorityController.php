@@ -15,6 +15,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/panel')]
 class AuthorityController extends AbstractController
 {
+    // TODO: authorization and user search
     #[Route('', name: 'admin_panel')]
     public function index(UserRepository $repository, EntityManagerInterface $manager): Response
     {
@@ -26,6 +27,7 @@ class AuthorityController extends AbstractController
         ]);
     }
 
+    //TODO: authorization
     #[Route('/manage/{user}', name: 'admin_manage', methods: ['GET'])]
     public function manager(User $user, UserFullDataProvider $provider): Response
     {

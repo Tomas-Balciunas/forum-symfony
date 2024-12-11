@@ -7,8 +7,8 @@ use App\Data\Roles;
 use App\Entity\Permission;
 use App\Entity\Topic;
 use App\Entity\User;
+use App\Service\Misc\OwnerChecker;
 use App\Service\PermissionDataProvider;
-use App\Service\UserDataProvider;
 use App\Service\UserFullDataProvider;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
@@ -20,13 +20,18 @@ class TopicVoter extends Voter implements VoterInterface
         'delete' => Permissions::TOPIC_DELETE,
         'edit' => Permissions::TOPIC_EDIT,
         'lock' => Permissions::TOPIC_LOCK,
-        'createPost' => Permissions::POST_CREATE,
+        'show' => Permissions::TOPIC_SET_VISIBLE,
+        'hide' => Permissions::TOPIC_SET_HIDDEN,
+        'move' => Permissions::TOPIC_MOVE,
     ];
 
     private Permission $permission;
 
-    public function __construct(private readonly UserFullDataProvider       $userProvider,
-                                private readonly PermissionDataProvider $permissionProvider)
+    public function __construct(
+        private readonly UserFullDataProvider   $userProvider,
+        private readonly PermissionDataProvider $permissionProvider,
+        private readonly OwnerChecker           $ownerChecker
+    )
     {
     }
 
@@ -34,10 +39,6 @@ class TopicVoter extends Voter implements VoterInterface
     {
         if (!in_array($attribute, $this::PERMISSIONS, true)) {
             return false;
-        }
-
-        if ($attribute === self::PERMISSIONS['createPost']) {
-            return true;
         }
 
         if (!$subject instanceof Topic) {
@@ -62,17 +63,10 @@ class TopicVoter extends Voter implements VoterInterface
             self::PERMISSIONS['delete'] => $this->canDeleteTopic($user, $subject),
             self::PERMISSIONS['edit'] => $this->canEditTopic($user, $subject),
             self::PERMISSIONS['lock'] => $this->canLockTopic($user, $subject),
-            self::PERMISSIONS['createPost'] => $this->canCreatePost($subject)
+            self::PERMISSIONS['show'] => $this->canSetTopicVisible($user, $subject),
+            self::PERMISSIONS['hide'] => $this->canHideTopic($user, $subject),
+            default => $this->userProvider->hasPermission($this->permission)
         };
-    }
-
-    private function canCreatePost(Topic $topic): bool
-    {
-        if ($topic->isLocked()) {
-            return false;
-        }
-
-        return $this->userProvider->hasPermission($this->permission);
     }
 
     private function canDeleteTopic(User $user, Topic $topic): bool
@@ -81,21 +75,16 @@ class TopicVoter extends Voter implements VoterInterface
             return true;
         }
 
-        if (!$this->isAuthor($user, $topic)) {
+        if (!$this->ownerChecker->isOwner($user, $topic)) {
             return false;
         }
 
         return $this->userProvider->hasPermission($this->permission);
     }
 
-    private function isAuthor(User $user, Topic $topic): bool
-    {
-        return $user === $topic->getAuthor();
-    }
-
     private function canEditTopic(User $user, Topic $topic): bool
     {
-        if (!$this->isAuthor($user, $topic)) {
+        if (!$this->ownerChecker->isOwner($user, $topic)) {
             return false;
         }
 
@@ -108,7 +97,29 @@ class TopicVoter extends Voter implements VoterInterface
             return true;
         }
 
-        if (!$this->isAuthor($user, $topic)) {
+        if (!$this->ownerChecker->isOwner($user, $topic)) {
+            return false;
+        }
+
+        return $this->userProvider->hasPermission($this->permission);
+    }
+
+    private function canSetTopicVisible(User $user, Topic $topic): bool
+    {
+        if (!$this->ownerChecker->isOwner($user, $topic)) {
+            return false;
+        }
+
+        return $this->userProvider->hasPermission($this->permission);
+    }
+
+    private function canHideTopic(User $user, Topic $topic): bool
+    {
+        if ($user->getRole()->getName() === Roles::ROLE_ADMIN) {
+            return true;
+        }
+
+        if (!$this->ownerChecker->isOwner($user, $topic)) {
             return false;
         }
 

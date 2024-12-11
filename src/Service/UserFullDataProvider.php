@@ -7,7 +7,6 @@ use Doctrine\Common\Collections\Collection;
 
 class UserFullDataProvider extends UserDataProvider
 {
-
     public function getDefaultPermissions(): Collection
     {
         return $this->user->getDefaultPermissions();

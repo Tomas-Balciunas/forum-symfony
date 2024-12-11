@@ -21,6 +21,7 @@ class Messages
         Permissions::TOPIC_UNLOCK => 'You are not allowed to unlock this topic.',
         Permissions::TOPIC_SET_HIDDEN => 'You are not allowed to hide this topic.',
         Permissions::TOPIC_SET_VISIBLE => 'You are not allowed to set this topic visible.',
+        Permissions::TOPIC_MOVE => 'You are not allowed to move topics.',
         Permissions::BOARD_CREATE => 'You are not allowed to create boards.',
         Permissions::BOARD_DELETE => 'You are not allowed to delete this board.',
         Permissions::BOARD_EDIT => 'You are not allowed to edit this board.',
