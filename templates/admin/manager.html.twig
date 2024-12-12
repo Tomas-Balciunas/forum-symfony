@@ -33,7 +33,7 @@
                 <p><strong>Suspension:</strong>
                     <a href="{{ path('show_suspension', {'id': user.suspension.id}) }}"
                        class="text-yellow-400 hover:text-yellow-500">
-                        {% if user.suspension.permanent %}
+                        {% if user.suspension.isPermanent %}
                             Indefinite
                         {% else %}
                             {{ user.suspension.expiresAt|date }}

@@ -1,15 +1,24 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventSubscribers;
 
+use App\Data\Config;
 use App\Entity\Notification;
 use App\Event\PostCreatedEvent;
+use App\Event\PostPrepareEvent;
+use App\Helper\GeneralHelper;
+use App\Repository\PostRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-final readonly class PostCreatedSubscriber implements EventSubscriberInterface
+final readonly class PostSubscriber implements EventSubscriberInterface
 {
-    public function __construct(private EntityManagerInterface $manager)
+    public function __construct(
+        private EntityManagerInterface $manager,
+        private PostRepository $postRepository,
+        private GeneralHelper $helper
+    )
     {
     }
 
@@ -19,6 +28,9 @@ final readonly class PostCreatedSubscriber implements EventSubscriberInterface
             PostCreatedEvent::NAME => [
                 ["userPostCount"],
                 ['sendNotification']
+            ],
+            PostPrepareEvent::NAME => [
+                ['postOnCooldown']
             ]
         ];
     }
@@ -56,5 +68,20 @@ final readonly class PostCreatedSubscriber implements EventSubscriberInterface
 
         $this->manager->persist($notification);
         $this->manager->flush();
+    }
+
+    public function postOnCooldown(PostPrepareEvent $event): void
+    {
+        $user = $event->getUser();
+        $latestPost = $this->postRepository->findLatestUserPosts($user, 1);
+
+        if (!empty($latestPost)) {
+            $createdAt = $latestPost[0]->getCreatedAt();
+            $dateWithInterval = $this->helper->getFormattedDate($createdAt, Config::POST_CREATE_COOLDOWN);
+
+            if ($dateWithInterval > new \DateTime('now')) {
+                throw new AccessDeniedException('You have to wait before posting again.');
+            }
+        }
     }
 }

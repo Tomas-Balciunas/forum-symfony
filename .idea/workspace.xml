@@ -5,170 +5,55 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="applied more authorization, some restructuring, optimized notification db queries and caching implementation, style improvements">
-      <change beforePath="$PROJECT_DIR$/.env.example" beforeDir="false" afterPath="$PROJECT_DIR$/.env.example" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf/storage_v2/_src_/schema/information_schema.FNRwLQ.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf/storage_v2/_src_/schema/mysql.osA4Bg.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf/storage_v2/_src_/schema/mysql.osA4Bg.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf/storage_v2/_src_/schema/performance_schema.kIw0nw.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf/storage_v2/_src_/schema/sys.zb4BAA.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf/storage_v2/_src_/schema/sys.zb4BAA.meta" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php-test-framework.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php-test-framework.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/DTO/PostDTO.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/DTO/TopicDTO.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Entity/DTO/UserSuspensionDTO.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Event/PostPrepareEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Event/TopicPrepareEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/EventSubscribers/TopicSubscriber.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Helper/GeneralHelper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Helper/TopicHelper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Service/Misc/HydrateTrait.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/app.js" beforeDir="false" afterPath="$PROJECT_DIR$/assets/app.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/assets/styles/app.css" beforeDir="false" afterPath="$PROJECT_DIR$/assets/styles/app.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/config/packages/asset_mapper.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/config/packages/asset_mapper.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/importmap.php" beforeDir="false" afterPath="$PROJECT_DIR$/importmap.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241104151143.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241104151143.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241118141240.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241118141240.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241119191912.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241119191912.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241119193356.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241119193356.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241119193519.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241119193519.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241119194053.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241119194053.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241119194214.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241119194214.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241119200949.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241119200949.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241119201147.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241119201147.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241120192923.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241120192923.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241121175925.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241121175925.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241122202125.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241122202125.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241122202250.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241122202250.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241122202418.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241122202418.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241124205825.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241124205825.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241124214540.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241124214540.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241128162111.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241128162111.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241204173301.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241204173301.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241206181407.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241206181407.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241208170240.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241208170240.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241209133811.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241209133811.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Command/SeedRolesCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedRolesCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/AuthorityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AuthorityController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BoardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BoardController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/NotificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/NotificationController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PermissionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PermissionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/RegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RegistrationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/SuspensionController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/SuspensionController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/UserController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/UserController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/TopicController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TopicController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Data/Config.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data/Messages.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Messages.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data/Permissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Permissions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data/Roles.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Roles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data/ValidationMessages.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/ValidationMessages.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Board.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Board.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/DTO/SuspensionModifyDTO.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/DTO/SuspensionModifyDTO.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Interface/AuthorInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Interface/AuthorInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Notification.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Notification.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Permission.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Permission.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Role.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Role.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/UserSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/UserSettings.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/DTO/SuspensionModifyDTO.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Entity/UserSuspension.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/UserSuspension.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Event/PostCreatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/PostCreatedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Event/UserCreatedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/UserCreatedEvent.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Event/UserSuspendedEvent.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/UserSuspendedEvent.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventListener/ExceptionSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventListener/ExceptionSubscriber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventListener/PostCreatedDispatcher.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventListener/PostCreatedDispatcher.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventListener/PostCreatedSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventListener/PostCreatedSubscriber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventListener/UserCreatedDispatcher.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventListener/UserCreatedDispatcher.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventListener/UserCreatedSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventListener/UserCreatedSubscriber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventListener/UserSuspendedDispatcher.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventListener/UserSuspendedDispatcher.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventListener/UserSuspendedSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventListener/UserSuspendedSubscriber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Permission/GrantPermissionException.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Permission/GrantPermissionException.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Permission/RevokePermissionException.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Permission/RevokePermissionException.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Post/CreatePostException.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Post/CreatePostException.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Suspension/ModifySuspensionException.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Suspension/ModifySuspensionException.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/Suspension/SuspendUserException.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/Suspension/SuspendUserException.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventListener/ExceptionSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventSubscribers/ExceptionSubscriber.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventListener/PostCreatedDispatcher.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/Dispatchers/PostCreatedDispatcher.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventListener/PostCreatedSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventSubscribers/PostSubscriber.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventListener/UserCreatedDispatcher.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/Dispatchers/UserCreatedDispatcher.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventListener/UserCreatedSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventSubscribers/UserSubscriber.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventListener/UserSuspendedDispatcher.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/Dispatchers/UserSuspendedDispatcher.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventListener/UserSuspendedSubscriber.php" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Exception/UserIsSuspendedException.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/UserIsSuspendedException.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Exception/ValidationExceptionInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Exception/ValidationExceptionInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/AccountSettingsType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/AccountSettingsType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/BoardType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/BoardType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Form/PermanentSuspendType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/PermanentSuspendType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Form/PostType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/PostType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/RegistrationFormType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/RegistrationFormType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/SearchFormType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/SearchFormType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Form/SuspendType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/SuspendType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Form/SuspensionModifyType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/SuspensionModifyType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TopicLockType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TopicLockType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TopicMoveType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TopicMoveType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Form/TopicType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TopicType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TopicVisibilityType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TopicVisibilityType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/UserEditType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/UserEditType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/UserPrivateType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/UserPrivateType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Helper/PermissionHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/PermissionHelper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Helper/PostHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/PostHelper.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Helper/SuspensionHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/SuspensionHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/BoardRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/BoardRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/NotificationRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/NotificationRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/PermissionRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/PermissionRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/RoleRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/RoleRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UserSettingsRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserSettingsRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UserSuspensionRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserSuspensionRepository.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Security/UserChecker.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/UserChecker.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/BoardService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/BoardService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Interface/PermissionManagerInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Interface/PermissionManagerInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/AddFlashMessages.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/AddFlashMessages.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/CacheHandler.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/CacheHandler.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/NotificationTemplating.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/NotificationTemplating.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/OwnerChecker.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/OwnerChecker.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/Paginator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/Paginator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/PermissionAuthorization.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/PermissionAuthorization.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/PermissionDataProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/PermissionDataProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/UserDataProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/UserDataProvider.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/UserFullDataProvider.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/UserFullDataProvider.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/Misc/UserSuspendedResponse.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/UserSuspendedResponse.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/NotificationService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/NotificationService.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/PermissionService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PermissionService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/PostService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PostService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/SuspensionService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/SuspensionService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Service/TopicService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/TopicService.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Twig/ExtraGlobalVariables.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Twig/ExtraGlobalVariables.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Permission/Grant/GrantPermissionActions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Permission/Grant/GrantPermissionActions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Permission/Grant/GrantPermissionValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Permission/Grant/GrantPermissionValidator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Permission/Revoke/RevokePermissionActions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Permission/Revoke/RevokePermissionActions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Permission/Revoke/RevokePermissionValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Permission/Revoke/RevokePermissionValidator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Post/Create/CreatePostActions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Post/Create/CreatePostActions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Post/Create/CreatePostValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Post/Create/CreatePostValidator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Suspension/Finite/FiniteSuspensionActions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Suspension/Finite/FiniteSuspensionActions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Suspension/Finite/FiniteSuspensionValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Suspension/Finite/FiniteSuspensionValidator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Suspension/Modify/ModifySuspensionActions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Suspension/Modify/ModifySuspensionActions.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Validate/Suspension/Modify/ModifySuspensionValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Suspension/Modify/ModifySuspensionValidator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Suspension/Permanent/PermanentSuspensionActions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Suspension/Permanent/PermanentSuspensionActions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/Suspension/Permanent/PermanentSuspensionValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Suspension/Permanent/PermanentSuspensionValidator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Validate/ValidatorInterface.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/ValidatorInterface.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/BoardVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/BoardVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/PermissionVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/PermissionVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/PostVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/PostVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/SuspensionVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/SuspensionVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/TopicVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/TopicVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/UserVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/UserVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tailwind.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/tailwind.config.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/_page.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_page.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/_paginator.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_paginator.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/_search.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_search.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/admin/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/symfony.lock" beforeDir="false" afterPath="$PROJECT_DIR$/symfony.lock" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/admin/manager.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/manager.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/admin/suspension.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/admin/suspension.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/board/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/board/create.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/board/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/board/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/board/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/board/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error403.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error403.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error404.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error404.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error500.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/bundles/TwigBundle/Exception/error500.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/error.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/error.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nav.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nav.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/notification/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/notification/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/post/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/post/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/registration/register.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/registration/register.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/suspended.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/suspended.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/topic/create.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/topic/create.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/topic/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/topic/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/topic/move.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/topic/move.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/account.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/account.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/edit.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/edit.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/posts.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/posts.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/public_profile.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/public_profile.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/topics.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/topics.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/tests/RegistrationControllerTest.php" beforeDir="false" afterPath="$PROJECT_DIR$/tests/RegistrationControllerTest.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/topic/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/topic/show.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -358,6 +243,7 @@
       <path value="$PROJECT_DIR$/vendor/psr/link" />
       <path value="$PROJECT_DIR$/vendor/symfony/asset-mapper" />
       <path value="$PROJECT_DIR$/vendor/symfonycasts/tailwind-bundle" />
+      <path value="$PROJECT_DIR$/vendor/phpstan/phpstan" />
     </include_path>
   </component>
   <component name="ProblemsViewState">
@@ -376,6 +262,7 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
+    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;PHP Script.SeedRolesCommand.php.executor&quot;: &quot;Run&quot;,
     &quot;PHPUnit.Main.executor&quot;: &quot;Run&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
@@ -494,7 +381,8 @@
       <workItem from="1733780457590" duration="1543000" />
       <workItem from="1733827708004" duration="40448000" />
       <workItem from="1733874176379" duration="2014000" />
-      <workItem from="1734012952924" duration="285000" />
+      <workItem from="1734012952924" duration="21038000" />
+      <workItem from="1734034106242" duration="10960000" />
     </task>
     <task id="LOCAL-00001" summary="progressing">
       <option name="closed" value="true" />
@@ -592,7 +480,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733876200017</updated>
     </task>
-    <option name="localTasksCounter" value="13" />
+    <task id="LOCAL-00013" summary="applied more authorization, some restructuring, optimized notification db queries and caching implementation, style improvements">
+      <option name="closed" value="true" />
+      <created>1734013427370</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1734013427370</updated>
+    </task>
+    <option name="localTasksCounter" value="14" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -612,17 +508,6 @@
     <MESSAGE value="applied more validation and authorization, slight restructuring (in progress)" />
     <MESSAGE value="applied more authorization, some restructuring, optimized notification db queries and caching implementation, style improvements" />
     <option name="LAST_COMMIT_MESSAGE" value="applied more authorization, some restructuring, optimized notification db queries and caching implementation, style improvements" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="php">
-          <url>file://$PROJECT_DIR$/src/EventListener/UserSuspendedDispatcher.php</url>
-          <line>11</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -2,7 +2,7 @@
 
 namespace App\Helper;
 
-use App\Entity\DTO\SuspensionModifyDTO;
+use App\Entity\DTO\UserSuspensionDTO;
 use App\Entity\User;
 use App\Entity\UserSuspension;
 use DateInterval;
@@ -19,16 +19,6 @@ class SuspensionHelper
         $suspension->setReason($reason);
 
         return $suspension;
-    }
-
-    public function createSuspensionModifyDto(UserSuspension $suspension): SuspensionModifyDto
-    {
-        $dto = new SuspensionModifyDTO();
-        $dto->setReason($suspension->getReason());
-        $dto->setExpiresAt($suspension->getExpiresAt());
-        $dto->setIsPermanent($suspension->isPermanent());
-
-        return $dto;
     }
 
     public function makeSuspensionDate(

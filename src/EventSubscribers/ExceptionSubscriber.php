@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventSubscribers;
 
 use App\Exception\UserIsSuspendedException;
 use App\Service\Misc\UserSuspendedResponse;

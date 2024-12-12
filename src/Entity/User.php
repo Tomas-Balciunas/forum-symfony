@@ -154,7 +154,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this->suspension;
     }
 
-    public function setSuspension(UserSuspension $suspension): void
+    public function setSuspension(UserSuspension|null $suspension): void
     {
         $this->suspension = $suspension;
     }
@@ -250,7 +250,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\PrePersist]
     public function setCreatedAt(): void
     {
-        $this->createdAt = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+        $this->createdAt = new DateTimeImmutable('now');
     }
 
     public function getSettings(): UserSettings

@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Board;
+use App\Entity\DTO\TopicDTO;
 use App\Entity\Topic;
 use App\Entity\User;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -24,7 +25,7 @@ class TopicType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Topic::class,
+            'data_class' => TopicDTO::class,
         ]);
     }
 }

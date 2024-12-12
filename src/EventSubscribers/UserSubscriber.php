@@ -1,15 +1,17 @@
 <?php
 
-namespace App\EventListener;
+namespace App\EventSubscribers;
 
-use App\Data\Roles;
 use App\Entity\UserSettings;
+use App\Event\PostPrepareEvent;
 use App\Event\UserCreatedEvent;
+use App\Event\UserSuspendedEvent;
 use App\Repository\RoleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-final readonly class UserCreatedSubscriber implements EventSubscriberInterface
+final readonly class UserSubscriber implements EventSubscriberInterface
 {
     private const DEFAULT_ROLE = 'ROLE_USER';
 
@@ -26,7 +28,10 @@ final readonly class UserCreatedSubscriber implements EventSubscriberInterface
             UserCreatedEvent::NAME => [
                 ['applyUserRoles'],
                 ['applySettings']
-            ]
+            ],
+            UserSuspendedEvent::NAME => [
+                ['setUserStatus']
+            ],
         ];
     }
 
@@ -48,4 +53,14 @@ final readonly class UserCreatedSubscriber implements EventSubscriberInterface
         $this->manager->persist($settings);
         $this->manager->flush();
     }
+
+    public function setUserStatus(UserSuspendedEvent $event): void
+    {
+        $user = $event->getUser();
+
+        $user->setStatus('suspended');
+        $this->manager->flush();
+    }
+
+
 }

@@ -33,7 +33,7 @@ class ExtraGlobalVariables extends AbstractExtension
         }
 
         $latest = $user->getLatestNotification($user);
-        $lastSeen = $cache->getItem('last_seen');
+        $lastSeen = $cache->getItem('last_seen_' . $user->getId());
 
         if ($latest && $lastSeen->isHit()) {
             return $latest->getCreatedAt() > $lastSeen->get();

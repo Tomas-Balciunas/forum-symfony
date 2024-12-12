@@ -16,7 +16,7 @@
                 {{ form_start(lockForm, {'attr': {'class': 'space-y-4'}}) }}
                 <button type="submit"
                         class="inline-block bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">
-                    {% if topic.locked %}
+                    {% if topic.isLocked %}
                         Unlock Topic
                     {% else %}
                         Lock Topic
@@ -27,7 +27,7 @@
                 {{ form_start(visibilityForm, {'attr': {'class': 'space-y-4'}}) }}
                 <button type="submit"
                         class="inline-block bg-orange-600 text-white py-2 px-4 rounded-md hover:bg-orange-500 transition duration-200 ease-in-out">
-                    {% if topic.visible %}
+                    {% if topic.isVisible %}
                         Hide Topic
                     {% else %}
                         Show Topic
@@ -62,7 +62,7 @@
                 {% for key, post in paginator.results %}
                     <div id="{{ post.id }}" class="bg-gray-700 border-2 border-gray-600 shadow-md">
                         <div class="flex justify-between items-start">
-                            <div class="w-1/6 p-3">
+                            <div class="w-1/6 px-3 py-2">
                                 <a class="text-blue-500"
                                    href="{{ path('user_profile_public', { id: post.author.id }) }}">
                                     {{ post.author.username }}:
@@ -76,11 +76,11 @@
                             </div>
                             <div class="w-1/6 text-right p-2">
                                 <div>
-                                    <span class="text-gray-500">{{ post.createdAt|date('Y-m-d H:m') }}</span>
-                                    <a class="ml-1" href="#{{ post.id }}">#{{ paginator.postIndex(key) }}</a>
+                                    <span class="text-gray-500 text-sm">{{ post.createdAt|date('Y-m-d H:i') }}</span>
+                                    <a class="ml-1 text-sm" href="#{{ post.id }}">#{{ paginator.postIndex(key) }}</a>
                                 </div>
                                 {% if app.user is same as post.author %}
-                                <a href="{{ path('post_edit', {'id': post.id}) }}" class="inline-block text-blue-500 mt-2">Edit</a>
+                                <a href="{{ path('post_edit', {'id': post.id, 'page': paginator.page }) }}" class="inline-block text-blue-500 mt-2">Edit</a>
                                 {% endif %}
                             </div>
                         </div>

@@ -2,12 +2,10 @@
 
 namespace App\Form;
 
-use App\Entity\DTO\SuspensionModifyDTO;
-use App\Entity\UserSuspension;
+use App\Entity\DTO\UserSuspensionDTO;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
-use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,7 +24,7 @@ class SuspensionModifyType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Length([
-                        'min' => 10,
+                        'min' => 1,
                         'max' => 1000,
                     ])
                 ]
@@ -40,7 +38,7 @@ class SuspensionModifyType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => SuspensionModifyDTO::class,
+            'data_class' => UserSuspensionDTO::class,
         ]);
     }
 }

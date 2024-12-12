@@ -9,7 +9,7 @@ class UserIsSuspendedException extends \Exception
 {
     protected $message = 'This account has been suspended.';
     private string $reason;
-    private DateTime $expiresAt;
+    private DateTime|null $expiresAt;
 
     public function __construct(string $reason, DateTime $expiresAt = null)
     {
@@ -18,7 +18,7 @@ class UserIsSuspendedException extends \Exception
         $this->expiresAt = $expiresAt;
     }
 
-    public function getExpiresAt(): DateTime
+    public function getExpiresAt(): DateTime|null
     {
         return $this->expiresAt;
     }

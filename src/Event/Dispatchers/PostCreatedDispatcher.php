@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\Event\Dispatchers;
 
 use App\Entity\Post;
 use App\Event\PostCreatedEvent;

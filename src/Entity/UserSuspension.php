@@ -19,12 +19,12 @@ class UserSuspension
     private ?int $id = null;
 
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'suspension')]
-    #[ORM\JoinColumn(name: 'issued_for', unique: true)]
-    private User $issuedFor;
+    #[ORM\JoinColumn(name: 'issued_for', unique: true, onDelete: 'CASCADE')]
+    private ?User $issuedFor = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'issuedSuspensions')]
     #[ORM\JoinColumn(name: 'issued_by')]
-    private User $issuedBy;
+    private ?User $issuedBy = null;
 
     #[ORM\Column(type: Types::TEXT)]
     private ?string $reason = null;
@@ -63,7 +63,7 @@ class UserSuspension
     #[ORM\PrePersist]
     public function setIssuedAt(): static
     {
-        $this->issuedAt = new DateTimeImmutable('now', new DateTimeZone('UTC'));
+        $this->issuedAt = new DateTimeImmutable('now');
 
         return $this;
     }
@@ -104,7 +104,7 @@ class UserSuspension
         return $this;
     }
 
-    public function isPermanent(): ?bool
+    public function getIsPermanent(): ?bool
     {
         return $this->isPermanent;
     }

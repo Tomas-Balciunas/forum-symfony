@@ -2,7 +2,7 @@
 
 namespace App\Service;
 
-use App\Entity\DTO\SuspensionModifyDTO;
+use App\Entity\DTO\UserSuspensionDTO;
 use App\Entity\User;
 use App\Entity\UserSuspension;
 use App\Exception\Suspension\ModifySuspensionException;
@@ -28,20 +28,20 @@ readonly class SuspensionService
     /**
      * @throws ModifySuspensionException
      */
-    public function handleModifySuspension(UserSuspension $suspension, SuspensionModifyDTO $dto): void
+    public function handleModifySuspension(UserSuspension $suspension, UserSuspensionDTO $dto): void
     {
-        if (!$dto->getIsPermanent()) {
-            $errors = $this->modifySuspensionValidator->validate($dto->getExpiresAt())->getErrors();
+        if (!$dto->isPermanent) {
+            $errors = $this->modifySuspensionValidator->validate($dto->expiresAt)->getErrors();
 
             if (!empty($errors)) {
                 throw new ModifySuspensionException($errors);
             }
 
-            $suspension->setExpiresAt($dto->getExpiresAt());
+            $suspension->setExpiresAt($dto->expiresAt);
         }
 
-        $suspension->setReason($dto->getReason());
-        $suspension->setIsPermanent($dto->getIsPermanent());
+        $suspension->setReason($dto->reason);
+        $suspension->setIsPermanent($dto->isPermanent);
 
         $this->entityManager->flush();
     }
@@ -51,6 +51,7 @@ readonly class SuspensionService
         $user = $suspension->getIssuedFor();
         $this->entityManager->remove($suspension);
         $user->setStatus('active');
+
         $this->entityManager->flush();
     }
 
@@ -70,6 +71,7 @@ readonly class SuspensionService
         $until = $this->suspensionHelper->makeSuspensionDate($d ?? 0, $h ?? 0);
         $suspension = $this->suspensionHelper->makeSuspensionFoundation($issuedBy, $issuedFor, $reason);
         $suspension->setExpiresAt($until);
+        $issuedFor->setSuspension($suspension);
 
         $this->entityManager->persist($suspension);
         $this->entityManager->flush();

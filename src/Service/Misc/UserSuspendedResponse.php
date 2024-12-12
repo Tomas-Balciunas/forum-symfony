@@ -12,7 +12,7 @@ class UserSuspendedResponse
 {
     private int $statusCode = 403;
     private string $message;
-    private \DateTime $expiresAt;
+    private \DateTime|null $expiresAt;
     private string $reason;
 
     public function __construct(

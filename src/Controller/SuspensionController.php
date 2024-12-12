@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Data\Permissions;
+use App\Entity\DTO\UserSuspensionDTO;
 use App\Entity\User;
 use App\Entity\UserSuspension;
 use App\Exception\Suspension\ModifySuspensionException;
@@ -10,7 +11,6 @@ use App\Exception\Suspension\SuspendUserException;
 use App\Form\PermanentSuspendType;
 use App\Form\SuspendType;
 use App\Form\SuspensionModifyType;
-use App\Helper\SuspensionHelper;
 use App\Service\Misc\AddFlashMessages;
 use App\Service\Misc\PermissionAuthorization;
 use App\Service\SuspensionService;
@@ -30,9 +30,10 @@ class SuspensionController extends AbstractController
     ) {}
 
     #[Route('/{id}', name: 'show_suspension', methods: ['GET', 'POST'])]
-    public function showSuspension(UserSuspension $suspension, SuspensionHelper $helper): Response
+    public function showSuspension(UserSuspension $suspension): Response
     {
-        $dto = $helper->createSuspensionModifyDto($suspension);
+        $dto = UserSuspensionDTO::hydrate($suspension);
+        dump($dto);
 
         $modifyForm = $this->createForm(SuspensionModifyType::class, $dto, [
             'action' => $this->generateUrl('modify_suspension', ['id' => $suspension->getId()]),
@@ -40,7 +41,7 @@ class SuspensionController extends AbstractController
         ]);
 
         return $this->render('admin/suspension.html.twig', [
-            'suspension' => $suspension,
+            'suspension' => $dto,
             'modifyForm' => $modifyForm->createView(),
         ]);
     }
@@ -48,7 +49,8 @@ class SuspensionController extends AbstractController
     #[Route('/{id}/modify', name: 'modify_suspension', methods: ['POST'])]
     public function modifySuspension(UserSuspension $suspension, SuspensionService $service, Request $request): Response
     {
-        $modifyForm = $this->createForm(SuspensionModifyType::class);
+        $dto = UserSuspensionDTO::hydrate($suspension);
+        $modifyForm = $this->createForm(SuspensionModifyType::class, $dto);
 
         try {
             $this->authorize->permission(Permissions::USER_BAN_MODIFY);
@@ -77,6 +79,8 @@ class SuspensionController extends AbstractController
             $this->addFlashMessages->addSuccessMessage('Suspension lifted.');
         } catch (AccessDeniedException $e) {
             $this->addFlashMessages->addErrorMessage($e->getMessage());
+        } catch (\Exception $exception) {
+            $this->addFlashMessages->addErrorMessage($exception->getMessage());
         } finally {
             return $this->redirectToRoute('admin_manage', ['user' => $suspension->getIssuedFor()->getId()]);
         }

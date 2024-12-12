@@ -2,18 +2,18 @@
 
 namespace App\Event;
 
-use App\Entity\UserSuspension;
+use App\Entity\User;
 
 class UserSuspendedEvent
 {
     public const NAME = 'user.suspended';
 
-    public function __construct(private readonly UserSuspension $userSuspension)
+    public function __construct(private readonly User $issuedFor)
     {
     }
 
-    public function getSuspension(): UserSuspension
+    public function getUser(): User
     {
-        return $this->userSuspension;
+        return $this->issuedFor;
     }
 }

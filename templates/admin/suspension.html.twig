@@ -12,10 +12,10 @@
             <p><strong>Issued by:</strong> {{ suspension.issuedBy.username }}</p>
             <p><strong>Issued at:</strong> {{ suspension.issuedAt|date }}</p>
             <p><strong>Expires at:</strong>
-                {% if suspension.permanent %}
-                    <span class="text-yellow-400">Indefinite</span>
+                {% if suspension.isPermanent %}
+                    <span class="text-red-400">Indefinite</span>
                 {% else %}
-                    <span class="text-gray-300">{{ suspension.expiresAt|date }}</span>
+                    <span>{{ suspension.expiresAt|date }}</span>
                 {% endif %}
             </p>
 

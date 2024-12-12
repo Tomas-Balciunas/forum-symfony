@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Data\Permissions;
 use App\Entity\Board;
+use App\Entity\DTO\TopicDTO;
 use App\Entity\Topic;
 use App\Entity\User;
+use App\Event\TopicPrepareEvent;
 use App\Form\PostType;
 use App\Form\TopicLockType;
 use App\Form\TopicMoveType;
@@ -22,6 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
 class TopicController extends AbstractController
 {
@@ -32,10 +35,15 @@ class TopicController extends AbstractController
     ) {}
 
     #[Route('/board/{id}/create-topic', name: 'topic_create', methods: ['GET', 'POST'])]
-    public function create(Request $request, Board $board, #[CurrentUser] User $user, EntityManagerInterface $manager): Response
+    public function create(
+        Request $request,
+        Board $board,
+        #[CurrentUser] User $user,
+        EventDispatcherInterface $dispatcher
+    ): Response
     {
-        $topic = new Topic();
-        $form = $this->createForm(TopicType::class, $topic);
+        $topicDto = new TopicDTO();
+        $form = $this->createForm(TopicType::class, $topicDto);
 
         try {
             $this->authorize->permission(Permissions::TOPIC_CREATE, $board);
@@ -43,7 +51,10 @@ class TopicController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $this->service->handleCreateTopic($topic, $board, $user);
+                $event = new TopicPrepareEvent($user);
+                $dispatcher->dispatch($event, TopicPrepareEvent::NAME);
+
+                $this->service->handleCreateTopic($topicDto, $board, $user);
                 $this->flashMessages->addSuccessMessage('Topic created.');
 
                 return $this->redirectToRoute('board_show', ['id' => $board->getId()]);
@@ -63,25 +74,27 @@ class TopicController extends AbstractController
     #[Route('/topic/{id}/page/{page}', name: 'topic_show_paginated', requirements: ['id' => '\d+', 'page' => '\d+'], methods: ['GET'])]
     public function show(Topic $topic, int $page, PostRepository $postRepository): Response
     {
+        $topicDto = TopicDTO::hydrate($topic);
+
         $lockForm = $this->createForm(TopicLockType::class, null, [
-            'action' => $this->generateUrl('topic_lock', ['id' => $topic->getId()]),
+            'action' => $this->generateUrl('topic_lock', ['id' => $topicDto->id]),
             'method' => 'POST',
         ]);
         $visibilityForm = $this->createForm(TopicVisibilityType::class, null, [
-            'action' => $this->generateUrl('topic_visibility', ['id' => $topic->getId()]),
+            'action' => $this->generateUrl('topic_visibility', ['id' => $topicDto->id]),
             'method' => 'POST',
         ]);
         $form = $this->createForm(PostType::class, null, [
-            'action' => $this->generateUrl('post_create', ['id' => $topic->getId()]),
+            'action' => $this->generateUrl('post_create', ['id' => $topicDto->id, 'page' => $page]),
         ]);
 
-        $posts = $postRepository->findPaginatedPosts($page, $topic->getId());
+        $posts = $postRepository->findPaginatedPosts($page, $topicDto->id);
         $posts->paginate();
 
-        $board = $topic->getBoard();
+        $board = $topicDto->board;
 
         return $this->render('topic/show.html.twig', [
-            'topic' => $topic,
+            'topic' => $topicDto,
             'paginator' => $posts,
             'board' => $board,
             'form' => $form->createView(),

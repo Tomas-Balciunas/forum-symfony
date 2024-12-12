@@ -2,7 +2,7 @@
 
 namespace App\Validate\Suspension\Modify;
 
-use App\Entity\DTO\SuspensionModifyDTO;
+use App\Entity\DTO\UserSuspensionDTO;
 use App\Entity\User;
 use App\Exception\ValidationExceptionInterface;
 use App\Validate\ValidatorInterface;

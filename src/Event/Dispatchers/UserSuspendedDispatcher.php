@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventListener;
+namespace App\Event\Dispatchers;
 
 use App\Entity\UserSuspension;
 use App\Event\UserSuspendedEvent;
@@ -15,9 +15,9 @@ readonly class UserSuspendedDispatcher
     {
     }
 
-    public function onSuspendedUser(UserSuspension $userSuspension): void
+    public function onSuspendedUser(UserSuspension $suspension): void
     {
-        $event = new UserSuspendedEvent($userSuspension);
+        $event = new UserSuspendedEvent($suspension->getIssuedFor());
         $this->dispatcher->dispatch($event, UserSuspendedEvent::NAME);
     }
 }

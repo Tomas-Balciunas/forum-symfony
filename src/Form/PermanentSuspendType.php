@@ -18,7 +18,7 @@ class PermanentSuspendType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Length([
-                        'min' => 10,
+                        'min' => 1,
                         'max' => 1000,
                     ])
                 ]
