@@ -13,7 +13,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class PostRepository extends ServiceEntityRepository
 {
-    private const ALIAS = 'p';
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -22,28 +21,38 @@ class PostRepository extends ServiceEntityRepository
 
     public function findPaginatedPosts(int $page, int $topicId): Paginator
     {
-        $query = $this->createQueryBuilder(self::ALIAS)
-            ->andWhere(self::ALIAS . '.topic = :topicId')
+        $query = $this->createQueryBuilder('p')
+            ->andWhere('p.topic = :topicId')
             ->setParameter('topicId', $topicId)
-            ->addOrderBy(self::ALIAS . '.createdAt', 'ASC');
+            ->addOrderBy('p.createdAt', 'ASC');
 
-        return new Paginator($page, $query);
+        $count = $this->createQueryBuilder('p2')
+            ->select('count(p2.id)')
+            ->andWhere('p2.topic = :topicId')
+            ->setParameter('topicId', $topicId);
+
+        return new Paginator($page, $query, $count);
     }
 
     public function findPaginatedUserPosts(int $page, User $user, string $searchQuery = null): Paginator
     {
-        $query = $this->createQueryBuilder(self::ALIAS)
-            ->join(self::ALIAS . '.author', 'u')
-            ->andWhere(self::ALIAS . '.author = :author')
+        $query = $this->createQueryBuilder('p')
+            ->join('p.author', 'u')
+            ->andWhere('p.author = :author')
             ->setParameter('author', $user)
-            ->addOrderBy(self::ALIAS . '.createdAt', 'DESC');
+            ->addOrderBy('p.createdAt', 'DESC');
 
         if ($searchQuery) {
-            $query->andWhere(self::ALIAS . '.title LIKE :searchQuery')
+            $query->andWhere('p.title LIKE :searchQuery')
                 ->setParameter('searchQuery', '%' . $searchQuery . '%');
         }
 
-        return new Paginator($page, $query);
+        $count = $this->createQueryBuilder('p2')
+            ->select('count(p2.id)')
+            ->andWhere('p2.author = :author')
+            ->setParameter('author', $user);
+
+        return new Paginator($page, $query, $count);
     }
 
     public function findLatestUserPosts(User $user, int $limit = 5): array
@@ -60,12 +69,12 @@ class PostRepository extends ServiceEntityRepository
 
     public function findPostPosInTopic(int $postId, int $topicId): int
     {
-        return $this->createQueryBuilder(self::ALIAS)
-            ->join(self::ALIAS . '.topic', 't')
+        return $this->createQueryBuilder('p')
+            ->join('p.topic', 't')
             ->select('count(1)')
-            ->andWhere(self::ALIAS . '.id <= :postId')
+            ->andWhere('p.id <= :postId')
             ->setParameter('postId', $postId)
-            ->andWhere(self::ALIAS . '.topic = :topicId')
+            ->andWhere('p.topic = :topicId')
             ->setParameter('topicId', $topicId)
             ->getQuery()
             ->getSingleScalarResult();

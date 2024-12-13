@@ -2,6 +2,7 @@
 
 namespace App\Tests;
 
+use App\Entity\Role;
 use App\Entity\User;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -28,11 +29,15 @@ class LoginControllerTest extends WebTestCase
         // Create a User fixture
         /** @var UserPasswordHasherInterface $passwordHasher */
         $passwordHasher = $container->get('security.user_password_hasher');
+        $role = (new Role())->setName('ROLE_USER');
 
         $user = (new User())->setEmail('email@example.com');
+        $user->setUsername('username');
         $user->setPassword($passwordHasher->hashPassword($user, 'password'));
+        $user->setRole($role);
 
         $em->persist($user);
+        $em->persist($role);
         $em->flush();
     }
 
@@ -42,7 +47,7 @@ class LoginControllerTest extends WebTestCase
         $this->client->request('GET', '/login');
         self::assertResponseIsSuccessful();
 
-        $this->client->submitForm('Sign in', [
+        $this->client->submitForm('login', [
             '_username' => 'doesNotExist@example.com',
             '_password' => 'password',
         ]);
@@ -51,13 +56,13 @@ class LoginControllerTest extends WebTestCase
         $this->client->followRedirect();
 
         // Ensure we do not reveal if the user exists or not.
-        self::assertSelectorTextContains('.alert-danger', 'Invalid credentials.');
+        self::assertSelectorTextContains('#error', 'Invalid credentials.');
 
         // Denied - Can't login with invalid password.
         $this->client->request('GET', '/login');
         self::assertResponseIsSuccessful();
 
-        $this->client->submitForm('Sign in', [
+        $this->client->submitForm('login', [
             '_username' => 'email@example.com',
             '_password' => 'bad-password',
         ]);
@@ -66,10 +71,10 @@ class LoginControllerTest extends WebTestCase
         $this->client->followRedirect();
 
         // Ensure we do not reveal the user exists but the password is wrong.
-        self::assertSelectorTextContains('.alert-danger', 'Invalid credentials.');
+        self::assertSelectorTextContains('#error', 'Invalid credentials.');
 
         // Success - Login with valid credentials is allowed.
-        $this->client->submitForm('Sign in', [
+        $this->client->submitForm('login', [
             '_username' => 'email@example.com',
             '_password' => 'password',
         ]);
@@ -77,7 +82,7 @@ class LoginControllerTest extends WebTestCase
         self::assertResponseRedirects('/');
         $this->client->followRedirect();
 
-        self::assertSelectorNotExists('.alert-danger');
+        self::assertSelectorNotExists('#error');
         self::assertResponseIsSuccessful();
     }
 }

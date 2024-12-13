@@ -91,7 +91,7 @@ class Topic implements AuthorInterface
         return $this;
     }
 
-    public function isLocked(): bool
+    public function getIsLocked(): bool
     {
         return $this->isLocked;
     }
@@ -103,7 +103,7 @@ class Topic implements AuthorInterface
         return $this;
     }
 
-    public function isVisible(): bool
+    public function getIsVisible(): bool
     {
         return $this->isVisible;
     }

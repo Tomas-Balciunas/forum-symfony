@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubscribers;
+namespace App\EventSubscriber;
 
 use App\Exception\UserIsSuspendedException;
 use App\Service\Misc\UserSuspendedResponse;
@@ -31,7 +31,6 @@ final readonly class ExceptionSubscriber implements EventSubscriberInterface
     {
         $throwable = $event->getThrowable();
 
-        // TODO: logging and more error handling
         if ($throwable instanceof UserIsSuspendedException) {
             $event->setResponse($this->handleUserSuspendedException($throwable));
         }

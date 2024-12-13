@@ -39,12 +39,13 @@ class RegistrationControllerTest extends WebTestCase
 
         $this->client->submitForm('Register', [
             'registration_form[email]' => 'me@example.com',
-            'registration_form[plainPassword]' => 'password',
-            'registration_form[agreeTerms]' => true,
+            'registration_form[username]' => 'username',
+            'registration_form[plainPassword][first]' => 'password',
+            'registration_form[plainPassword][second]' => 'password',
         ]);
 
         // Ensure the response redirects after submitting the form, the user exists, and is not verified
-        // self::assertResponseRedirects('/'); @TODO: set the appropriate path that the user is redirected to.
+         self::assertResponseRedirects('/login');
         self::assertCount(1, $this->userRepository->findAll());
     }
 }

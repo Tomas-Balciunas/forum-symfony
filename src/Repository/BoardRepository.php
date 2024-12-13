@@ -15,4 +15,20 @@ class BoardRepository extends ServiceEntityRepository
     {
         parent::__construct($registry, Board::class);
     }
+
+    public function findAllWithCount(): array
+    {
+        $qb = $this->createQueryBuilder('b');
+
+        return $qb
+            ->select('b as board')
+            ->leftJoin('b.topics', 't')
+            ->addSelect($qb->expr()->countDistinct('t.id') . 'as topic_count')
+            ->leftJoin('t.posts', 'posts')
+            ->addSelect($qb->expr()->count('posts.id') . 'as total_posts')
+            ->addOrderBy('b.createdAt', 'ASC')
+            ->addGroupBy('b.id')
+            ->getQuery()
+            ->getResult();
+    }
 }

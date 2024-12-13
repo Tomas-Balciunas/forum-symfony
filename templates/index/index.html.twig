@@ -4,26 +4,46 @@
 
 {% block body %}
     <div class="container mx-auto p-6 font-serif">
-        <h4 class="text-3xl font-extrabold text-gray-100 mb-6">Boards:</h4>
 
         {% if boards %}
-            <ul class="space-y-4">
-                {% for board in boards %}
-                    <a href="{{ path('board_show', {'id': board.id}) }}" class="block text-xl font-medium">
-                        <li class="bg-gray-900 text-white p-4 shadow-lg hover:bg-gray-700 hover:shadow-2xl hover:text-yellow-400 transition duration-300">
-                            {{ board.title }}
-
-                            <p class="text-gray-500 text-sm">{{ board.description }}</p>
-                        </li>
-                    </a>
+            <table class="min-w-full bg-gray-800 text-gray-200 border border-gray-600">
+                <thead class="bg-gray-700">
+                <tr>
+                    <th class="px-3 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Board</th>
+                    <th class="px-2 py-3 text-right text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Topics</th>
+                    <th class="px-2 py-3 text-right text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Posts</th>
+                    <th class="px-3 py-3 text-center text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Created At</th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for data in boards %}
+                    <tr class="hover:bg-gray-700 transition duration-200 ease-in-out">
+                        <td class="px-3 py-2 border-b border-gray-600">
+                            <a href="{{ path('board_show', {'id': data.board.id}) }}" class="block text-yellow-400 hover:underline transition duration-200 ease-in-out">
+                                {{ data.board.title }}
+                            </a>
+                        </td>
+                        <td class=" py-2 border-b border-gray-600 w-10 text-center">
+                            <span>{{ data.topic_count }}</span>
+                        </td>
+                        <td class=" py-2 border-b border-gray-600 w-10 text-center">
+                            <span>{{ data.total_posts }}</span>
+                        </td>
+                        <td class="px-3 py-2 text-center border-b border-gray-600 w-1/6">
+                            <span class="text-sm text-gray-400">{{ data.board.createdAt|date }}</span>
+                        </td>
+                    </tr>
                 {% endfor %}
-            </ul>
+                </tbody>
+            </table>
         {% else %}
             <p class="text-gray-400">No boards available</p>
         {% endif %}
 
+        {% if is_granted('ROLE_ADMIN') %}
         <a href="{{ path('board_create') }}"
-           class="mt-6 inline-block bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">Add
+           class="mt-6 inline-block bg-yellow-600 text-white py-2 px-4 hover:bg-yellow-500 transition duration-200 ease-in-out">Add
             a new board</a>
+        {% endif %}
     </div>
 {% endblock %}

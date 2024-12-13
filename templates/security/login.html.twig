@@ -9,7 +9,7 @@
         <form method="post" class="bg-gray-700 p-6 rounded-lg shadow-md">
             <!-- Error Message -->
             {% if error %}
-                <div class="mb-4 p-3 bg-red-600 text-white rounded-md">
+                <div id="error" class="mb-4 p-3 bg-red-600 text-white rounded-md">
                     {{ error.messageKey|trans(error.messageData, 'security') }}
                 </div>
             {% endif %}
@@ -46,6 +46,7 @@
             <!-- Submit Button -->
             <div class="mt-6">
                 <button type="submit"
+                        name="login"
                         class="w-25 bg-green-600 text-white py-2 px-6 rounded-md hover:bg-green-700 transition duration-200 ease-in-out">
                     Sign In
                 </button>

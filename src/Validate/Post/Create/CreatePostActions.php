@@ -12,6 +12,6 @@ class CreatePostActions
 
     protected function isTopicLocked(Topic $topic): bool
     {
-        return $topic->isLocked();
+        return $topic->getIsLocked();
     }
 }

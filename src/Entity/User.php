@@ -8,6 +8,7 @@ use DateTimeZone;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Order;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\EquatableInterface;
@@ -295,7 +296,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function getLatestNotification(User $user): Notification|null
     {
         $criteria = Criteria::create()
-            ->orderBy(['createdAt' => 'DESC'])
+            ->orderBy(['createdAt' => Order::Descending])
             ->setMaxResults(1);
 
         return $this->notifications->matching($criteria)->first() ?: null;

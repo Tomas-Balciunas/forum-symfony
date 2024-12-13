@@ -30,7 +30,10 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
             ->setParameter('searchQuery', '%' . $searchQuery . '%');
         }
 
-        return new Paginator($page, $query);
+        $count = $this->createQueryBuilder('u2')
+            ->select('COUNT(u2.id)');
+
+        return new Paginator($page, $query, $count);
     }
 
     /**

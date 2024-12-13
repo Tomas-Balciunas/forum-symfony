@@ -47,7 +47,7 @@ class TopicController extends AbstractController
 
         try {
             $this->authorize->permission(Permissions::TOPIC_CREATE, $board);
-            $this->authorize->role($board->getAccess()->getName());
+            $this->authorize->role($board->getAccess()->getName(), Permissions::TOPIC_CREATE);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
@@ -107,13 +107,16 @@ class TopicController extends AbstractController
     #[Route('/topic/{id}/edit', name: 'topic_edit', methods: ['GET', 'POST'])]
     public function edit(Topic $topic, EntityManagerInterface $manager, Request $request): Response
     {
-        $form = $this->createForm(TopicType::class, $topic);
+        $topicDto = TopicDTO::hydrate($topic);
+        $form = $this->createForm(TopicType::class, $topicDto);
 
         try {
             $this->authorize->permission(Permissions::TOPIC_EDIT, $topic);
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
+                $topic->setBody($topicDto->body);
+                $topic->setTitle($topicDto->title);
                 $manager->flush();
                 $this->flashMessages->addSuccessMessage('Topic updated.');
 
@@ -140,7 +143,7 @@ class TopicController extends AbstractController
             $lockForm->handleRequest($request);
 
             if ($lockForm->isSubmitted() && $lockForm->isValid()) {
-                $topic->setIsLocked(!$topic->isLocked());
+                $topic->setIsLocked(!$topic->getIsLocked());
                 $manager->flush();
             }
         } catch (AccessDeniedException $e) {
@@ -154,7 +157,7 @@ class TopicController extends AbstractController
     public function visibility(Topic $topic, Request $request, EntityManagerInterface $manager): Response
     {
         try {
-            if ($topic->isVisible()) {
+            if ($topic->getIsVisible()) {
                 $this->authorize->permission(Permissions::TOPIC_SET_HIDDEN, $topic);
             } else {
                 $this->authorize->permission(Permissions::TOPIC_SET_VISIBLE, $topic);
@@ -164,7 +167,7 @@ class TopicController extends AbstractController
             $lockForm->handleRequest($request);
 
             if ($lockForm->isSubmitted() && $lockForm->isValid()) {
-                $topic->setIsVisible(!$topic->isVisible());
+                $topic->setIsVisible(!$topic->getIsVisible());
                 $manager->flush();
             }
         } catch (AccessDeniedException $e) {

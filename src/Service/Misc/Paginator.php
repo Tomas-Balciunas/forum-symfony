@@ -11,16 +11,18 @@ class Paginator
     private int $edges = Config::PAGE_EDGES;
 
     public int $count;
-    private QueryBuilder $baseQuery;
+    private QueryBuilder $countQuery;
+    private QueryBuilder $fullQuery;
     private int $page;
     private int $pages;
     private int $limit;
     private array $results = [];
 
-    public function __construct(int $page, QueryBuilder $query, int $limit = Config::PAGE_SIZE)
+    public function __construct(int $page, QueryBuilder $query, QueryBuilder $countQuery, int $limit = Config::PAGE_SIZE)
     {
         $this->page = $page;
-        $this->baseQuery = $query;
+        $this->countQuery = $countQuery;
+        $this->fullQuery = $query;
         $this->limit = $limit;
     }
 
@@ -38,10 +40,7 @@ class Paginator
 
     private function countRows(): int
     {
-        $countQuery = clone $this->baseQuery;
-
-        return $countQuery
-            ->select('COUNT(1)')
+        return $this->countQuery
             ->getQuery()
             ->getSingleScalarResult();
     }
@@ -53,7 +52,7 @@ class Paginator
 
     public function fetchResults()
     {
-        return $this->baseQuery
+        return $this->fullQuery
             ->setMaxResults($this->limit)
             ->setFirstResult(($this->page - 1) * $this->limit)
             ->getQuery()

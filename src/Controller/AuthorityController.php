@@ -27,7 +27,7 @@ class AuthorityController extends AbstractController
         $searchQuery = htmlspecialchars(trim($request->get("search"))) ?: null;
 
         try {
-            $this->authorize->role(Roles::ROLE_ADMIN);
+            $this->authorize->role(Roles::ROLE_ADMIN, 'huh');
             $paginator = $repository->findPaginatedUsers($page, $searchQuery);
             $paginator->paginate();
         } catch (AccessDeniedException $e) {

@@ -5,10 +5,14 @@
 {% block body %}
     <div class="container mx-auto p-6 font-serif">
         <!-- Board Information -->
-        <div class="bg-gray-900 border-4 border-gray-600 shadow-lg p-6 mb-5">
-            <h4 class="text-5xl font-extrabold mb-4">{{ board.title }}</h4>
-            <p class="text-lg text-gray-200 mb-6">{{ board.description }}</p>
-            <a href="{{ path('board_edit', {'id': board.id}) }}" class="inline-block bg-orange-600 text-white py-2 px-6 hover:bg-orange-500 transition duration-200 ease-in-out">Edit Board</a>
+        <div class="bg-gray-900 border-4 border-gray-600 shadow-lg p-4 mb-5 space-y-2">
+            <h4 class="text-3xl text-yellow-400 font-extrabold">{{ board.title }}</h4>
+            <p class="text-lg text-gray-200">{{ board.description }}</p>
+            {% if is_granted('board.edit') %}
+                <a href="{{ path('board_edit', {'id': board.id}) }}"
+                   class="inline-block bg-orange-600 text-white py-2 px-6 hover:bg-orange-500 transition duration-200 ease-in-out">Edit
+                    Board</a>
+            {% endif %}
         </div>
 
         <!-- Create New Topic Button -->
@@ -29,37 +33,55 @@
                 <table class="min-w-full bg-gray-800 text-gray-200 border border-gray-600">
                     <thead class="bg-gray-700">
                     <tr>
-                        <th class="px-3 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Topic</th>
-                        <th class="py-3 text-right text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Replies</th>
-                        <th class="px-3 py-3 text-right text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Created At</th>
+                        <th class="px-3 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
+                            Topic
+                        </th>
+                        <th class="py-3 text-right text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
+                            Replies
+                        </th>
+                        <th class="px-3 py-3 text-center text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">
+                            Latest Post
+                        </th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for topic in paginator.results %}
+                    {% for data in paginator.results %}
                         <tr class="hover:bg-gray-700 transition duration-200 ease-in-out">
                             <td class="px-3 py-2 border-b border-gray-600">
-                                <a href="{{ path('topic_show', {'id': topic.id}) }}" class="block text-yellow-400 hover:underline transition duration-200 ease-in-out">
-                                    {{ topic.title }}
+                                <a href="{{ path('topic_show', {'id': data.topic.id}) }}"
+                                   class="block text-yellow-400 hover:underline transition duration-200 ease-in-out">
+                                    {{ data.topic.title }}
                                 </a>
-                                <small class="text-gray-400">{{ topic.author.username }} - {{ topic.createdAt|date }}</small>
+                                <small class="text-gray-400">{{ data.topic.author.username }}
+                                    - {{ data.topic.createdAt|date }}</small>
                             </td>
                             <td class=" py-2 border-b border-gray-600 w-10 text-center">
-                                <span>{{ topic.posts|length }}</span>
+                                <span>{{ data.post_count ?: 0 }}</span>
                             </td>
-                            <td class="px-3 py-2 text-right border-b border-gray-600 w-1/6">
-                                <span class="text-sm text-gray-400">{{ topic.createdAt|date }}</span>
+                            <td class="px-3 py-2 text-center border-b border-gray-600 w-1/6">
+                                <span class="text-sm text-gray-400">
+                                    {% if data.latest_post %}
+                                        {{ data.latest_post|date }}
+                                    {% else %}
+                                        No posts yet
+                                    {% endif %}
+                                </span>
                             </td>
                         </tr>
                     {% endfor %}
                     </tbody>
                 </table>
             {% else %}
-                <p class="text-gray-400">No topics available</p>
+                {% if searchQuery %}
+                    <h3 class="text-gray-400 text-center mb-5">No topics found.</h3>
+                {% else %}
+                    <h3 class="text-gray-400 text-center mb-5">No topics yet.</h3>
+                {% endif %}
             {% endif %}
         </div>
 
         <!-- Pagination -->
         {{ include('_paginator.html.twig', { id: board.id, path: paginationPath, searchQuery: searchQuery }) }}
 
-       </div>
+    </div>
 {% endblock %}

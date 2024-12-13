@@ -12,8 +12,9 @@ class IndexController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(BoardRepository $repository): Response
     {
+        $boards = $repository->findAllWithCount();
         return $this->render('index/index.html.twig', [
-            'boards' => $repository->findAll(),
+            'boards' => $boards,
         ]);
     }
 }

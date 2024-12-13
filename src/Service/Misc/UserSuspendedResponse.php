@@ -39,7 +39,7 @@ class UserSuspendedResponse
                 "reason" => $this->reason,
                 "expiresAt" => $this->expiresAt,
             ]);
-        } catch (Error) {
+        } catch (Error $error) {
             //TODO log
         }
 

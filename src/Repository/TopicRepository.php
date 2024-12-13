@@ -13,8 +13,6 @@ use Doctrine\Persistence\ManagerRegistry;
  */
 class TopicRepository extends ServiceEntityRepository
 {
-    private const ALIAS = 't';
-
     public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, Topic::class);
@@ -22,42 +20,56 @@ class TopicRepository extends ServiceEntityRepository
 
     public function findPaginatedTopics(int $page, int $boardId, string $searchQuery = null): Paginator
     {
-        $query = $this->createQueryBuilder(self::ALIAS)
-            ->andWhere(self::ALIAS . '.board = :boardId')
+        $qb = $this->createQueryBuilder('t');
+
+        $query = $qb->select('t as topic')
+            ->andWhere('t.board = :boardId')
             ->setParameter('boardId', $boardId)
-            ->addOrderBy(self::ALIAS . '.createdAt', 'DESC');
+            ->leftJoin('t.posts', 'p')
+            ->addSelect($qb->expr()->count('p.id') . 'as post_count')
+            ->addSelect($qb->expr()->max('p.createdAt') . 'as latest_post')
+            ->addOrderBy($qb->expr()->max('p.createdAt'), 'DESC')
+            ->addGroupBy('t.id');
 
         if ($searchQuery) {
-            $query->andWhere(self::ALIAS . '.title LIKE :searchQuery')
+            $query->andWhere('t.title LIKE :searchQuery')
                 ->setParameter('searchQuery', '%' . $searchQuery . '%');
         }
 
-        return new Paginator($page, $query);
+        $count = $this->createQueryBuilder('t2')
+            ->select('count(t2.id)')
+            ->andWhere('t2.board = :boardId')
+            ->setParameter('boardId', $boardId);
+
+        return new Paginator($page, $query, $count);
     }
 
     public function findPaginatedUserTopics(int $page, User $user, string $searchQuery = null): Paginator
     {
-        $query = $this->createQueryBuilder(self::ALIAS)
-            ->join(self::ALIAS . '.author', 'u')
-            ->andWhere(self::ALIAS . '.author = :author')
+        $query = $this->createQueryBuilder('t')->join('t.author', 'u')
+            ->andWhere('t.author = :author')
             ->setParameter('author', $user)
-            ->addOrderBy(self::ALIAS . '.createdAt', 'DESC');
+            ->addOrderBy('t.createdAt', 'DESC');
 
         if ($searchQuery) {
-            $query->andWhere(self::ALIAS . '.title LIKE :searchQuery')
+            $query->andWhere('t.title LIKE :searchQuery')
                 ->setParameter('searchQuery', '%' . $searchQuery . '%');
         }
 
-        return new Paginator($page, $query);
+        $count = $this->createQueryBuilder('t2')
+            ->select('count(t2.id)')
+            ->andWhere('t2.author = :author')
+            ->setParameter('author', $user);
+
+        return new Paginator($page, $query, $count);
     }
 
     public function findLatestUserTopics(User $user, int $limit = 5): array
     {
-        return $this->createQueryBuilder(self::ALIAS)
-            ->join(self::ALIAS . '.author', 'u')
-            ->where( self::ALIAS . '.author = :author')
+        return $this->createQueryBuilder('t')->join('t . author', 'u')
+            ->where('t . author = :author')
             ->setParameter('author', $user)
-            ->orderBy(self::ALIAS . '.createdAt', 'DESC')
+            ->orderBy('t . createdAt', 'DESC')
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();

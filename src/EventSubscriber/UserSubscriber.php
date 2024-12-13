@@ -1,6 +1,6 @@
 <?php
 
-namespace App\EventSubscribers;
+namespace App\EventSubscriber;
 
 use App\Entity\UserSettings;
 use App\Event\PostPrepareEvent;
