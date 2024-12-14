@@ -13,7 +13,7 @@
                     <li class="bg-gray-900 text-white p-4 rounded-lg shadow-md hover:bg-gray-700 transition duration-200 ease-in-out">
                         <div class="flex-column">
                             <div class="truncate">
-                                <a href="{{ path('topic_show_paginated', { id: post.topic.id, page: helper.postPosition(post.id, post.topic.id) }) }}#{{ post.id }}"
+                                <a href="{{ path('post_goto', { id: post.id }) }}"
                                    class="text-yellow-400 hover:underline w-2/4">in: {{ post.topic.title }}</a>
                             </div>
                             <div class="truncate">

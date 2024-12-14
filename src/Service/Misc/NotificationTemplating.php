@@ -13,15 +13,14 @@ readonly class NotificationTemplating
     public function __construct(
         private UserRepository        $userRepository,
         private TopicRepository       $topicRepository,
-        private UrlGeneratorInterface $urlGenerator,
-        private PostHelper            $postHelper
+        private UrlGeneratorInterface $urlGenerator
     )
     {
     }
 
     public function getFormattedNotifications(Collection $data): array
     {
-
+    //TODO: fix this
         return $this->topicReply($data);
     }
 
@@ -57,10 +56,9 @@ readonly class NotificationTemplating
                 '<a href="%s" class="text-yellow-400 hover:underline">%s</a> has replied to your topic <a href="%s" class="text-yellow-400 hover:underline">%s</a>',
                 $this->urlGenerator->generate('user_profile_public', ['id' => $userId]),
                 $usersMap[$userId]->getUsername(),
-                $this->urlGenerator->generate('topic_show_paginated', [
-                    'id' => $topicId,
-                    'page' => $this->postHelper->getPostPosition($postId, $topicId)
-                ]) . '#' . $postId,
+                $this->urlGenerator->generate('post_goto', [
+                    'id' => $postId,
+                ]),
                 $topicsMap[$topicId]->getTitle()
             );
             $formattedData[$key]['createdAt'] = $notification->getCreatedAt();

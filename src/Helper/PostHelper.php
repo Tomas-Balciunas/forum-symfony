@@ -2,21 +2,15 @@
 
 namespace App\Helper;
 
+use App\Data\Config;
 use App\Entity\DTO\PostDTO;
 use App\Entity\Post;
-use App\Repository\PostRepository;
 
 readonly class PostHelper
 {
-    public function __construct(private PostRepository $postRepository)
+    public function getPostPosition(int $position): int
     {
-    }
-
-    public function getPostPosition(int $postId, int $topicId): int
-    {
-        $pos = $this->postRepository->findPostPosInTopic($postId, $topicId);
-
-        return ceil($pos / 10);
+        return ceil($position / Config::PAGE_SIZE);
     }
 
     public function makePost(PostDTO $dto): Post

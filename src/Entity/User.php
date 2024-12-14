@@ -52,7 +52,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\ManyToMany(targetEntity: Permission::class, inversedBy: 'users')]
     #[ORM\JoinTable('user_permission')]
     private Collection $permissions;
-    #[ORM\OneToOne(targetEntity: UserSettings::class, mappedBy: 'user', orphanRemoval: true)]
+    #[ORM\OneToOne(targetEntity: UserSettings::class, mappedBy: 'user')]
     private ?UserSettings $settings = null;
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
@@ -293,7 +293,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         return $this->notifications->matching($criteria);
     }
 
-    public function getLatestNotification(User $user): Notification|null
+    public function getLatestNotification(): Notification|null
     {
         $criteria = Criteria::create()
             ->orderBy(['createdAt' => Order::Descending])

@@ -26,6 +26,7 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+#[Route('/forum')]
 class TopicController extends AbstractController
 {
     public function __construct(

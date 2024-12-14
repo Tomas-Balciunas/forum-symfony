@@ -44,7 +44,7 @@
                                         <div class="flex justify-content-between w-full">
                                             <!-- Topic Title -->
                                             <div class="truncate w-2/4  ">
-                                                <a href="{{ path('topic_show_paginated', { id: post.topic.id, page: helper.postPosition(post.id, post.topic.id) }) }}#{{ post.id }}"
+                                                <a href="{{ path('post_goto', { id: post.id }) }}"
                                                    class="truncate text-yellow-400 hover:underline">
                                                     in: {{ post.topic.title }}
                                                 </a>
@@ -78,7 +78,7 @@
             <div class="bg-gray-800 p-5 shadow-lg border border-t-4 border-r-4 border-b-4 border-gray-600 w-2/4">
                 {% if user.settings.showPosts or (not user.settings.showPosts and app.user is same as user) %}
                     <h4 class="text-l text-gray-100 mb-4">Latest Topics by {{ user.username }}:
-                        {% if not user.settings.showPosts %}
+                        {% if not user.settings.showTopics %}
                             <span class="text-gray-400">hidden from public</span>
                         {% endif %}
                     </h4>

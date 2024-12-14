@@ -23,7 +23,7 @@ class UserSuspension
     private ?User $issuedFor = null;
 
     #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'issuedSuspensions')]
-    #[ORM\JoinColumn(name: 'issued_by')]
+    #[ORM\JoinColumn(name: 'issued_by', onDelete: 'CASCADE')]
     private ?User $issuedBy = null;
 
     #[ORM\Column(type: Types::TEXT)]

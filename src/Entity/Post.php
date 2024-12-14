@@ -22,7 +22,7 @@ class Post implements AuthorInterface
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
-    #[ORM\ManyToOne(targetEntity: Topic::class, inversedBy: 'posts')]
+    #[ORM\ManyToOne(targetEntity: Topic::class, cascade: ['persist'], inversedBy: 'posts')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?Topic $topic = null;
 

@@ -74,4 +74,27 @@ class TopicRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult();
     }
+
+    public function findLatestTopics(int $limit = 5): array
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.author', 'author')
+            ->select('t.id, t.title, t.createdAt, author.id as author_id, author.username as author_username')
+            ->orderBy('t.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findHighestPostCount(int $limit = 5): array
+    {
+        return $this->createQueryBuilder('t')
+            ->join('t.posts', 'p')
+            ->select('t.id, t.title, COUNT(p.id) as postCount')
+            ->orderBy('postCount', 'DESC')
+            ->groupBy('t.id')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
 }

@@ -24,7 +24,8 @@ class UserSettings
     private ?bool $showTopics = true;
 
     #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'settings')]
-    private ?User $user = null;
+    #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
+    private ?User $user;
 
     public function getId(): ?int
     {
@@ -70,5 +71,13 @@ class UserSettings
     public function setUser(?User $user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return User|null
+     */
+    public function getUser(): ?User
+    {
+        return $this->user;
     }
 }

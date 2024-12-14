@@ -41,7 +41,7 @@ class Topic implements AuthorInterface
     #[ORM\OneToMany(targetEntity: Post::class, mappedBy: 'topic', cascade: ['persist', 'remove'])]
     private Collection $posts;
 
-    #[ORM\ManyToOne(targetEntity: User::class, inversedBy: 'topics')]
+    #[ORM\ManyToOne(targetEntity: User::class, cascade: ['persist', 'remove'], inversedBy: 'topics')]
     #[ORM\JoinColumn(nullable: false, onDelete: 'CASCADE')]
     private ?User $author = null;
 

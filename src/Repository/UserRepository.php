@@ -36,6 +36,30 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         return new Paginator($page, $query, $count);
     }
 
+    public function findLatestUsers(int $limit = 5): array
+    {
+        return $this->createQueryBuilder('u')
+            ->select('u.id, u.username, u.createdAt')
+            ->addOrderBy('u.createdAt', 'DESC')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    public function findHighestPostCount(int $limit = 5): array
+    {
+        return $this->createQueryBuilder('u')
+            ->join('u.posts', 'p')
+            ->select('u.id, u.username, COUNT(p.id) as postCount')
+            ->orderBy('postCount', 'DESC')
+            ->groupBy('u.id')
+            ->setMaxResults($limit)
+            ->getQuery()
+            ->getResult();
+
+
+    }
+
     /**
      * Used to upgrade (rehash) the user's password automatically over time.
      */

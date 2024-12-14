@@ -11,17 +11,22 @@ use App\Event\PostPrepareEvent;
 use App\Exception\Post\CreatePostException;
 use App\Form\PostType;
 use App\Helper\PostHelper;
+use App\Repository\PostRepository;
 use App\Service\Misc\AddFlashMessages;
 use App\Service\Misc\PermissionAuthorization;
 use App\Service\PostService;
+use Psr\Cache\InvalidArgumentException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Cache\Adapter\FilesystemAdapter;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\Cache\ItemInterface;
 use Symfony\Contracts\EventDispatcher\EventDispatcherInterface;
 
+#[Route('/forum')]
 class PostController extends AbstractController
 {
     // TODO: add delete post
@@ -56,10 +61,8 @@ class PostController extends AbstractController
                 $dispatcher->dispatch($event, PostPrepareEvent::NAME);
                 $createdPost = $this->service->handleCreatePost($post, $topic, $user);
 
-                return $this->redirectToRoute('topic_show_paginated', [
-                    'id' => $topic->getId(),
-                    'page' => $helper->getPostPosition($createdPost->getId(), $topic->getId()),
-                    '_fragment' => $createdPost->getId()
+                return $this->redirectToRoute('post_goto', [
+                    'id' => $createdPost->getId(),
                 ]);
             }
 
@@ -102,6 +105,35 @@ class PostController extends AbstractController
 
         return $this->render('post/edit.html.twig', [
             'form' => $form->createView()
+        ]);
+    }
+
+    /**
+     * @throws InvalidArgumentException
+     */
+    #[Route('/post/{id}/goto', name: 'post_goto', methods: ['GET'])]
+    public function goToPost(
+        Post              $post,
+        PostHelper        $helper,
+        PostRepository    $repository,
+    ): Response
+    {
+        $cache = new FilesystemAdapter();
+        $topic = $post->getTopic();
+        $key = 'goto_post_' . $post->getId() . '_' . $topic->getId();
+        $page = $cache->get($key, function (ItemInterface $item)
+        use ($post, $topic, $helper, $repository) {
+            $position = $repository->findPostPosInTopic($post->getId(), $topic->getId());
+            dump($position);
+            $item->expiresAfter(1800);
+
+            return $helper->getPostPosition($position);
+        });
+
+        return $this->redirectToRoute('topic_show_paginated', [
+            'id' => $topic->getId(),
+            'page' => $page,
+            '_fragment' => $post->getId()
         ]);
     }
 }

@@ -1,6 +1,7 @@
 <div class="bg-gray-900 p-4 shadow-md">
     <nav class="flex justify-center items-center space-x-6">
         <a href="{{ path('home') }}" class="text-white hover:text-indigo-400 transition">Home</a>
+        <a href="{{ path('forum') }}" class="text-white hover:text-indigo-400 transition">Forum</a>
 
         {% if app.user %}
             <a href="{{ path('user_profile_public', { id: app.user.id }) }}" class="text-white hover:text-indigo-400 transition">{{ app.user.username }}</a>

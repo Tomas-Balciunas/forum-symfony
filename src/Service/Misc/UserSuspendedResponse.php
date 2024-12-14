@@ -3,6 +3,7 @@
 namespace App\Service\Misc;
 
 use App\Exception\UserIsSuspendedException;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\HttpFoundation\Response;
 use Twig\Environment;
 use Twig\Error\Error;
@@ -17,7 +18,8 @@ class UserSuspendedResponse
 
     public function __construct(
         private readonly UserIsSuspendedException $throwable,
-        private readonly Environment $twig
+        private readonly Environment              $twig,
+        private readonly LoggerInterface          $logger,
     )
     {
         $this->expiresAt = $this->throwable->getExpiresAt();
@@ -40,7 +42,9 @@ class UserSuspendedResponse
                 "expiresAt" => $this->expiresAt,
             ]);
         } catch (Error $error) {
-            //TODO log
+            $this->logger->error('Failed to render user suspension notification template. Reason: {error}', [
+                "error" => $error->getMessage(),
+            ]);
         }
 
         return null;

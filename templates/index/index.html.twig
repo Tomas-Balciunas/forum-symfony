@@ -3,47 +3,122 @@
 {% block title %}Home{% endblock %}
 
 {% block body %}
-    <div class="container mx-auto p-6 font-serif">
+    <div class="container mx-auto p-4 my-5 font-serif text-gray-300">
 
-        {% if boards %}
-            <table class="min-w-full bg-gray-800 text-gray-200 border border-gray-600">
-                <thead class="bg-gray-700">
-                <tr>
-                    <th class="px-3 py-3 text-left text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Board</th>
-                    <th class="px-2 py-3 text-right text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Topics</th>
-                    <th class="px-2 py-3 text-right text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Posts</th>
-                    <th class="px-3 py-3 text-center text-sm font-medium text-gray-300 uppercase tracking-wider border-b border-gray-600">Created At</th>
-                </tr>
-                </thead>
-                <tbody>
-                {% for data in boards %}
-                    <tr class="hover:bg-gray-700 transition duration-200 ease-in-out">
-                        <td class="px-3 py-2 border-b border-gray-600">
-                            <a href="{{ path('board_show', {'id': data.board.id}) }}" class="block text-yellow-400 hover:underline transition duration-200 ease-in-out">
-                                {{ data.board.title }}
+        <!-- Latest Sections -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
+            <!-- Latest Posts -->
+            <div class="bg-gray-900 p-3">
+                <h2 class="text-lg font-semibold text-yellow-400 mb-3">Latest Posts</h2>
+                <div class="space-y-2">
+                    {% if latestPosts %}
+                    {% for post in latestPosts %}
+                        <div class="bg-gray-700 p-2 hover:bg-gray-600 transition duration-200">
+                            <a href="{{ path('post_goto', { id: post.id }) }}"
+                               class="block text-yellow-400 hover:underline truncate">
+                                in: {{ post.topic.title }}
                             </a>
-                        </td>
-                        <td class=" py-2 border-b border-gray-600 w-10 text-center">
-                            <span>{{ data.topic_count }}</span>
-                        </td>
-                        <td class=" py-2 border-b border-gray-600 w-10 text-center">
-                            <span>{{ data.total_posts }}</span>
-                        </td>
-                        <td class="px-3 py-2 text-center border-b border-gray-600 w-1/6">
-                            <span class="text-sm text-gray-400">{{ data.board.createdAt|date }}</span>
-                        </td>
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-        {% else %}
-            <p class="text-gray-400">No boards available</p>
-        {% endif %}
+                            <p class="truncate text-gray-300 text-sm">{{ post.body }}</p>
+                            <div class="text-right mt-1">
+                                <span class="text-xs text-gray-400">{{ post.createdAt|date('F j, Y, g:i a') }}</span>
+                                <a href="{{ path('user_profile_public', { 'id': post.author.id }) }}"
+                                   class="text-yellow-400 text-xs hover:underline">by: {{ post.author.username }}</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                        <h3 class="text-gray-400 text-center mb-5">No posts found.</h3>
+                    {% endif %}
+                </div>
+            </div>
 
-        {% if is_granted('ROLE_ADMIN') %}
-        <a href="{{ path('board_create') }}"
-           class="mt-6 inline-block bg-yellow-600 text-white py-2 px-4 hover:bg-yellow-500 transition duration-200 ease-in-out">Add
-            a new board</a>
-        {% endif %}
+            <!-- Latest Topics -->
+            <div class="bg-gray-900 p-3">
+                <h2 class="text-lg font-semibold text-yellow-400 mb-3">Latest Topics</h2>
+                <div class="space-y-2">
+                    {% if latestTopics %}
+                    {% for topic in latestTopics %}
+                        <div class="bg-gray-700 p-2 hover:bg-gray-600 transition duration-200">
+                            <a href="{{ path('topic_show', { id: topic.id }) }}"
+                               class="block text-yellow-400 hover:underline truncate">
+                                {{ topic.title }}
+                            </a>
+                            <div class="text-right mt-1">
+                                <span class="text-xs text-gray-400">{{ topic.createdAt|date('F j, Y, g:i a') }}</span>
+                                <a href="{{ path('user_profile_public', { 'id': topic.author_id }) }}"
+                                   class="text-yellow-400 text-xs hover:underline">by: {{ topic.author_username }}</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                        <h3 class="text-gray-400 text-center mb-5">No topics found.</h3>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Latest Users -->
+            <div class="bg-gray-900 p-3">
+                <h2 class="text-lg font-semibold text-yellow-400 mb-3">Newest Members</h2>
+                <div class="space-y-2">
+                    {% if latestUsers %}
+                    {% for user in latestUsers %}
+                        <div class="bg-gray-700 p-2 hover:bg-gray-600 transition duration-200">
+                            <a href="{{ path('user_profile_public', {'id': user.id}) }}"
+                               class="block text-yellow-400 hover:underline">
+                                {{ user.username }}
+                            </a>
+                            <span class="text-xs text-gray-400 block">{{ user.createdAt|date('F j, Y, g:i a') }}</span>
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                        <h3 class="text-gray-400 text-center mb-5">No users found.</h3>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Most Active Sections -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+
+            <!-- Most Active Topics -->
+            <div class="bg-gray-900 p-3">
+                <h2 class="text-lg font-semibold text-yellow-400 mb-3">Most Active Topics</h2>
+                <div class="space-y-2">
+                    {% if mostActiveTopics %}
+                    {% for topic in mostActiveTopics %}
+                        <div class="bg-gray-700 p-2 hover:bg-gray-600 transition duration-200">
+                            <a href="{{ path('topic_show', {'id': topic.id}) }}"
+                               class="block text-yellow-400 hover:underline truncate">
+                                {{ topic.title }}
+                            </a>
+                            <span class="text-s text-gray-400 block">Posts: {{ topic.postCount }}</span>
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                        <h3 class="text-gray-400 text-center mb-5">No posts found.</h3>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Most Active Users -->
+            <div class="bg-gray-900 p-3">
+                <h2 class="text-lg font-semibold text-yellow-400 mb-3">Most Active Members</h2>
+                <div class="space-y-2">
+                    {% if mostActiveUsers %}
+                    {% for user in mostActiveUsers %}
+                        <div class="bg-gray-700 p-2 hover:bg-gray-600 transition duration-200">
+                            <a href="{{ path('user_profile_public', {'id': user.id}) }}"
+                               class="block text-yellow-400 hover:underline">
+                                {{ user.username }}
+                            </a>
+                            <span class="text-s text-gray-400 block">Posts: {{ user.postCount }}</span>
+                        </div>
+                    {% endfor %}
+                    {% else %}
+                        <h3 class="text-gray-400 text-center mb-5">No posts found.</h3>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}

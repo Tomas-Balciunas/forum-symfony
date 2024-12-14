@@ -6,6 +6,7 @@ use App\Entity\Post;
 use App\Entity\User;
 use App\Service\Misc\Paginator;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -57,21 +58,33 @@ class PostRepository extends ServiceEntityRepository
 
     public function findLatestUserPosts(User $user, int $limit = 5): array
     {
-        return $this->createQueryBuilder('p')
+        return $this->baseLatestPostsQuery($limit)
             ->join('p.author', 'u')
             ->where('p.author = :author')
             ->setParameter('author', $user)
-            ->orderBy('p.createdAt', 'DESC')
-            ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
     }
 
-    public function findPostPosInTopic(int $postId, int $topicId): int
+    public function findLatestPosts(int $limit = 5): array
+    {
+        return $this->baseLatestPostsQuery($limit)
+            ->getQuery()
+            ->getResult();
+    }
+
+    private function baseLatestPostsQuery(int $limit): QueryBuilder
     {
         return $this->createQueryBuilder('p')
+        ->addOrderBy('p.createdAt', 'DESC')
+        ->setMaxResults($limit);
+    }
+
+    public function findPostPosInTopic(int $postId, int $topicId): int
+    {
+        return (int)$this->createQueryBuilder('p')
             ->join('p.topic', 't')
-            ->select('count(1)')
+            ->select('count(p.id)')
             ->andWhere('p.id <= :postId')
             ->setParameter('postId', $postId)
             ->andWhere('p.topic = :topicId')

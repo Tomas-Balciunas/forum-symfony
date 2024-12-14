@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-#[Route('/board')]
+#[Route('/forum/board')]
 class BoardController extends AbstractController
 {
     public function __construct(
