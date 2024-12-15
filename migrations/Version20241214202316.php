@@ -21,7 +21,6 @@ final class Version20241214202316 extends AbstractMigration
     {
         // this up() migration is auto-generated, please modify it to your needs
         $this->addSql('ALTER TABLE user_settings CHANGE user_id user_id INT NOT NULL');
-        $this->addSql('ALTER TABLE user_settings ADD CONSTRAINT FK_5C844C5A76ED395 FOREIGN KEY (user_id) REFERENCES user (id) ON DELETE CASCADE');
         $this->addSql('ALTER TABLE user_suspension DROP FOREIGN KEY FK_25C8C3EC2C085159');
         $this->addSql('ALTER TABLE user_suspension DROP FOREIGN KEY FK_25C8C3EC4E1DD2BF');
         $this->addSql('ALTER TABLE user_suspension ADD CONSTRAINT FK_25C8C3EC2C085159 FOREIGN KEY (issued_for) REFERENCES user (id) ON DELETE CASCADE');

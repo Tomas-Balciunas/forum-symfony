@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\User;
+use App\Repository\RoleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -13,14 +14,15 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsCommand(
-    name: 'seed:users',
-    description: 'Create mock data.',
+    name: 'seed:admin',
+    description: 'Create admin account.',
 )]
-class SeedUsersCommand extends Command
+class SeedAdminCommand extends Command
 {
     public function __construct(
         private readonly EntityManagerInterface      $entityManager,
         private readonly UserPasswordHasherInterface $hasher,
+        private readonly RoleRepository $roleRepository,
     )
     {
         parent::__construct();
@@ -36,20 +38,26 @@ class SeedUsersCommand extends Command
         $io = new SymfonyStyle($input, $output);
         $faker = Factory::create();
 
-        for ($i = 0; $i < 20; $i++)
-        {
-            $user = new User();
-            $user->setEmail($faker->email);
-            $user->setUsername($faker->userName);
-            $user->setPassword($this->hasher->hashPassword($user, 'password'));
-            $this->entityManager->persist($user);
+        $password = 'password';
+        $role = $this->roleRepository->findOneBy(['name' => 'ROLE_ADMIN']);
 
-            $io->success("{$i} Created user {$user->getUsername()}");
+        if (null === $role) {
+            $io->error('Role not found. Make sure you ran seed:permissions command.');
+            return Command::FAILURE;
         }
 
+        $user = new User();
+        $user->setEmail($faker->email);
+        $user->setUsername($faker->userName);
+        $user->setPassword($this->hasher->hashPassword($user, 'password'));
+        $this->entityManager->persist($user);
         $this->entityManager->flush();
-        $this->entityManager->clear();
 
+        $user->setRole($role);
+        $user->setPermissions($role->getPermissions());
+        $this->entityManager->flush();
+
+        $io->success("Created user with admin privileges email: {$user->getEmail()} password: {$password}");
         return Command::SUCCESS;
     }
 }

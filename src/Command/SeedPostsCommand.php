@@ -61,7 +61,7 @@ class SeedPostsCommand extends Command
         $topics = $this->topicRepository->findAll();
 
         if (empty($topics)) {
-            $io->error('Create topic first.');
+            $io->error('Create topics first.');
             return Command::FAILURE;
         }
 

@@ -4,45 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="improved data display and UX, added some logging, slight paginator modification">
-      <change afterPath="$PROJECT_DIR$/src/Command/SeedBoardsCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Command/SeedPostsCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Command/SeedTopicsCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Command/SeedUsersCommand.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/footer.html.twig" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/templates/index/forum.html.twig" afterDir="false" />
+    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="improved post jumping, added home dashboard, data seeding">
+      <change afterPath="$PROJECT_DIR$/src/Command/SeedAdminCommand.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/php.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/php.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/phpunit.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/phpunit.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.json" beforeDir="false" afterPath="$PROJECT_DIR$/composer.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/composer.lock" beforeDir="false" afterPath="$PROJECT_DIR$/composer.lock" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/BoardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BoardController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/IndexController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/IndexController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TopicController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TopicController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data/Config.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Notification.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Notification.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Post.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Post.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Topic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Topic.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/UserSettings.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/UserSettings.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/UserSuspension.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/UserSuspension.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventSubscriber/ExceptionSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventSubscriber/ExceptionSubscriber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Helper/PostHelper.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Helper/PostHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/PostRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/PostRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/TopicRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TopicRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Security/UserChecker.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Security/UserChecker.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/NotificationTemplating.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/NotificationTemplating.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/PermissionAuthorization.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/PermissionAuthorization.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/UserSuspendedResponse.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/UserSuspendedResponse.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nav.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nav.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/posts.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/posts.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/public_profile.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/public_profile.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/migrations/Version20241214202316.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241214202316.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/SeedBoardsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedBoardsCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/SeedPostsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedPostsCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/SeedTopicsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedTopicsCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/SeedUsersCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedUsersCommand.php" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -375,7 +345,8 @@
       <workItem from="1734012952924" duration="21038000" />
       <workItem from="1734034106242" duration="11199000" />
       <workItem from="1734092412327" duration="30974000" />
-      <workItem from="1734180474815" duration="36486000" />
+      <workItem from="1734180474815" duration="37280000" />
+      <workItem from="1734283082458" duration="721000" />
     </task>
     <task id="LOCAL-00001" summary="progressing">
       <option name="closed" value="true" />
@@ -497,7 +468,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734123680805</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="improved post jumping, added home dashboard, data seeding">
+      <option name="closed" value="true" />
+      <created>1734220790464</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1734220790465</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -518,7 +497,8 @@
     <MESSAGE value="applied more authorization, some restructuring, optimized notification db queries and caching implementation, style improvements" />
     <MESSAGE value="topic and post spam prevention, fixed notification cache, improved posting and post editing convenience, little bit of refactoring" />
     <MESSAGE value="improved data display and UX, added some logging, slight paginator modification" />
-    <option name="LAST_COMMIT_MESSAGE" value="improved data display and UX, added some logging, slight paginator modification" />
+    <MESSAGE value="improved post jumping, added home dashboard, data seeding" />
+    <option name="LAST_COMMIT_MESSAGE" value="improved post jumping, added home dashboard, data seeding" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
