@@ -3,6 +3,7 @@
 namespace App\Command;
 
 use App\Entity\Board;
+use App\Repository\RoleRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Faker\Factory;
 use Symfony\Component\Console\Attribute\AsCommand;
@@ -18,7 +19,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class SeedBoardsCommand extends Command
 {
     public function __construct(
-        private readonly EntityManagerInterface      $entityManager
+        private readonly EntityManagerInterface      $entityManager,
+        private readonly RoleRepository $roleRepository,
     )
     {
         parent::__construct();
@@ -33,11 +35,13 @@ class SeedBoardsCommand extends Command
     {
         $io = new SymfonyStyle($input, $output);
         $faker = Factory::create();
+        $role = $this->roleRepository->findOneBy(['name' => 'ROLE_USER']);
 
         for ($i = 0; $i < 10; $i++) {
             $board = new Board();
             $board->setTitle($faker->words(rand(1, 10), true));
             $board->setDescription($faker->sentence(rand(5, 25)));
+            $board->setAccess($role);
             $this->entityManager->persist($board);
         }
 

@@ -48,7 +48,7 @@ class TopicController extends AbstractController
 
         try {
             $this->authorize->permission(Permissions::TOPIC_CREATE, $board);
-            $this->authorize->role($board->getAccess()->getName(), Permissions::TOPIC_CREATE);
+            $this->authorize->role($board->getAccess()->getName());
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {

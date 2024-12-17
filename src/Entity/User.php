@@ -21,6 +21,8 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
+    public const DEFAULT_ROLE = 'ROLE_USER';
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -35,6 +37,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     private int $postCount = 0;
     #[ORM\Column]
     private bool $isPrivate = false;
+    #[ORM\Column]
+    private bool $isVerified = false;
     #[ORM\Column]
     private string $status = 'active';
     #[ORM\Column(nullable: true)]
@@ -57,6 +61,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\OneToMany(targetEntity: Notification::class, mappedBy: 'user')]
     #[ORM\OrderBy(['createdAt' => 'DESC'])]
     private Collection $notifications;
+
+    #[ORM\OneToOne(targetEntity: Verification::class, mappedBy: 'user')]
+    private ?Verification $verification;
 
     public function __construct()
     {
@@ -267,6 +274,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     public function getNotifications(): Collection
     {
         return $this->notifications;
+    }
+
+    public function getVerification(): ?Verification
+    {
+        return $this->verification;
+    }
+
+    public function setVerification(?Verification $verification): void
+    {
+        $this->verification = $verification;
+    }
+
+    public function isVerified(): bool
+    {
+        return $this->isVerified;
+    }
+
+    public function setIsVerified(bool $isVerified): void
+    {
+        $this->isVerified = $isVerified;
     }
 
     public function getUnreadNotifications(DateTimeImmutable $lastSeen = null): Collection

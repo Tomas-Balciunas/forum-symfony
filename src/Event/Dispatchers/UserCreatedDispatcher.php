@@ -8,7 +8,7 @@ use Doctrine\Bundle\DoctrineBundle\Attribute\AsEntityListener;
 use Doctrine\ORM\Events;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
-#[AsEntityListener(event: Events::postPersist, method: 'onUserPersist', entity: User::class)]
+#[AsEntityListener(event: Events::prePersist, method: 'onUserPersist', entity: User::class)]
 readonly class UserCreatedDispatcher
 {
     public function __construct(private EventDispatcherInterface $dispatcher)

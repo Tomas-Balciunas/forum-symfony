@@ -4,7 +4,12 @@
         <a href="{{ path('forum') }}" class="text-white hover:text-indigo-400 transition">Forum</a>
 
         {% if app.user %}
-            <a href="{{ path('user_profile_public', { id: app.user.id }) }}" class="text-white hover:text-indigo-400 transition">{{ app.user.username }}</a>
+            <a href="{{ path('user_profile_public', { id: app.user.id }) }}" class="text-white hover:text-indigo-400 transition">
+                {% if not app.user.verified %}
+                    <span class="text-red-400">!</span>
+                {% endif %}
+                {{ app.user.username }}
+            </a>
             <a href="{{ path('notifications') }}" class="text-white hover:text-indigo-400 transition">
                 Notifications
                 {% if notifications() %}

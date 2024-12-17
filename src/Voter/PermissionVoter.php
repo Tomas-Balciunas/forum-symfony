@@ -18,8 +18,6 @@ class PermissionVoter extends Voter implements VoterInterface
         'revoke' => Permissions::USER_REVOKE_PERMISSION,
     ];
 
-    private Permission $permission;
-
     public function __construct(
         private readonly UserFullDataProvider   $userProvider,
         private readonly PermissionDataProvider $permissionProvider
@@ -44,9 +42,9 @@ class PermissionVoter extends Voter implements VoterInterface
             return false;
         }
 
-        $this->permission = $this->permissionProvider->getPermissionByName($attribute);
+        $permission = $this->permissionProvider->getPermissionByName($attribute);
         $this->userProvider->setUser($user);
 
-        return $this->userProvider->hasPermission($this->permission);
+        return $this->userProvider->hasPermission($permission);
     }
 }

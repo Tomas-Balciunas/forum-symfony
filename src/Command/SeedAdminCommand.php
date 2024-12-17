@@ -51,10 +51,9 @@ class SeedAdminCommand extends Command
         $user->setUsername($faker->userName);
         $user->setPassword($this->hasher->hashPassword($user, 'password'));
         $this->entityManager->persist($user);
-        $this->entityManager->flush();
-
         $user->setRole($role);
         $user->setPermissions($role->getPermissions());
+        $user->setIsVerified(true);
         $this->entityManager->flush();
 
         $io->success("Created user with admin privileges email: {$user->getEmail()} password: {$password}");

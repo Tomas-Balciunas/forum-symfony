@@ -57,31 +57,48 @@
             </div>
 
             <!-- Latest Users -->
+            <!-- Most Active Users -->
             <div class="bg-gray-900 p-3">
-                <h2 class="text-lg font-semibold text-yellow-400 mb-3">Newest Members</h2>
-                <div class="space-y-2">
+                <h2 class="text-lg font-semibold text-yellow-400 my-2">Newest Members</h2>
+                <div>
                     {% if latestUsers %}
                     {% for user in latestUsers %}
-                        <div class="bg-gray-700 p-2 hover:bg-gray-600 transition duration-200">
+                        <div class="p-2 hover:bg-gray-600 transition duration-200">
                             <a href="{{ path('user_profile_public', {'id': user.id}) }}"
-                               class="block text-yellow-400 hover:underline">
+                               class="text-yellow-400 text-sm hover:underline">
                                 {{ user.username }}
                             </a>
-                            <span class="text-xs text-gray-400 block">{{ user.createdAt|date('F j, Y, g:i a') }}</span>
+                            <span class="text-xs text-gray-400">{{ user.createdAt|date('F j, Y, g:i a') }}</span>
                         </div>
                     {% endfor %}
                     {% else %}
                         <h3 class="text-gray-400 text-center mb-5">No users found.</h3>
                     {% endif %}
                 </div>
+                <hr/>
+                <h2 class="text-lg font-semibold text-yellow-400 my-2">Most Active Members</h2>
+                <div>
+                    {% if mostActiveUsers %}
+                        {% for user in mostActiveUsers %}
+                            <div class="p-2 hover:bg-gray-600 transition duration-200">
+                                <a href="{{ path('user_profile_public', {'id': user.id}) }}"
+                                   class="text-yellow-400 text-sm hover:underline">
+                                    {{ user.username }}
+                                </a>
+                                <span class="text-sm text-gray-400">Posts: {{ user.postCount }}</span>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <h3 class="text-gray-400 text-center mb-5">No posts found.</h3>
+                    {% endif %}
+                </div>
             </div>
         </div>
 
-        <!-- Most Active Sections -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
 
             <!-- Most Active Topics -->
-            <div class="bg-gray-900 p-3">
+            <div class="bg-gray-900 w-3/5 p-3">
                 <h2 class="text-lg font-semibold text-yellow-400 mb-3">Most Active Topics</h2>
                 <div class="space-y-2">
                     {% if mostActiveTopics %}
@@ -92,26 +109,6 @@
                                 {{ topic.title }}
                             </a>
                             <span class="text-s text-gray-400 block">Posts: {{ topic.postCount }}</span>
-                        </div>
-                    {% endfor %}
-                    {% else %}
-                        <h3 class="text-gray-400 text-center mb-5">No posts found.</h3>
-                    {% endif %}
-                </div>
-            </div>
-
-            <!-- Most Active Users -->
-            <div class="bg-gray-900 p-3">
-                <h2 class="text-lg font-semibold text-yellow-400 mb-3">Most Active Members</h2>
-                <div class="space-y-2">
-                    {% if mostActiveUsers %}
-                    {% for user in mostActiveUsers %}
-                        <div class="bg-gray-700 p-2 hover:bg-gray-600 transition duration-200">
-                            <a href="{{ path('user_profile_public', {'id': user.id}) }}"
-                               class="block text-yellow-400 hover:underline">
-                                {{ user.username }}
-                            </a>
-                            <span class="text-s text-gray-400 block">Posts: {{ user.postCount }}</span>
                         </div>
                     {% endfor %}
                     {% else %}

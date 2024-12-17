@@ -63,7 +63,8 @@ class UserVoter extends Voter implements VoterInterface
             self::PERMISSIONS['setPrivate'] => $this->canSetPrivate($user, $subject),
             self::PERMISSIONS['setPublic'] => $this->canSetPublic($user, $subject),
             self::PERMISSIONS['viewPosts'] => $this->canViewTopics($user, $subject),
-            self::PERMISSIONS['viewTopics'] => $this->canViewPosts($user, $subject)
+            self::PERMISSIONS['viewTopics'] => $this->canViewPosts($user, $subject),
+            default => $this->userProvider->hasPermission($this->permission),
         };
     }
 

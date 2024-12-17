@@ -3,21 +3,20 @@
 namespace App\EventSubscriber;
 
 use App\Entity\UserSettings;
-use App\Event\PostPrepareEvent;
+use App\Entity\Verification;
 use App\Event\UserCreatedEvent;
+use App\Event\UserRegisteredEvent;
 use App\Event\UserSuspendedEvent;
-use App\Repository\RoleRepository;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Event\UserVerifiedEvent;
+use App\Helper\UserHelper;
+use App\Helper\VerificationHelper;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
-use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 final readonly class UserSubscriber implements EventSubscriberInterface
 {
-    private const DEFAULT_ROLE = 'ROLE_USER';
-
     public function __construct(
-        private EntityManagerInterface $manager,
-        private RoleRepository         $roleRepository,
+        private UserHelper            $userHelper,
+        private VerificationHelper      $verificationHelper,
     )
     {
     }
@@ -26,8 +25,15 @@ final readonly class UserSubscriber implements EventSubscriberInterface
     {
         return [
             UserCreatedEvent::NAME => [
-                ['applyUserRoles'],
-                ['applySettings']
+                ['applySettings'],
+                ['applyUserRole']
+            ],
+            UserRegisteredEvent::NAME => [
+                ['sendVerificationCode']
+            ],
+            UserVerifiedEvent::NAME => [
+                ['applyUserPermissions']
+
             ],
             UserSuspendedEvent::NAME => [
                 ['setUserStatus']
@@ -35,32 +41,37 @@ final readonly class UserSubscriber implements EventSubscriberInterface
         ];
     }
 
-    public function applyUserRoles(UserCreatedEvent $event): void
-    {
-        $user = $event->getUser();
-        $role = $this->roleRepository->findOneBy(['name' => self::DEFAULT_ROLE]);
-        $user->setRole($role);
-        $permissions = $role->getPermissions();
-        $user->setPermissions($permissions);
-        $this->manager->flush();
-    }
-
     public function applySettings(UserCreatedEvent $event): void
     {
         $user = $event->getUser();
-        $settings = new UserSettings();
-        $settings->setUser($user);
-        $this->manager->persist($settings);
-        $this->manager->flush();
+        $this->userHelper->setDefaultSettings($user);
+    }
+
+    public function applyUserRole(UserCreatedEvent $event): void
+    {
+        $user = $event->getUser();
+        $this->userHelper->setDefaultUserRole($user);
+    }
+
+    public function sendVerificationCode(UserRegisteredEvent $event): void
+    {
+        $user = $event->getUser();
+        $key = $this->verificationHelper->generateKey();
+        $expiresAt = (new \DateTime())->add(new \DateInterval('PT10M'));
+
+        $this->verificationHelper->sendVerificationEmail($user, $key);
+        $this->verificationHelper->makeNewVerification($user, $key, $expiresAt);
+    }
+
+    public function applyUserPermissions(UserVerifiedEvent $event): void
+    {
+        $user = $event->getVerification()->getUser();
+        $this->userHelper->grantDefaultUserPermissions($user);
     }
 
     public function setUserStatus(UserSuspendedEvent $event): void
     {
         $user = $event->getUser();
-
-        $user->setStatus('suspended');
-        $this->manager->flush();
+        $this->userHelper->setUserStatus($user, 'suspended');
     }
-
-
 }

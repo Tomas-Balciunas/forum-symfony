@@ -44,8 +44,7 @@ class PostController extends AbstractController
         Topic                    $topic,
         #[CurrentUser] User      $user,
         Request                  $request,
-        EventDispatcherInterface $dispatcher,
-        PostHelper               $helper
+        EventDispatcherInterface $dispatcher
     ): Response
     {
         $page = is_numeric($request->query->get('page')) ? (int)$request->query->get('page') : 1;

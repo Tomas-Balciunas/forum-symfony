@@ -5,14 +5,28 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="improved post jumping, added home dashboard, data seeding">
-      <change afterPath="$PROJECT_DIR$/src/Command/SeedAdminCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Event/UserRegisteredEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Event/UserVerifiedEvent.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Helper/UserHelper.php" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/Helper/VerificationHelper.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/migrations/Version20241214202316.php" beforeDir="false" afterPath="$PROJECT_DIR$/migrations/Version20241214202316.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Command/SeedAdminCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedAdminCommand.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Command/SeedBoardsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedBoardsCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Command/SeedPostsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedPostsCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Command/SeedTopicsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedTopicsCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Command/SeedUsersCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedUsersCommand.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/RegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RegistrationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/TopicController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TopicController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Event/Dispatchers/UserCreatedDispatcher.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/Dispatchers/UserCreatedDispatcher.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventSubscriber/UserSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventSubscriber/UserSubscriber.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Voter/BoardVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/BoardVoter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Voter/PermissionVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/PermissionVoter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Voter/SuspensionVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/SuspensionVoter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Voter/UserVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/UserVoter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/index/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index/index.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/nav.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nav.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/topic/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/topic/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/public_profile.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/public_profile.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -347,6 +361,8 @@
       <workItem from="1734092412327" duration="30974000" />
       <workItem from="1734180474815" duration="37280000" />
       <workItem from="1734283082458" duration="721000" />
+      <workItem from="1734360085919" duration="12098000" />
+      <workItem from="1734431818296" duration="13617000" />
     </task>
     <task id="LOCAL-00001" summary="progressing">
       <option name="closed" value="true" />
