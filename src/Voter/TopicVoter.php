@@ -23,6 +23,7 @@ class TopicVoter extends Voter implements VoterInterface
         'show' => Permissions::TOPIC_SET_VISIBLE,
         'hide' => Permissions::TOPIC_SET_HIDDEN,
         'move' => Permissions::TOPIC_MOVE,
+        'important' => Permissions::TOPIC_SET_IMPORTANT
     ];
 
     private Permission $permission;
@@ -65,6 +66,7 @@ class TopicVoter extends Voter implements VoterInterface
             self::PERMISSIONS['lock'] => $this->canLockTopic($user, $subject),
             self::PERMISSIONS['show'] => $this->canSetTopicVisible($user, $subject),
             self::PERMISSIONS['hide'] => $this->canHideTopic($user, $subject),
+            self::PERMISSIONS['important'] => $this->canMarkImportant($user),
             default => $this->userProvider->hasPermission($this->permission)
         };
     }
@@ -121,6 +123,15 @@ class TopicVoter extends Voter implements VoterInterface
 
         if (!$this->ownerChecker->isOwner($user, $topic)) {
             return false;
+        }
+
+        return $this->userProvider->hasPermission($this->permission);
+    }
+
+    private function canMarkImportant(User $user): bool
+    {
+        if ($user->getRole()->getName() === Roles::ROLE_ADMIN) {
+            return true;
         }
 
         return $this->userProvider->hasPermission($this->permission);

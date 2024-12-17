@@ -7,10 +7,9 @@ use Doctrine\ORM\QueryBuilder;
 
 class Paginator
 {
+    public int $count;
     private int $range = Config::PAGE_RANGE;
     private int $edges = Config::PAGE_EDGES;
-
-    public int $count;
     private QueryBuilder $countQuery;
     private QueryBuilder $fullQuery;
     private int $page;
@@ -18,12 +17,21 @@ class Paginator
     private int $limit;
     private array $results = [];
 
-    public function __construct(int $page, QueryBuilder $query, QueryBuilder $countQuery, int $limit = Config::PAGE_SIZE)
+    public function __construct(
+        int          $page,
+        QueryBuilder $query,
+        QueryBuilder $countQuery,
+        int          $limit = Config::PAGE_SIZE,
+        int          $edges = Config::PAGE_EDGES,
+        int          $range = Config::PAGE_RANGE,
+    )
     {
         $this->page = $page;
         $this->countQuery = $countQuery;
         $this->fullQuery = $query;
         $this->limit = $limit;
+        $this->edges = $edges;
+        $this->range = $range;
     }
 
     public function paginate(): void

@@ -9,6 +9,7 @@ use App\Entity\Topic;
 use App\Entity\User;
 use App\Event\TopicPrepareEvent;
 use App\Form\PostType;
+use App\Form\TopicImportantType;
 use App\Form\TopicLockType;
 use App\Form\TopicMoveType;
 use App\Form\TopicType;
@@ -85,6 +86,10 @@ class TopicController extends AbstractController
             'action' => $this->generateUrl('topic_visibility', ['id' => $topicDto->id]),
             'method' => 'POST',
         ]);
+        $importantForm = $this->createForm(TopicImportantType::class, null, [
+            'action' => $this->generateUrl('topic_important', ['id' => $topicDto->id]),
+            'method' => 'POST',
+        ]);
         $form = $this->createForm(PostType::class, null, [
             'action' => $this->generateUrl('post_create', ['id' => $topicDto->id, 'page' => $page]),
         ]);
@@ -101,6 +106,7 @@ class TopicController extends AbstractController
             'form' => $form->createView(),
             'lockForm' => $lockForm->createView(),
             'visibilityForm' => $visibilityForm->createView(),
+            'importantForm' => $importantForm->createView(),
             'path' => 'topic_show_paginated',
         ]);
     }
@@ -169,6 +175,26 @@ class TopicController extends AbstractController
 
             if ($lockForm->isSubmitted() && $lockForm->isValid()) {
                 $topic->setIsVisible(!$topic->getIsVisible());
+                $manager->flush();
+            }
+        } catch (AccessDeniedException $e) {
+            $this->flashMessages->addErrorMessage($e->getMessage());
+        } finally {
+            return $this->redirectToRoute('topic_show', ['id' => $topic->getId()]);
+        }
+    }
+
+    #[Route('/topic/{id}/important', name: 'topic_important', methods: ['POST'])]
+    public function important(Topic $topic, Request $request, EntityManagerInterface $manager): Response
+    {
+        try {
+            $this->authorize->permission(Permissions::TOPIC_SET_IMPORTANT, $topic);
+
+            $lockForm = $this->createForm(TopicImportantType::class);
+            $lockForm->handleRequest($request);
+
+            if ($lockForm->isSubmitted() && $lockForm->isValid()) {
+                $topic->setIsImportant(!$topic->getIsImportant());
                 $manager->flush();
             }
         } catch (AccessDeniedException $e) {

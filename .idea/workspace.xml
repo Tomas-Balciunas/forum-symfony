@@ -4,29 +4,23 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="improved post jumping, added home dashboard, data seeding">
-      <change afterPath="$PROJECT_DIR$/src/Event/UserRegisteredEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Event/UserVerifiedEvent.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Helper/UserHelper.php" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/Helper/VerificationHelper.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" afterDir="false" />
+    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="email verification, slight fixes for board seeding and other fixes">
+      <change afterPath="$PROJECT_DIR$/src/Form/TopicImportantType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Command/SeedAdminCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedAdminCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Command/SeedBoardsCommand.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Command/SeedBoardsCommand.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/RegistrationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/RegistrationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AuthorityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AuthorityController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Controller/TopicController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TopicController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Event/Dispatchers/UserCreatedDispatcher.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Event/Dispatchers/UserCreatedDispatcher.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/EventSubscriber/UserSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventSubscriber/UserSubscriber.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/BoardVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/BoardVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/PermissionVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/PermissionVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/SuspensionVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/SuspensionVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/UserVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/UserVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/index/index.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/index/index.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/nav.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/nav.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/Permissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Permissions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/Roles.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Roles.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/DTO/TopicDTO.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/DTO/TopicDTO.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/Topic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Topic.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/TopicType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TopicType.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/TopicRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TopicRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Misc/Paginator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/Paginator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Voter/TopicVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/TopicVoter.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/_paginator.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_paginator.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/board/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/board/show.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/topic/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/topic/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/user/public_profile.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/public_profile.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -362,7 +356,7 @@
       <workItem from="1734180474815" duration="37280000" />
       <workItem from="1734283082458" duration="721000" />
       <workItem from="1734360085919" duration="12098000" />
-      <workItem from="1734431818296" duration="13617000" />
+      <workItem from="1734431818296" duration="22069000" />
     </task>
     <task id="LOCAL-00001" summary="progressing">
       <option name="closed" value="true" />
@@ -492,7 +486,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734220790465</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="email verification, slight fixes for board seeding and other fixes">
+      <option name="closed" value="true" />
+      <created>1734449478842</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1734449478842</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -514,7 +516,8 @@
     <MESSAGE value="topic and post spam prevention, fixed notification cache, improved posting and post editing convenience, little bit of refactoring" />
     <MESSAGE value="improved data display and UX, added some logging, slight paginator modification" />
     <MESSAGE value="improved post jumping, added home dashboard, data seeding" />
-    <option name="LAST_COMMIT_MESSAGE" value="improved post jumping, added home dashboard, data seeding" />
+    <MESSAGE value="email verification, slight fixes for board seeding and other fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="email verification, slight fixes for board seeding and other fixes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

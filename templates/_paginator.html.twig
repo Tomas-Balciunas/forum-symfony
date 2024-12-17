@@ -5,7 +5,7 @@
         {% if paginator.previousPage %}
             <a href="{{ path(path, { 'id': id, 'page': paginator.previous, 'search': searchQuery ? searchQuery|e : null }) }}"
                class="inline-block bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500 transition duration-200 ease-in-out mr-2">
-                Previous
+                <
             </a>
         {% endif %}
 
@@ -18,7 +18,7 @@
         {# separator for preceding pages #}
 
         {% if paginator.precedingPages %}
-            <span class="text-xl mx-2">. . .</span>
+            <span class="text-xl mx-2">...</span>
         {% endif %}
 
 
@@ -31,7 +31,7 @@
         {# separator for following pages #}
 
         {% if paginator.followupPages %}
-            <span class="text-xl mx-2">. . .</span>
+            <span class="text-xl mx-2">...</span>
         {% endif %}
 
         {# number of end pages that are always visible based on EDGE_PAGES constant #}
@@ -43,7 +43,7 @@
         {% if paginator.nextPage %}
             <a href="{{ path(path, { 'id': id, 'page': paginator.next, 'search': searchQuery ? searchQuery|e : null }) }}"
                class="inline-block bg-gray-600 text-white py-2 px-4 rounded-md hover:bg-gray-500 transition duration-200 ease-in-out ml-2">
-                Next
+                >
             </a>
         {% endif %}
     {% endif %}

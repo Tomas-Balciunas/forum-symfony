@@ -35,6 +35,9 @@ class Topic implements AuthorInterface
     #[ORM\Column]
     private bool $isVisible = true;
 
+    #[ORM\Column]
+    private bool $isImportant = false;
+
     #[ORM\Column(type: Types::DATETIME_IMMUTABLE)]
     private ?\DateTimeImmutable $createdAt = null;
 
@@ -128,25 +131,16 @@ class Topic implements AuthorInterface
         return $this;
     }
 
-    /**
-     * @return User|null
-     */
     public function getAuthor(): ?User
     {
         return $this->author;
     }
 
-    /**
-     * @param User $author
-     */
     public function setAuthor(User $author): void
     {
         $this->author = $author;
     }
 
-    /**
-     * @return Board|null
-     */
     public function getBoard(): ?Board
     {
         return $this->board;
@@ -155,5 +149,15 @@ class Topic implements AuthorInterface
     public function setBoard(?Board $board): void
     {
         $this->board = $board;
+    }
+
+    public function getIsImportant(): bool
+    {
+        return $this->isImportant;
+    }
+
+    public function setIsImportant(bool $isImportant): void
+    {
+        $this->isImportant = $isImportant;
     }
 }

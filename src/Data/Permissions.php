@@ -19,6 +19,7 @@ class Permissions
     public const TOPIC_UNLOCK = 'topic.unlock';
     public const TOPIC_SET_VISIBLE = 'topic.set.visible';
     public const TOPIC_SET_HIDDEN = 'topic.set.hidden';
+    public const TOPIC_SET_IMPORTANT = 'topic.set.important';
     public const TOPIC_MOVE = 'topic.move';
 
     public const USER_BAN = 'user.ban';
@@ -50,6 +51,7 @@ class Permissions
             self::TOPIC_UNLOCK,
             self::TOPIC_SET_VISIBLE,
             self::TOPIC_SET_HIDDEN,
+            self::TOPIC_SET_IMPORTANT,
             self::TOPIC_MOVE,
             self::USER_BAN,
             self::USER_UNBAN,

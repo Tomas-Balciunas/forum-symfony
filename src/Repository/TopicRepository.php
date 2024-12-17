@@ -28,6 +28,7 @@ class TopicRepository extends ServiceEntityRepository
             ->leftJoin('t.posts', 'p')
             ->addSelect($qb->expr()->count('p.id') . 'as post_count')
             ->addSelect($qb->expr()->max('p.createdAt') . 'as latest_post')
+            ->addOrderBy('t.isImportant', 'DESC')
             ->addOrderBy($qb->expr()->max('p.createdAt'), 'DESC')
             ->addGroupBy('t.id');
 

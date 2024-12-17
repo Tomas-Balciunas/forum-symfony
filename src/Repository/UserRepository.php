@@ -33,7 +33,7 @@ class UserRepository extends ServiceEntityRepository implements PasswordUpgrader
         $count = $this->createQueryBuilder('u2')
             ->select('COUNT(u2.id)');
 
-        return new Paginator($page, $query, $count);
+        return new Paginator($page, $query, $count, 10, 1, 1);
     }
 
     public function findLatestUsers(int $limit = 5): array

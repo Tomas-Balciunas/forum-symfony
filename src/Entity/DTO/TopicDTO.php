@@ -18,8 +18,8 @@ class TopicDTO
     public ?string $body = null;
 
     public ?bool $isLocked = null;
-
     public ?bool $isVisible = null;
+    public ?bool $isImportant = null;
 
     public ?\DateTimeImmutable $createdAt = null;
 

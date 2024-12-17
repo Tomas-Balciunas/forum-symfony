@@ -46,10 +46,14 @@
                     </thead>
                     <tbody>
                     {% for data in paginator.results %}
+                        {% if data.topic.isVisible %}
                         <tr class="hover:bg-gray-700 transition duration-200 ease-in-out">
                             <td class="px-3 py-2 border-b border-gray-600">
+                                {% if data.topic.isImportant %}
+                                    <span class="text-red-400">[Important]</span>
+                                {% endif %}
                                 <a href="{{ path('topic_show', {'id': data.topic.id}) }}"
-                                   class="block text-yellow-400 hover:underline transition duration-200 ease-in-out">
+                                   class="text-yellow-400 hover:underline transition duration-200 ease-in-out">
                                     {{ data.topic.title }}
                                 </a>
                                 <small class="text-gray-400">{{ data.topic.author.username }}
@@ -68,6 +72,7 @@
                                 </span>
                             </td>
                         </tr>
+                        {% endif %}
                     {% endfor %}
                     </tbody>
                 </table>

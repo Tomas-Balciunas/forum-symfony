@@ -11,57 +11,92 @@
             <span>{{ topic.title }}</span>
         </nav>
 
-        <div class="bg-gray-900 border-4 border-gray-600 shadow-lg p-6 mb-8">
-            <div class="flex space-x-4">
-                {% if app.user is same as topic.author or is_granted('ROLE_ADMIN') %}
-                    {{ form_start(lockForm, {'attr': {'class': 'space-y-4'}}) }}
-                    <button type="submit"
-                            class="inline-block bg-yellow-600 text-white py-2 px-4 rounded-md hover:bg-yellow-500 transition duration-200 ease-in-out">
-                        {% if topic.isLocked %}
-                            Unlock Topic
-                        {% else %}
-                            Lock Topic
-                        {% endif %}
-                    </button>
-                    {{ form_end(lockForm) }}
-                {% endif %}
-
-                {% if app.user is same as topic.author %}
-                {{ form_start(visibilityForm, {'attr': {'class': 'space-y-4'}}) }}
-                <button type="submit"
-                        class="inline-block bg-orange-600 text-white py-2 px-4 rounded-md hover:bg-orange-500 transition duration-200 ease-in-out">
-                    {% if topic.isVisible %}
-                        Hide Topic
-                    {% else %}
-                        Show Topic
-                    {% endif %}
-                </button>
-                {{ form_end(visibilityForm) }}
-                {% endif %}
-
-                {% if is_granted('ROLE_ADMIN') %}
-                    <div class="mb-6">
-                        <a href="{{ path('topic_move', {'id': topic.id}) }}"
-                           class="inline-block bg-green-600 text-white py-2 px-4 rounded-md hover:bg-green-500 transition duration-200 ease-in-out">
-                            Move Topic
-                        </a>
+        <div class="bg-gray-800 border border-gray-700 shadow-lg  mb-8 mx-auto">
+            <div class="flex flex-col md:flex-row">
+                <!-- User Info Section -->
+                <aside class="w-full md:w-1/6 mb-6 md:mb-0 md:pr-6">
+                    <div class="bg-gray-900 p-4 h-full shadow">
+                        <!-- User Avatar (Placeholder) -->
+                        <div class="flex justify-center mb-4">
+                            <img src="https://via.placeholder.com/80"
+                                 alt="User Avatar"
+                                 class="w-20 h-20 rounded-full border-2 border-gray-700">
+                        </div>
+                        <!-- Username -->
+                        <div class="text-center">
+                            <a href="{{ path('user_profile_public', {'id': topic.author.id}) }}"
+                               class="text-blue-400 hover:text-blue-300 font-semibold text-lg">
+                                {{ topic.author.username }}
+                            </a>
+                        </div>
+                        <!-- Creation Date -->
+                        <div class="text-center text-gray-400 text-sm mt-1">
+                            Joined on {{ topic.createdAt|date('Y-m-d') }}
+                        </div>
                     </div>
-                {% endif %}
-            </div>
+                </aside>
 
-            <div class="text-gray-300">
-                <p><span class="font-bold">Author:</span><a href="{{ path('user_profile_public', {'id': topic.author.id}) }}">{{ topic.author.username }}</a><span
-                            class="text-sm text-gray-500">{{ topic.createdAt|date('Y-m-d') }}</span></p>
-                <h4 class="text-3xl font-extrabold mt-4 mb-2 text-yellow-400">{{ topic.title }}</h4>
-                <p class="mb-4">{{ topic.body }}</p>
-                <div class="flex space-x-4">
-                    {% if app.user is same as topic.author or is_granted('ROLE_ADMIN') %}
-                        <a href="{{ path('topic_edit', {'id': topic.id}) }}"
-                           class="inline-block bg-blue-600 text-white py-2 px-4 rounded-md hover:bg-blue-500 transition duration-200 ease-in-out">Edit</a>
-                    {% endif %}
-                </div>
+                <!-- Topic Content Section -->
+                <section class="w-full md:w-3/4">
+                    <!-- Topic Header -->
+                    <div class="flex items-center justify-between my-2">
+                        <!-- Title -->
+                        <span class="text-l font-bold text-yellow-400">
+                            {{ topic.title }}
+                        </span>
+                    </div>
+
+                    <hr/>
+
+                    <!-- Topic Body -->
+                    <div class="text-gray-300 leading-relaxed my-4">
+                        {{ topic.body }}
+                    </div>
+
+
+                    <div class="flex justify-end space-x-2 my-2 w-full">
+                        {% if app.user is same as topic.author or is_granted('ROLE_ADMIN') %}
+                            {{ form_start(lockForm) }}
+                            <button type="submit"
+                                    class="text-blue-500">
+                                {% if topic.isLocked %} Unlock {% else %} Lock {% endif %}
+                            </button>
+                            {{ form_end(lockForm) }}
+                        {% endif %}
+
+                        {% if app.user is same as topic.author %}
+                            {{ form_start(visibilityForm) }}
+                            <button type="submit"
+                                    class="text-blue-500">
+                                {% if topic.isVisible %} Hide {% else %} Show {% endif %}
+                            </button>
+                            {{ form_end(visibilityForm) }}
+                        {% endif %}
+
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('topic_move', {'id': topic.id}) }}"
+                               class="text-blue-500">
+                                Move
+                            </a>
+                            {{ form_start(importantForm) }}
+                            <button type="submit"
+                                    class="text-blue-500">
+                                {% if topic.isImportant %} Unmark Important {% else %} Mark Important {% endif %}
+                            </button>
+                            {{ form_end(importantForm) }}
+                        {% endif %}
+                        {% if app.user is same as topic.author or is_granted('ROLE_ADMIN') %}
+                            <a href="{{ path('topic_edit', {'id': topic.id}) }}"
+                               class="text-blue-500">
+                                Edit
+                            </a>
+                        {% endif %}
+                    </div>
+
+                </section>
             </div>
         </div>
+
 
         {% if paginator.results %}
             <div class="mt-8 mb-4 space-y-3">
