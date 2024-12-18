@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\BoardRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BoardRepository::class)]
@@ -24,7 +25,7 @@ class Board
     #[ORM\Column()]
     private ?string $title = null;
 
-    #[ORM\Column()]
+    #[ORM\Column(type: Types::TEXT)]
     private ?string $description = null;
 
     #[ORM\Column]

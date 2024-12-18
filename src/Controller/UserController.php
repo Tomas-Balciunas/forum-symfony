@@ -122,9 +122,9 @@ class UserController extends AbstractController
 
         try {
             if ($user->isPrivate()) {
-                $this->authorize->permission(Permissions::USER_SET_PUBLIC);
+                $this->authorize->permission(Permissions::USER_SET_PUBLIC, $user);
             } else {
-                $this->authorize->permission(Permissions::USER_SET_PRIVATE);
+                $this->authorize->permission(Permissions::USER_SET_PRIVATE, $user);
             }
 
             $form->handleRequest($request);
@@ -132,6 +132,8 @@ class UserController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $user->setIsPrivate(!$user->isPrivate());
                 $manager->flush();
+                $message = $user->isPrivate() ? 'Profile is now private.' : 'Profile is now public.';
+                $this->flashMessages->addSuccessMessage($message);
             }
         } catch (AccessDeniedException $e) {
             $this->flashMessages->addErrorMessage($e->getMessage());

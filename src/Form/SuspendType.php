@@ -42,7 +42,7 @@ class SuspendType extends AbstractType
                 'constraints' => [
                     new NotBlank(),
                     new Length([
-                        'min' => 1,
+                        'min' => 3,
                         'max' => 1000,
                     ])
                 ]

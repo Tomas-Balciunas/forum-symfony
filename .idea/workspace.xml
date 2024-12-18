@@ -4,21 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="email verification, slight fixes for board seeding and other fixes">
-      <change afterPath="$PROJECT_DIR$/src/Form/TopicImportantType.php" afterDir="false" />
+    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="set topic important feature, some visual modifications">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/AuthorityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AuthorityController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Controller/TopicController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/TopicController.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data/Permissions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Permissions.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Data/Roles.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Roles.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/DTO/TopicDTO.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/DTO/TopicDTO.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Entity/Topic.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/Topic.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/TopicType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/TopicType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/TopicRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TopicRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Repository/UserRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/UserRepository.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Service/Misc/Paginator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/Paginator.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Voter/TopicVoter.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Voter/TopicVoter.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/_paginator.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/_paginator.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Data/Config.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Config.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Form/BoardType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/BoardType.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/board/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/board/show.html.twig" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/templates/topic/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/topic/show.html.twig" afterDir="false" />
     </list>
@@ -356,7 +346,11 @@
       <workItem from="1734180474815" duration="37280000" />
       <workItem from="1734283082458" duration="721000" />
       <workItem from="1734360085919" duration="12098000" />
-      <workItem from="1734431818296" duration="22069000" />
+      <workItem from="1734431818296" duration="22705000" />
+      <workItem from="1734464834715" duration="759000" />
+      <workItem from="1734518659443" duration="12000" />
+      <workItem from="1734520914502" duration="3098000" />
+      <workItem from="1734537123597" duration="622000" />
     </task>
     <task id="LOCAL-00001" summary="progressing">
       <option name="closed" value="true" />
@@ -494,7 +488,15 @@
       <option name="project" value="LOCAL" />
       <updated>1734449478842</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="set topic important feature, some visual modifications">
+      <option name="closed" value="true" />
+      <created>1734459379903</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1734459379903</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -517,7 +519,8 @@
     <MESSAGE value="improved data display and UX, added some logging, slight paginator modification" />
     <MESSAGE value="improved post jumping, added home dashboard, data seeding" />
     <MESSAGE value="email verification, slight fixes for board seeding and other fixes" />
-    <option name="LAST_COMMIT_MESSAGE" value="email verification, slight fixes for board seeding and other fixes" />
+    <MESSAGE value="set topic important feature, some visual modifications" />
+    <option name="LAST_COMMIT_MESSAGE" value="set topic important feature, some visual modifications" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

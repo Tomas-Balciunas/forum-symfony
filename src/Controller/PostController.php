@@ -59,6 +59,7 @@ class PostController extends AbstractController
             if ($form->isSubmitted() && $form->isValid()) {
                 $dispatcher->dispatch($event, PostPrepareEvent::NAME);
                 $createdPost = $this->service->handleCreatePost($post, $topic, $user);
+                $this->flashMessages->addSuccessMessage('Post created.');
 
                 return $this->redirectToRoute('post_goto', [
                     'id' => $createdPost->getId(),

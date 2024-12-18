@@ -14,15 +14,24 @@
             <div>
                 <strong class="text-lg text-gray-200 inline-block self-center">{{ user.username }}</strong>
                 {% if app.user is same as user %}
-                    <a class="inline-block bg-blue-600 text-white mx-2 py-1 px-3 hover:bg-blue-500 transition duration-200 ease-in-out"
+                    <a class="inline-block text-blue-500 mx-2"
                        href="{{ path('user_account') }}">Manage Account</a>
+                {% endif %}
+                {% if is_granted('ROLE_ADMIN') %}
+                    <a class="inline-block text-red-400"
+                       href="{{ path('admin_manage', { 'user': user.id }) }}">Manage User</a>
                 {% endif %}
             </div>
 
             <p class="text-lg text-gray-200">
                 <strong>Email:</strong>
-                {% if user.settings.showEmail %}
-                    <span>{{ user.email }}</span>
+                {% if user.settings.showPosts or (not user.settings.showEmail and app.user is same as user) %}
+                    <span>
+                        {{ user.email }}
+                        {% if not user.settings.showEmail %}
+                            <span class="text-gray-400">hidden from public</span>
+                        {% endif %}
+                    </span>
                 {% else %}
                     <span class="text-gray-500">User email is hidden.</span>
                 {% endif %}

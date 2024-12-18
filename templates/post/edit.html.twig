@@ -3,10 +3,10 @@
 {% block title %}Edit Post{% endblock %}
 
 {% block body %}
-    <div class="container mx-auto p-6 font-serif bg-gray-800 text-white rounded-lg shadow-lg">
+    <div class="container mx-auto p-6 font-serif bg-gray-800 text-white shadow-lg">
         <h4 class="text-3xl font-extrabold text-gray-100 mb-6">Edit Post</h4>
 
-        <div class="bg-gray-700 p-6 rounded-lg shadow-md">
+        <div class="bg-gray-700 p-6 shadow-md">
             {{ form_start(form) }}
 
             <!-- Body Field -->
@@ -14,7 +14,7 @@
                 {{ form_row(form.body, {
                     'label': 'Edit Content',
                     'attr': {
-                        'class': 'w-full bg-gray-600 text-white border border-gray-500 rounded-md py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
+                        'class': 'w-full bg-gray-600 text-white border border-gray-500 py-2 px-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition',
                         'rows': 6
                     }
                 }) }}
@@ -23,7 +23,7 @@
             <!-- Submit Button -->
             <div class="mt-6">
                 <button type="submit"
-                        class="inline-block bg-blue-600 text-white py-2 px-6 rounded-md hover:bg-blue-700 transition duration-200 ease-in-out">
+                        class="inline-block bg-blue-600 text-white py-2 px-6 hover:bg-blue-700 transition duration-200 ease-in-out">
                     Save Changes
                 </button>
             </div>

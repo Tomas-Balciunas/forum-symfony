@@ -17,7 +17,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
-#[UniqueEntity(fields: ['email', 'username'], message: 'There is already an account with this email or username.')]
+#[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_USERNAME', fields: ['username'])]
+#[UniqueEntity(fields: ['username'], message: 'This username is already taken.', errorPath: 'username')]
+#[UniqueEntity(fields: ['email'], message: 'This email is already registered.', errorPath: 'email')]
 #[ORM\HasLifecycleCallbacks]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, EquatableInterface
 {
@@ -27,7 +29,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
-    #[ORM\Column]
+    #[ORM\Column(unique: true)]
     private ?string $username = null;
     #[ORM\Column]
     private ?string $email = null;

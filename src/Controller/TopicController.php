@@ -82,14 +82,17 @@ class TopicController extends AbstractController
             'action' => $this->generateUrl('topic_lock', ['id' => $topicDto->id]),
             'method' => 'POST',
         ]);
+
         $visibilityForm = $this->createForm(TopicVisibilityType::class, null, [
             'action' => $this->generateUrl('topic_visibility', ['id' => $topicDto->id]),
             'method' => 'POST',
         ]);
+
         $importantForm = $this->createForm(TopicImportantType::class, null, [
             'action' => $this->generateUrl('topic_important', ['id' => $topicDto->id]),
             'method' => 'POST',
         ]);
+
         $form = $this->createForm(PostType::class, null, [
             'action' => $this->generateUrl('post_create', ['id' => $topicDto->id, 'page' => $page]),
         ]);
@@ -152,6 +155,8 @@ class TopicController extends AbstractController
             if ($lockForm->isSubmitted() && $lockForm->isValid()) {
                 $topic->setIsLocked(!$topic->getIsLocked());
                 $manager->flush();
+                $message = $topic->getIsLocked() ? 'Topic locked.' : 'Topic unlocked.';
+                $this->flashMessages->addSuccessMessage($message);
             }
         } catch (AccessDeniedException $e) {
             $this->flashMessages->addErrorMessage($e->getMessage());
@@ -176,6 +181,8 @@ class TopicController extends AbstractController
             if ($lockForm->isSubmitted() && $lockForm->isValid()) {
                 $topic->setIsVisible(!$topic->getIsVisible());
                 $manager->flush();
+                $message = $topic->getIsVisible() ? 'Topic visible.' : 'Topic hidden.';
+                $this->flashMessages->addSuccessMessage($message);
             }
         } catch (AccessDeniedException $e) {
             $this->flashMessages->addErrorMessage($e->getMessage());
@@ -196,6 +203,8 @@ class TopicController extends AbstractController
             if ($lockForm->isSubmitted() && $lockForm->isValid()) {
                 $topic->setIsImportant(!$topic->getIsImportant());
                 $manager->flush();
+                $message = $topic->getIsImportant() ? 'Topic marked important.' : 'Topic marked not important.';
+                $this->flashMessages->addSuccessMessage($message);
             }
         } catch (AccessDeniedException $e) {
             $this->flashMessages->addErrorMessage($e->getMessage());

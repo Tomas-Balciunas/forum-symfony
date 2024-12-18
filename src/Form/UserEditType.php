@@ -23,8 +23,21 @@ class UserEditType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('username', TextType::class)
-            ->add('email', EmailType::class)
+            ->add('username', TextType::class, [
+                'constraints' => [
+                    new Length([
+                        'min' => 3,
+                        'max' => 16,
+                        'minMessage' => 'Username has to be between 3 and 16 characters.',
+                        'maxMessage' => 'Username has to be between 3 and 16 characters.'
+                    ]),
+                ]
+            ])
+            ->add('email', EmailType::class, [
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ])
             ->add('plainPassword', RepeatedType::class, ['type' => PasswordType::class,
                 'mapped' => false,
                 'required' => false,
@@ -32,8 +45,8 @@ class UserEditType extends AbstractType
                 'constraints' => [
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
-                        'max' => 4096,
+                        'minMessage' => 'Your password should be at least {{ limit }} characters long.',
+                        'max' => 50,
                     ]),
                 ],
                 'first_options'  => ['label' => 'New Password'],

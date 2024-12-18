@@ -38,6 +38,7 @@ class PermissionController extends AbstractController
             }
 
             $service->handleGrantPermission($user, $grantedBy, $permission);
+            $this->flashMessages->addSuccessMessage('Permission granted.');
         } catch (AccessDeniedException $e) {
             $this->flashMessages->addErrorMessage($e->getMessage());
         } catch (GrantPermissionException $e) {
@@ -59,6 +60,7 @@ class PermissionController extends AbstractController
             }
 
             $service->handleRevokePermission($user, $revokedBy, $permission);
+            $this->flashMessages->addSuccessMessage('Permission revoked.');
         } catch (AccessDeniedException $e) {
             $this->flashMessages->addErrorMessage($e->getMessage());
         } catch (RevokePermissionException $e) {
