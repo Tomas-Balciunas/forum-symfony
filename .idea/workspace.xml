@@ -4,13 +4,24 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="set topic important feature, some visual modifications">
+    <list default="true" id="dbccf560-0364-45d7-ae3f-c25496f96ea9" name="Changes" comment="updated readme, visual improvements and several bug fixes">
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/0e40720b-eb4b-4911-ac64-2e602f915caf.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/readme.md" beforeDir="false" afterPath="$PROJECT_DIR$/readme.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/AuthorityController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/AuthorityController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/BoardController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/BoardController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/NotificationController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/NotificationController.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Controller/PostController.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Controller/PostController.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Data/Config.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Data/Config.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Form/BoardType.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Form/BoardType.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/board/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/board/show.html.twig" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/topic/show.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/topic/show.html.twig" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Entity/User.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Entity/User.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Event/PostPrepareEvent.php" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/EventSubscriber/PostSubscriber.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/EventSubscriber/PostSubscriber.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Repository/TopicRepository.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Repository/TopicRepository.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/Misc/NotificationTemplating.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/Misc/NotificationTemplating.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Service/PostService.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Service/PostService.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Validate/Post/Create/CreatePostActions.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Post/Create/CreatePostActions.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/Validate/Post/Create/CreatePostValidator.php" beforeDir="false" afterPath="$PROJECT_DIR$/src/Validate/Post/Create/CreatePostValidator.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/templates/user/public_profile.html.twig" beforeDir="false" afterPath="$PROJECT_DIR$/templates/user/public_profile.html.twig" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -22,6 +33,13 @@
     <execution>
       <executable path="composer" />
     </execution>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package.json" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <excluded-from-favorite>
@@ -236,7 +254,7 @@
     &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
     &quot;npm.watch.executor&quot;: &quot;Run&quot;,
     &quot;php.override.implement.member.chooser.php.doc&quot;: &quot;NONE&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;php.test.frameworks.configurable&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.webide.settings.project.settings.php.debug&quot;,
     &quot;ts.external.directory.path&quot;: &quot;C:\\Program Files\\JetBrains\\PhpStorm 2024.2.3\\plugins\\javascript-plugin\\jsLanguageServicesImpl\\external&quot;,
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
@@ -350,7 +368,29 @@
       <workItem from="1734464834715" duration="759000" />
       <workItem from="1734518659443" duration="12000" />
       <workItem from="1734520914502" duration="3098000" />
-      <workItem from="1734537123597" duration="622000" />
+      <workItem from="1734537123597" duration="12133000" />
+      <workItem from="1734603218888" duration="10609000" />
+      <workItem from="1734628030308" duration="2800000" />
+      <workItem from="1734699826876" duration="7478000" />
+      <workItem from="1734707420493" duration="623000" />
+      <workItem from="1734764798004" duration="5519000" />
+      <workItem from="1738066321954" duration="1208000" />
+      <workItem from="1738157548784" duration="2533000" />
+      <workItem from="1738227575208" duration="1310000" />
+      <workItem from="1738231301834" duration="1065000" />
+      <workItem from="1738232585293" duration="1170000" />
+      <workItem from="1738411615809" duration="98000" />
+      <workItem from="1738413132955" duration="19000" />
+      <workItem from="1738413206156" duration="37000" />
+      <workItem from="1738587762894" duration="683000" />
+      <workItem from="1738595073190" duration="55000" />
+      <workItem from="1738673272540" duration="53000" />
+      <workItem from="1738678558555" duration="3000" />
+      <workItem from="1739368956427" duration="17000" />
+      <workItem from="1739462225991" duration="92000" />
+      <workItem from="1739462563577" duration="72000" />
+      <workItem from="1739462684267" duration="629000" />
+      <workItem from="1740229661096" duration="1321000" />
     </task>
     <task id="LOCAL-00001" summary="progressing">
       <option name="closed" value="true" />
@@ -496,11 +536,30 @@
       <option name="project" value="LOCAL" />
       <updated>1734459379903</updated>
     </task>
-    <option name="localTasksCounter" value="19" />
+    <task id="LOCAL-00019" summary="updated readme, visual improvements and several bug fixes">
+      <option name="closed" value="true" />
+      <created>1734549297820</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1734549297820</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="progressing" />
@@ -520,7 +579,8 @@
     <MESSAGE value="improved post jumping, added home dashboard, data seeding" />
     <MESSAGE value="email verification, slight fixes for board seeding and other fixes" />
     <MESSAGE value="set topic important feature, some visual modifications" />
-    <option name="LAST_COMMIT_MESSAGE" value="set topic important feature, some visual modifications" />
+    <MESSAGE value="updated readme, visual improvements and several bug fixes" />
+    <option name="LAST_COMMIT_MESSAGE" value="updated readme, visual improvements and several bug fixes" />
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />

@@ -15,10 +15,11 @@ class NotificationController extends AbstractController
     #[Route('/notifications', name: 'notifications')]
     public function index(#[CurrentUser] User $user, NotificationTemplating $helper, NotificationService $service): Response
     {
-        [$unread, $read] = $service->handleFetchNotifications($user);
+        // TODO: newest and past notifications need to be fixed
+        [$unread, $readSnapshot] = $service->handleFetchNotifications($user);
 
         return $this->render('notification/index.html.twig', [
-            'read' => $read,
+            'read' => $readSnapshot,
             'unread' => $unread,
             'helper' => $helper,
         ]);

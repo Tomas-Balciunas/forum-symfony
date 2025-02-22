@@ -54,7 +54,7 @@ class BoardController extends AbstractController
     #[Route('/{id}/page/{page}', name: 'board_show_paginated', requirements: ['id' => '\d+', 'page' => '\d+'], methods: ['GET', 'POST'])]
     public function show(Board $board, int $page, TopicRepository $topicRepository, Request $request): Response
     {
-        $searchQuery = htmlspecialchars(trim($request->query->get('search'))) ?? null;
+        $searchQuery = trim($request->query->get('search')) ?? null;
 
         $topics = $topicRepository->findPaginatedTopics($page, $board->getId(), $searchQuery);
         $topics->paginate();

@@ -25,7 +25,7 @@ readonly class PostService
      */
     public function handleCreatePost(PostDTO $dto, Topic $topic, #[CurrentUser] User $user): Post
     {
-        $errors = $this->createPostValidator->validate($topic)->getErrors();
+        $errors = $this->createPostValidator->validate($topic, $user)->getErrors();
 
         if (!empty($errors)) {
             throw new CreatePostException($errors);

@@ -32,15 +32,20 @@ class TopicRepository extends ServiceEntityRepository
             ->addOrderBy($qb->expr()->max('p.createdAt'), 'DESC')
             ->addGroupBy('t.id');
 
-        if ($searchQuery) {
-            $query->andWhere('t.title LIKE :searchQuery')
-                ->setParameter('searchQuery', '%' . $searchQuery . '%');
-        }
-
         $count = $this->createQueryBuilder('t2')
             ->select('count(t2.id)')
             ->andWhere('t2.board = :boardId')
             ->setParameter('boardId', $boardId);
+
+        if ($searchQuery) {
+            $query->andWhere('t.title LIKE :searchQuery')
+                ->setParameter('searchQuery', '%' . $searchQuery . '%');
+
+            $count->andWhere('t2.title LIKE :searchQuery')
+                ->setParameter('searchQuery', '%' . $searchQuery . '%');
+        }
+
+
 
         return new Paginator($page, $query, $count);
     }

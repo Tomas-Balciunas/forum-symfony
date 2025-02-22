@@ -7,7 +7,6 @@ use App\Entity\DTO\PostDTO;
 use App\Entity\Post;
 use App\Entity\Topic;
 use App\Entity\User;
-use App\Event\PostPrepareEvent;
 use App\Exception\Post\CreatePostException;
 use App\Form\PostType;
 use App\Helper\PostHelper;
@@ -49,7 +48,6 @@ class PostController extends AbstractController
     {
         $page = is_numeric($request->query->get('page')) ? (int)$request->query->get('page') : 1;
         $post = new PostDTO();
-        $event = new PostPrepareEvent($user);
         $form = $this->createForm(PostType::class, $post);
 
         try {
@@ -57,7 +55,6 @@ class PostController extends AbstractController
             $form->handleRequest($request);
 
             if ($form->isSubmitted() && $form->isValid()) {
-                $dispatcher->dispatch($event, PostPrepareEvent::NAME);
                 $createdPost = $this->service->handleCreatePost($post, $topic, $user);
                 $this->flashMessages->addSuccessMessage('Post created.');
 

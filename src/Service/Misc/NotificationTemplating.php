@@ -2,29 +2,40 @@
 
 namespace App\Service\Misc;
 
-use App\Helper\PostHelper;
 use App\Repository\TopicRepository;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
-readonly class NotificationTemplating
+class NotificationTemplating
 {
+    private array $formatted = [];
+
     public function __construct(
-        private UserRepository        $userRepository,
-        private TopicRepository       $topicRepository,
-        private UrlGeneratorInterface $urlGenerator
+        private readonly UserRepository  $userRepository,
+        private readonly TopicRepository $topicRepository,
+        private readonly UrlGeneratorInterface $urlGenerator
     )
     {
     }
 
     public function getFormattedNotifications(Collection $data): array
     {
-    //TODO: fix this
-        return $this->topicReply($data);
+        $sorted = [
+            'TOPIC_REPLY' => $data->filter(fn($notification) => $notification->getTemplate() === 'TOPIC_REPLY'),
+        ];
+
+        foreach ($sorted as $template => $type) {
+            match ($template) {
+                'TOPIC_REPLY' => $this->topicReply($type),
+                default => [],
+            };
+        }
+
+        return $this->formatted;
     }
 
-    private function topicReply(Collection $data): array
+    private function topicReply(Collection $data): void
     {
         $userIds = $data->map(fn($n) => $n->getData()['user'])->toArray();
         $topicIds = $data->map(fn($n) => $n->getData()['topic'])->toArray();
@@ -45,14 +56,12 @@ readonly class NotificationTemplating
             $topicsMap[$topic->getId()] = $topic;
         }
 
-        $formattedData = [];
-
-        foreach ($data as $key => $notification) {
+        foreach ($data as $notification) {
             $topicId = $notification->getData()['topic'];
             $userId = $notification->getData()['user'];
             $postId = $notification->getData()['post'];
-
-            $formattedData[$key]['html'] = sprintf(
+// TODO: twig
+            $this->formatted[$notification->getId()]['html'] = sprintf(
                 '<a href="%s" class="text-yellow-400 hover:underline">%s</a> has replied to your topic <a href="%s" class="text-yellow-400 hover:underline">%s</a>',
                 $this->urlGenerator->generate('user_profile_public', ['id' => $userId]),
                 $usersMap[$userId]->getUsername(),
@@ -61,9 +70,7 @@ readonly class NotificationTemplating
                 ]),
                 $topicsMap[$topicId]->getTitle()
             );
-            $formattedData[$key]['createdAt'] = $notification->getCreatedAt();
+            $this->formatted[$notification->getId()]['createdAt'] = $notification->getCreatedAt();
         }
-
-        return $formattedData;
     }
 }

@@ -24,7 +24,7 @@ class AuthorityController extends AbstractController
     #[Route('/page/{page}', name: 'admin_panel_paginated', requirements: ['page' => '\d+'], methods: ['GET'])]
     public function index(UserRepository $repository, int $page, Request $request): Response
     {
-        $searchQuery = htmlspecialchars(trim($request->get("search"))) ?: null;
+        $searchQuery = trim($request->get("search")) ?: null;
 
         try {
             $this->authorize->role(Roles::ROLE_ADMIN);

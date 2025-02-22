@@ -305,7 +305,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, Equatab
         }
 
         $criteria = Criteria::create()
-            ->andWhere(Criteria::expr()->gte('createdAt', $lastSeen));
+            ->andWhere(Criteria::expr()->gt('createdAt', $lastSeen));
 
         return $this->notifications->matching($criteria);
     }
